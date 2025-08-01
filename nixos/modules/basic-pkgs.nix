@@ -19,7 +19,7 @@ in {
     environment.systemPackages = with pkgs; [
 # SYSTEM_PACKAGES
       networkmanager networkmanagerapplet
-        blueman bluez bluez-tools
+        blueman bluez bluez-utils
         brightnessctl pavucontrol
         acl alsa-utils alsa-plugins
         pipewire pipewire-pulse pipewire-alsa pipewire-jack
@@ -52,17 +52,17 @@ in {
         mesa-demos vulkan-tools inxi imagemagick ffmpeg yt-dlp qbittorrent
         ];
 
-# Kernel packages are handled separately in NixOS
+# Hardware configuration
     hardware.enableRedistributableFirmware = mkDefault true;
+    hardware.bluetooth.enable = mkDefault true;
 
-# Service configurations (conditionally enabled)
+# Service configurations
     services = mkIf cfg.enableServices {
 # Network
       networkmanager.enable = true;
 
 # Bluetooth
       blueman.enable = true;
-      hardware.bluetooth.enable = true;
 
 # Audio
       pipewire = {
@@ -80,7 +80,7 @@ in {
       openssh.enable = true;
       gnome.gnome-keyring.enable = true;
 
-# Printing (optional but recommended)
+# Printing
       printing.enable = mkDefault true;
     };
 
@@ -96,9 +96,8 @@ in {
       extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
     };
 
-# Hardware support
-    hardware.pulseaudio.enable = false; # Disable when using PipeWire
-      sound.enable = true;
+# Audio configuration
+    sound.enable = true;
 
 # User environment configuration
     programs = {
