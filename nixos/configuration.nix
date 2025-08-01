@@ -5,16 +5,29 @@
     [
     ./hardware-configuration.nix
       ./modules/basic-pkgs.nix
+      ./modules/qtilewm-pkgs.nix
     ];
+
+  basic-pkgs.enable = true;
+  qtilewm-pkgs.enable = true;
 
 # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.systemd-boot.configurationLimit = 8;
 
-  networking.hostName = "nix-hak"; # Define your hostname.
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 8";
+  };
 
-# Enable networking
-    networking.networkmanager.enable = true;
+  networking.hostName = "nix-hak";
+  networking.networkmanager.enable = true;
+  programs.nm-applet.enable = true;
+
+  nixpkgs.config.allowUnfree = true;
+  hardware.enableRedistributableFirmware = true;
 
 # Set your time zone.
   time.timeZone = "Asia/Kolkata";
@@ -34,43 +47,45 @@
     LC_TIME = "en_IN";
   };
 
-# Enable the X11 windowing system.
   services.xserver.enable = true;
-
-# Enable the Budgie Desktop environment.
-  services.xserver.displayManager.lightdm.enable = true;
+  services.xserver.windowManager.qtile.enable = true;
+  services.xserver.videoDrivers = [ "nvidia" ];
+  services.displayManager.sddm.enable = true;
+  services.displayManager.sddm.wayland.enable = true;
   services.xserver.desktopManager.budgie.enable = true;
-
-# Configure keymap in X11
   services.xserver.xkb = {
     layout = "us";
     variant = "";
   };
-
-# Enable CUPS to print documents.
   services.printing.enable = true;
-
-# Enable sound with pipewire.
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
-
   services.libinput.enable = true;
+  services.udisks2.enable = true;
+
+  hardware.nvidia = {
+    open = false;
+  };
+
+  security.polkit.enable = true;
+
+  environment.shells = with pkgs; [ bash zsh ];
+  users.defaultUserShell = pkgs.zsh;
+  programs.zsh.enable = true;
 
   users.users.hack = {
     isNormalUser = true;
+    shell = pkgs.zsh;
     description = "hack";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "kvm" ];
     packages = with pkgs; [
+      fish
+        tree
     ];
   };
 
-# Install firefox.
   programs.firefox.enable = true;
 
-# Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-
-# $ nix search wget
   environment.systemPackages = with pkgs; [
     wget
       neovim

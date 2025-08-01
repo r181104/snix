@@ -19,10 +19,10 @@ in {
     environment.systemPackages = with pkgs; [
 # SYSTEM_PACKAGES
       networkmanager networkmanagerapplet
-        blueman bluez bluez-utils
+        blueman bluez
         brightnessctl pavucontrol
         acl alsa-utils alsa-plugins
-        pipewire pipewire-pulse pipewire-alsa pipewire-jack
+        pipewire
         pciutils usbutils hwdata lshw
         upower accountsservice polkit dbus udisks gvfs
 
@@ -37,9 +37,9 @@ in {
         libreoffice vlc mpv
 
 # DEV_PACKAGES
-        git gh rustup go nodejs npm
+        git gh rustup go nodejs
         python3 python3Packages.pip python3Packages.setuptools python3Packages.wheel python3Packages.virtualenv
-        gcc make cmake autoconf automake pkg-config stow
+        gcc gnumake cmake autoconf automake pkg-config stow
 
 # THEME_PACKAGES
         font-awesome powerline-fonts nitch lxappearance
@@ -48,7 +48,7 @@ in {
         sbctl mokutil openssl openssh gnupg pass keepassxc
 
 # UTILITY_PACKAGES
-        bc xclip wl-clipboard reflector xdg-utils xdg-user-dirs xdg-desktop-portal
+        bc xclip wl-clipboard xdg-utils xdg-user-dirs xdg-desktop-portal
         mesa-demos vulkan-tools inxi imagemagick ffmpeg yt-dlp qbittorrent
         ];
 
@@ -58,9 +58,6 @@ in {
 
 # Service configurations
     services = mkIf cfg.enableServices {
-# Network
-      networkmanager.enable = true;
-
 # Bluetooth
       blueman.enable = true;
 
@@ -95,9 +92,6 @@ in {
       enable = true;
       extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
     };
-
-# Audio configuration
-    sound.enable = true;
 
 # User environment configuration
     programs = {
