@@ -25,9 +25,7 @@ in {
 # Qtile core packages - INCLUDING QTILE ITSELF
     environment.systemPackages = with pkgs; [
 # QTILE_CORE_PACKAGES
-      python313Packages.qtile
-        python313Packages.qtile-extras
-        pythonPackages.psutil
+      pythonPackages.psutil
         pythonPackages.setproctitle
         pythonPackages.dbus-fast
         pythonPackages.iwlib
@@ -81,7 +79,7 @@ in {
 # THEME_PACKAGES
         feh
         pythonPackages.pywal
-        qt5ct
+        libsForQt5.qt5ct
 
 # FILE_MANAGER_PACKAGES
         xfce.thunar
@@ -142,32 +140,15 @@ in {
 
 # Enable required services
     services = {
-# Enable Qtile as a window manager for X11
-      xserver = mkIf cfg.enableX11 {
+      displayManager = {
+        defaultSession = "qtile";
+      };
+      xserver =  {
         enable = true;
-        displayManager = {
-          lightdm.enable = true;
-          defaultSession = "qtile";
-        };
         windowManager.qtile = {
           enable = true;  # THIS WAS MISSING
-            backend = "x11";
-          extraPackages = pp: with pp; [
-            cairocffi
-              dbus-fast
-              iwlib
-              keyring
-              psutil
-              pyxdg
-              setproctitle
-              xcffib
-              xkbcommon
-          ];
         };
       };
-
-# Enable blueman
-      blueman.enable = true;
     };
 
 # Configure XDG portals
