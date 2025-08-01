@@ -3,7 +3,7 @@
 with lib;
 
 let
-  cfg = config.qtilewm-pkgs;
+cfg = config.qtilewm-pkgs;
 in {
   options.qtilewm-pkgs = {
     enable = mkEnableOption "Install Qtile window manager with all dependencies";
@@ -20,131 +20,131 @@ in {
   };
 
   config = mkIf cfg.enable {
-    # Qtile core packages
+# Qtile core packages
     environment.systemPackages = with pkgs; [
-      # QTILE_CORE_PACKAGES
+# QTILE_CORE_PACKAGES
       qtile
-      python311Packages.psutil
-      python311Packages.setproctitle
-      python311Packages.dbus-fast
-      python311Packages.iwlib
-      python311Packages.keyring
-      python311Packages.pyxdg
-      python311Packages.cairocffi
-      python311Packages.xcffib
-      python311Packages.xkbcommon
+        python311Packages.psutil
+        python311Packages.setproctitle
+        python311Packages.dbus-fast
+        python311Packages.iwlib
+        python311Packages.keyring
+        python311Packages.pyxdg
+        python311Packages.cairocffi
+        python311Packages.xcffib
+        python311Packages.xkbcommon
 
-      # WM_PACKAGES
-      picom
-      betterlockscreen
-      i3lock-color
-      xss-lock
-      unclutter
-      autorandr
+# WM_PACKAGES
+        picom
+        betterlockscreen
+        i3lock-color
+        xss-lock
+        unclutter
+        autorandr
 
-      # TERMINAL_PACKAGES
-      ghostty
-      alacritty
+# TERMINAL_PACKAGES
+        ghostty
+        alacritty
 
-      # LAUNCHER_PACKAGES
-      rofi-wayland
+# LAUNCHER_PACKAGES
+        rofi-wayland
 
-      # NOTIFICATION_PACKAGES
-      dunst
+# NOTIFICATION_PACKAGES
+        dunst
 
-      # SYSTRAY_PACKAGES
-      networkmanagerapplet
-      blueman
-      networkmanagerapplet
-      pavucontrol
-      copyq
-      polkit_gnome
-      volumeicon
+# SYSTRAY_PACKAGES
+        networkmanagerapplet
+        blueman
+        networkmanagerapplet
+        pavucontrol
+        copyq
+        polkit_gnome
+        volumeicon
 
-      # AUDIO_PACKAGES
-      jamesdsp
-      alsa-utils
-      playerctl
-      pamixer
-      mpv
-      vlc
+# AUDIO_PACKAGES
+        jamesdsp
+        alsa-utils
+        playerctl
+        pamixer
+        mpv
+        vlc
 
-      # SCREEN_PACKAGES
-      flameshot
-      maim
-      scrot
-      grim
-      slurp
-      wf-recorder
-      obs-studio
+# SCREEN_PACKAGES
+        flameshot
+        maim
+        scrot
+        grim
+        slurp
+        wf-recorder
+        obs-studio
 
-      # THEME_PACKAGES
-      feh
-      python311Packages.pywal
-      qt5ct
+# THEME_PACKAGES
+        feh
+        python311Packages.pywal
+        qt5ct
 
-      # FILE_MANAGER_PACKAGES
-      thunar
-      thunar-volman
-      thunar-archive-plugin
-      ranger
+# FILE_MANAGER_PACKAGES
+        thunar
+        thunar-volman
+        thunar-archive-plugin
+        ranger
 
-      # MONITOR_PACKAGES
-      lm_sensors
-      htop
-      btop
+# MONITOR_PACKAGES
+        lm_sensors
+        htop
+        btop
 
-      # INPUT_PACKAGES
-      libinput
-      libinput-gestures
-      touchegg
+# INPUT_PACKAGES
+        libinput
+        libinput-gestures
+        touchegg
 
-      # PYTHON_QTILE_PACKAGES
-      python311Packages.bowler
-      python311Packages.libcst
-      python311Packages.mpd2
-      python311Packages.pywayland
-      python311Packages.pywlroots
-      python311Packages.requests
-      python311Packages.netifaces
-      python311Packages.pillow
-      python311Packages.python-dateutil
+# PYTHON_QTILE_PACKAGES
+        python311Packages.bowler
+        python311Packages.libcst
+        python311Packages.mpd2
+        python311Packages.pywayland
+        python311Packages.pywlroots
+        python311Packages.requests
+        python311Packages.netifaces
+        python311Packages.pillow
+        python311Packages.python-dateutil
 
-      # EDITOR_PACKAGES
-      neovim
+# EDITOR_PACKAGES
+        neovim
 
-      # NETWORK_PACKAGES
-      wpa_supplicant
-      dhcpcd
-      iwd
-      wireless-tools
+# NETWORK_PACKAGES
+        wpa_supplicant
+        dhcpcd
+        iwd
+        wireless-tools
 
-      # UTILITY_PACKAGES
-      redshift
-      gammastep
-      caffeine-ng
-      autokey-gtk
-      keepassxc
-      # X11_PACKAGES
-      xorg.xorgserver
-      xorg.xinit
-      xorg.xauth
-      xorg.xrandr
-      xorg.xset
-      xorg.xprop
-      xorg.xwininfo
-      xorg.xdpyinfo
-      xorg.xlsfonts
-      xorg.xwayland
-      xdotool
-      wmctrl
-      xclip
-      xsel
-    ]);
+# UTILITY_PACKAGES
+        redshift
+        gammastep
+        caffeine-ng
+        autokey-gtk
+        keepassxc
+# X11_PACKAGES
+        xorg.xorgserver
+        xorg.xinit
+        xorg.xauth
+        xorg.xrandr
+        xorg.xset
+        xorg.xprop
+        xorg.xwininfo
+        xorg.xdpyinfo
+        xorg.xlsfonts
+        xorg.xwayland
+        xdotool
+        wmctrl
+        xclip
+        xsel
+        ];
 
-    # Enable required services
+# Enable required services
     services = {
-      # Display server configuration
+# Display server configuration
       xserver = mkIf cfg.enableX11 {
         enable = true;
         displayManager = {
@@ -155,27 +155,27 @@ in {
           backend = "x11";
           extraPackages = python311Packages: with python311Packages; [
             cairocffi
-            dbus-fast
-            iwlib
-            keyring
-            psutil
-            pyxdg
-            setproctitle
-            xcffib
-            xkbcommon
+              dbus-fast
+              iwlib
+              keyring
+              psutil
+              pyxdg
+              setproctitle
+              xcffib
+              xkbcommon
           ];
         };
       };
     };
 
-    # Environment variables
+# Environment variables
     environment.variables = {
       QT_QPA_PLATFORM = "xcb";
       SDL_VIDEODRIVER = "x11";
       XDG_CURRENT_DESKTOP = "qtile";
     };
 
-    # Configure XDG portals
+# Configure XDG portals
     xdg.portal = {
       enable = true;
       wlr.enable = cfg.enableWayland;
@@ -185,7 +185,7 @@ in {
       ];
     };
 
-    # User services for Qtile
+# User services for Qtile
     systemd.user.services = {
       dunst = {
         enable = true;
