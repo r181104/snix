@@ -10,7 +10,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "nixos"; # Define your hostname.
+  networking.hostName = "nix-hak"; # Define your hostname.
 # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
 # Configure network proxy if necessary
@@ -224,5 +224,7 @@
   networking.firewall.enable = false;
 
   system.stateVersion = "25.05"; # Did you read the comment?
+
+    nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
 }
