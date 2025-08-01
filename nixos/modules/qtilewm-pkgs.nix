@@ -23,8 +23,7 @@ in {
 # Qtile core packages
     environment.systemPackages = with pkgs; [
 # QTILE_CORE_PACKAGES
-      qtile
-        python311Packages.psutil
+      python311Packages.psutil
         python311Packages.setproctitle
         python311Packages.dbus-fast
         python311Packages.iwlib
@@ -81,12 +80,10 @@ in {
 # THEME_PACKAGES
         feh
         python311Packages.pywal
-        qt5ct
+        libsForQt5.qt5ct
 
 # FILE_MANAGER_PACKAGES
-        thunar
-        thunar-volman
-        thunar-archive-plugin
+        xfce.thunar
         ranger
 
 # MONITOR_PACKAGES
@@ -100,9 +97,7 @@ in {
         touchegg
 
 # PYTHON_QTILE_PACKAGES
-        python311Packages.bowler
         python311Packages.libcst
-        python311Packages.mpd2
         python311Packages.pywayland
         python311Packages.pywlroots
         python311Packages.requests
@@ -117,13 +112,12 @@ in {
         wpa_supplicant
         dhcpcd
         iwd
-        wireless-tools
 
 # UTILITY_PACKAGES
         redshift
         gammastep
         caffeine-ng
-        autokey-gtk
+        autokey
         keepassxc
 # X11_PACKAGES
         xorg.xorgserver
@@ -135,7 +129,7 @@ in {
         xorg.xwininfo
         xorg.xdpyinfo
         xorg.xlsfonts
-        xorg.xwayland
+        xwayland
         xdotool
         wmctrl
         xclip
@@ -147,12 +141,7 @@ in {
 # Display server configuration
       xserver = mkIf cfg.enableX11 {
         enable = true;
-        displayManager = {
-          defaultSession = "none+qtile";
-        };
         windowManager.qtile = {
-          enable = true;
-          backend = "x11";
           extraPackages = python311Packages: with python311Packages; [
             cairocffi
               dbus-fast
@@ -168,6 +157,9 @@ in {
       };
     };
 
+    services.displayManager = {
+      defaultSession = "budgie-desktop";
+    };
 # Environment variables
     environment.variables = {
       QT_QPA_PLATFORM = "xcb";

@@ -1,0 +1,5 @@
+--target=$HOME
+--ignore=.stowrc
+--ignore=scripts
+--ignore=.git
+--ignore=.gitignore
