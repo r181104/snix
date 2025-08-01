@@ -4,6 +4,8 @@ with lib;
 
 let
 cfg = config.qtilewm-pkgs;
+python = pkgs.python311;
+pythonPackages = python.pkgs;
 in {
   options.qtilewm-pkgs = {
     enable = mkEnableOption "Install Qtile window manager with all dependencies";
@@ -20,18 +22,20 @@ in {
   };
 
   config = mkIf cfg.enable {
-# Qtile core packages
+# Qtile core packages - INCLUDING QTILE ITSELF
     environment.systemPackages = with pkgs; [
 # QTILE_CORE_PACKAGES
-      python311Packages.psutil
-        python311Packages.setproctitle
-        python311Packages.dbus-fast
-        python311Packages.iwlib
-        python311Packages.keyring
-        python311Packages.pyxdg
-        python311Packages.cairocffi
-        python311Packages.xcffib
-        python311Packages.xkbcommon
+      python313Packages.qtile
+        python313Packages.qtile-extras
+        pythonPackages.psutil
+        pythonPackages.setproctitle
+        pythonPackages.dbus-fast
+        pythonPackages.iwlib
+        pythonPackages.keyring
+        pythonPackages.pyxdg
+        pythonPackages.cairocffi
+        pythonPackages.xcffib
+        pythonPackages.xkbcommon
 
 # WM_PACKAGES
         picom
@@ -52,9 +56,6 @@ in {
         dunst
 
 # SYSTRAY_PACKAGES
-        networkmanagerapplet
-        blueman
-        networkmanagerapplet
         pavucontrol
         copyq
         polkit_gnome
@@ -79,11 +80,13 @@ in {
 
 # THEME_PACKAGES
         feh
-        python311Packages.pywal
-        libsForQt5.qt5ct
+        pythonPackages.pywal
+        qt5ct
 
 # FILE_MANAGER_PACKAGES
         xfce.thunar
+        xfce.thunar-volman
+        xfce.thunar-archive-plugin
         ranger
 
 # MONITOR_PACKAGES
@@ -97,13 +100,13 @@ in {
         touchegg
 
 # PYTHON_QTILE_PACKAGES
-        python311Packages.libcst
-        python311Packages.pywayland
-        python311Packages.pywlroots
-        python311Packages.requests
-        python311Packages.netifaces
-        python311Packages.pillow
-        python311Packages.python-dateutil
+        pythonPackages.libcst
+        pythonPackages.pywayland
+        pythonPackages.pywlroots
+        pythonPackages.requests
+        pythonPackages.netifaces
+        pythonPackages.pillow
+        pythonPackages.python-dateutil
 
 # EDITOR_PACKAGES
         neovim
@@ -119,29 +122,37 @@ in {
         caffeine-ng
         autokey
         keepassxc
+        ] ++ (optionals cfg.enableX11 [
 # X11_PACKAGES
-        xorg.xorgserver
-        xorg.xinit
-        xorg.xauth
-        xorg.xrandr
-        xorg.xset
-        xorg.xprop
-        xorg.xwininfo
-        xorg.xdpyinfo
-        xorg.xlsfonts
-        xwayland
-        xdotool
-        wmctrl
-        xclip
-        xsel
-        ];
+            xorg.xorgserver
+            xorg.xinit
+            xorg.xauth
+            xorg.xrandr
+            xorg.xset
+            xorg.xprop
+            xorg.xwininfo
+            xorg.xdpyinfo
+            xorg.xlsfonts
+            xwayland
+            xdotool
+            wmctrl
+            xclip
+            xsel
+        ]);
 
 # Enable required services
     services = {
-      xserver = {
+# Enable Qtile as a window manager for X11
+      xserver = mkIf cfg.enableX11 {
         enable = true;
+        displayManager = {
+          lightdm.enable = true;
+          defaultSession = "qtile";
+        };
         windowManager.qtile = {
-          extraPackages = python311Packages: with python311Packages; [
+          enable = true;  # THIS WAS MISSING
+            backend = "x11";
+          extraPackages = pp: with pp; [
             cairocffi
               dbus-fast
               iwlib
@@ -154,16 +165,18 @@ in {
           ];
         };
       };
+
+# Enable blueman
+      blueman.enable = true;
     };
 
 # Configure XDG portals
     xdg.portal = {
       enable = true;
       wlr.enable = cfg.enableWayland;
-      extraPortals = [ 
-        pkgs.xdg-desktop-portal-gtk
-        pkgs.xdg-desktop-portal-wlr
-      ];
+      extraPortals = with pkgs; [ 
+        xdg-desktop-portal-gtk
+      ] ++ (optional cfg.enableWayland xdg-desktop-portal-wlr);
     };
 
 # User services for Qtile
