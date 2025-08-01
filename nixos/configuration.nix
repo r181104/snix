@@ -9,7 +9,7 @@
     ];
 
   basic-pkgs.enable = true;
-  qtilewm-pkgs.enable = true;
+# qtilewm-pkgs.enable = true;
 
 # Bootloader.
   boot.loader.systemd-boot.enable = true;
