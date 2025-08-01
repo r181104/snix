@@ -34,6 +34,8 @@ in {
         pythonPackages.cairocffi
         pythonPackages.xcffib
         pythonPackages.xkbcommon
+        pythonPackages.pywlroots
+        pythonPackages.pywayland
 
 # WM_PACKAGES
         picom
@@ -42,6 +44,9 @@ in {
         xss-lock
         unclutter
         autorandr
+
+# Wayland packages
+        wlr-randr
 
 # TERMINAL_PACKAGES
         ghostty
