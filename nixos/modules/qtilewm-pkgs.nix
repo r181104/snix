@@ -138,8 +138,7 @@ in {
 
 # Enable required services
     services = {
-# Display server configuration
-      xserver = mkIf cfg.enableX11 {
+      xserver = {
         enable = true;
         windowManager.qtile = {
           extraPackages = python311Packages: with python311Packages; [
