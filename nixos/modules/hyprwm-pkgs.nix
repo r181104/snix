@@ -5,6 +5,7 @@
 # Hyprland packages
     hyprland
       hyprland-qtutils
+      hyprland-qt-support
       pyprland
       hypridle
       hyprlock
