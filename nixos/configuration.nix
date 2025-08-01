@@ -80,27 +80,41 @@
   environment.systemPackages = with pkgs; [
 # Core utilities
     vim neovim tmux zsh bash fzf zoxide ripgrep bat btop htop tree
-      wget curl rsync unzip zip p7zip man-pages man-pages-posix
+      wget curl rsync unzip zip p7zip man man-pages
 
 # Development tools
       git rustup go nodejs python3Full pipx gnumake cmake
       autoconf automake pkg-config stow lua-language-server
 
 # GUI applications
-      firefox libreoffice vlc mpv qbittorrent-enhanced
+      firefox libreoffice vlc mpv qbittorrent
 
 # Hardware utilities
       blueman pavucontrol brightnessctl usbutils pciutils lshw
-      upower gpu-viewer inxi
+      upower inxi
 
 # Media processing
-      imagemagick ffmpeg_6-full yt-dlp
+      imagemagick ffmpeg-full yt-dlp
 
 # Security tools
       sbctl mokutil openssl gnupg keepassxc
 
 # Fonts
       font-awesome powerline-fonts
+
+# Terminal tools
+      lazygit
+
+# X11 utilities
+      xclip xdg-utils xdg-desktop-portal-gtk
+
+# Bluetooth
+      bluez bluez-tools
+
+# Fixed dependencies
+      libgccjit # Needed for some compiled packages
+      gsettings-desktop-schemas # Required for Budgie
+      gnome.adwaita-icon-theme # Fix for missing icons
       ];
 
 # System Services
