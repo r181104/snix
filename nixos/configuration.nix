@@ -6,6 +6,9 @@
     ./hardware-configuration.nix
       ./modules/basic-pkgs.nix
       ./modules/hyprwm-pkgs.nix
+      ./modules/hardware.nix
+      ./modules/security.nix
+      ./modules/services.nix
     ];
 
   basic-pkgs.enable = true;
@@ -26,7 +29,6 @@
   programs.nm-applet.enable = true;
 
   nixpkgs.config.allowUnfree = true;
-  hardware.enableRedistributableFirmware = true;
 
 # Set your time zone.
   time.timeZone = "Asia/Kolkata";
@@ -45,27 +47,6 @@
     LC_TELEPHONE = "en_IN";
     LC_TIME = "en_IN";
   };
-
-  services.desktopManager.gnome.enable = true;
-  services.displayManager.gdm.enable = true;
-
-  services.xserver.enable = true;
-  services.xserver.videoDrivers = [ "nvidia" ];
-  services.xserver.xkb = {
-    layout = "us";
-    variant = "";
-  };
-  services.printing.enable = true;
-  services.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.libinput.enable = true;
-  services.udisks2.enable = true;
-
-  hardware.nvidia = {
-    open = false;
-  };
-
-  security.polkit.enable = true;
 
   environment.shells = with pkgs; [ bash zsh ];
   users.defaultUserShell = pkgs.zsh;
