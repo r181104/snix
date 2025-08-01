@@ -1,102 +1,31 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, ... }:
 
 {
-  imports = [ ./hardware-configuration.nix ];
-
-# Use latest kernel from unstable channel
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-
-# NVIDIA Hybrid Graphics Configuration (PRIME Render Offload)
-  services.xserver.videoDrivers = [ "nvidia" ];
-  hardware.nvidia = {
-    modesetting.enable = lib.mkDefault true;
-    powerManagement.enable = lib.mkDefault true;
-    powerManagement.finegrained = lib.mkDefault false;
-    open = lib.mkDefault false;
-    nvidiaSettings = true;
-    package = config.boot.kernelPackages.nvidiaPackages.beta.overrideAttrs (old: {
-        version = "555.42.02";
-        src = pkgs.fetchurl {
-        url = "https://download.nvidia.com/XFree86/Linux-x86_64/555.42.02/NVIDIA-Linux-x86_64-555.42.02.run";
-        sha256 = "sha256-7Qe7lX3v3H2f7WXj6i7k8Y7a0z1d3c4b5d6e7f8g9h0i1j2k3l4m5n6o7p8";
-        };
-        });
-
-# PRIME configuration - REPLACE WITH YOUR BUS IDs
-    prime = {
-      offload.enable = true;
-# Find bus IDs with: lspci | grep -E "VGA|3D"
-      intelBusId = "PCI:0:2:0";    # Example: Intel GPU
-        nvidiaBusId = "PCI:1:0:0";   # Example: NVIDIA GPU
-    };
-
-# Power management tweaks
-    powerManagement.forceEnable = true;
-    nvidiaPersistenced = true;
-  };
-
-# Intel GPU configuration
-  hardware.opengl = {
-    enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
-    extraPackages = with pkgs; [
-      intel-media-driver          # New Intel media driver
-        intel-compute-runtime       # For OpenCL support
-        vaapiIntel                  # VA-API implementation
-        vaapiVdpau                  # VDPAU bridge
-        libvdpau-va-gl              # VDPAU driver
-    ];
-    extraPackages32 = with pkgs.pkgsi686Linux; [
-      vaapiIntel
-    ];
-  };
-
-# Boot Configuration
-  boot = {
-    loader = {
-      systemd-boot.enable = true;
-      efi.canTouchEfiVariables = true;
-      timeout = 3;
-    };
-
-# Kernel modules for early boot
-    initrd.kernelModules = [ 
-      "i915"          # Intel graphics
-      "nvidia"        # NVIDIA module
-      "nvidia_modeset"
-      "nvidia_uvm"
-      "nvidia_drm"
+  imports =
+    [
+    ./hardware-configuration.nix
     ];
 
-# Kernel parameters for hybrid graphics
-    kernelParams = [
-# NVIDIA power management
-      "nvidia.NVreg_DynamicPowerManagement=0x02"
-        "nvidia.NVreg_PreserveVideoMemoryAllocations=1"
-        "nvidia.NVreg_TemporaryFilePath=/var/tmp/nvidia"
+# Bootloader.
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 
-# Intel parameters
-        "i915.enable_guc=2"         # Enable GuC/HuC firmware
-        "i915.enable_fbc=1"         # Enable frame buffer compression
-        "i915.enable_psr=1"         # Enable panel self refresh
-    ];
+  networking.hostName = "nixos"; # Define your hostname.
+# networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
-# Blacklist conflicting drivers
-    blacklistedKernelModules = [ "nouveau" ];
+# Configure network proxy if necessary
+# networking.proxy.default = "http://user:password@proxy:port/";
+# networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
-# Enable NVIDIA DRM kernel mode setting
-    kernelModules = [ "nvidia-drm" ];
-  };
+# Enable networking
+    networking.networkmanager.enable = true;
 
-# Network Configuration
-  networking.hostName = "nixos";
-  networking.networkmanager.enable = true;
-  networking.firewall.enable = true;
-
-# Internationalization
+# Set your time zone.
   time.timeZone = "Asia/Kolkata";
+
+# Select internationalisation properties.
   i18n.defaultLocale = "en_IN";
+
   i18n.extraLocaleSettings = {
     LC_ADDRESS = "en_IN";
     LC_IDENTIFICATION = "en_IN";
@@ -109,232 +38,191 @@
     LC_TIME = "en_IN";
   };
 
-# X11 Desktop Environment with Hybrid Graphics Support
-  services.xserver = {
-    enable = true;
-    displayManager.lightdm.enable = true;
-    desktopManager.budgie.enable = true;
-    videoDrivers = [ "nvidia" ];
+# Enable the X11 windowing system.
+  services.xserver.enable = true;
 
-# Configure keymap
-    xkb.layout = "us";
+# Enable the Budgie Desktop environment.
+  services.xserver.displayManager.lightdm.enable = true;
+  services.xserver.desktopManager.budgie.enable = true;
 
-# NVIDIA-specific X11 settings
-    deviceSection = ''
-      Option "AllowEmptyInitialConfiguration"
-      Option "PrimaryGPU" "no"
-      '';
-
-    screenSection = ''
-      Option         "metamodes" "nvidia-auto-select +0+0 {ForceFullCompositionPipeline=On}"
-      Option         "AllowIndirectGLXProtocol" "off"
-      Option         "TripleBuffer" "on"
-      '';
-
-# Enable DRM kernel mode setting
-    drm = {
-      enable = true;
-      modeset = {
-        enable = true;
-        nvidia = true;
-      };
-    };
+# Configure keymap in X11
+  services.xserver.xkb = {
+    layout = "us";
+    variant = "";
   };
 
-  services.libinput.enable = true;
+# Enable CUPS to print documents.
+  services.printing.enable = true;
 
-# Sound Configuration (using PipeWire with Intel as default)
+# Enable sound with pipewire.
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-    jack.enable = true;
+# If you want to use JACK applications, uncomment this
+#jack.enable = true;
 
-# Fix for hybrid audio
-    config.pipewire = {
-      "context.properties" = {
-        "link.max-buffers" = 16;
-      };
-      "context.modules" = [
-      {
-        name = "libpipewire-module-rtkit";
-        args = {
-          "nice.level" = -15;
-          "rt.prio" = 88;
-          "rt.time.soft" = 200000;
-          "rt.time.hard" = 200000;
-        };
-        flags = [ "ifexists" "nofail" ];
-      }
-      { name = "libpipewire-module-protocol-native"; }
-      { name = "libpipewire-module-client-node"; }
-      { name = "libpipewire-module-adapter"; }
-      { name = "libpipewire-module-metadata"; }
-      ];
-    };
+# use the example session manager (no others are packaged yet so this is enabled by default,
+# no need to redefine it in your config for now)
+#media-session.enable = true;
   };
 
-# User Configuration
+# Enable touchpad support (enabled default in most desktopManager).
+  services.xserver.libinput.enable = true;
+
+# Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.hack = {
     isNormalUser = true;
     description = "hack";
-    extraGroups = [ 
-      "networkmanager" 
-      "wheel" 
-      "video" 
-      "audio" 
-      "lp" 
-      "scanner" 
-      "render"
-      "vboxusers"
-      "docker"
+    extraGroups = [ "networkmanager" "wheel" ];
+    packages = with pkgs; [
     ];
-    shell = pkgs.zsh;
   };
 
-# System Packages for Unstable Channel
+# Install firefox.
+  programs.firefox.enable = true;
+
+# Allow unfree packages
+  nixpkgs.config.allowUnfree = true;
+
+# $ nix search wget
   environment.systemPackages = with pkgs; [
-# Hybrid Graphics Utilities
-    nvtop
-      intel-gpu-tools
-      clinfo
+# Base packages
+    blueman
+      bluez
+      bluez-alsa
+      brightnessctl
+      pavucontrol
+      acl
+      alsa-utils
+      alsa-plugins
+      alsa-lib
+      pipewire
+      pipewire-pulse
+      pipewire-alsa
+      pipewire-jack
+      pciutils
+      libpulseaudio
+      usbutils
+      hwdata
+      lshw
+      upower
+      accountsservice
+      polkit
+      dbus
+      udisks
+      gvfs
+# Terminal Packages
+      neovim
+      vim
+      tmux
+      zsh
+      bash
+      fzf
+      zoxide
+      ripgrep
+      bat
+      btop
+      htop
+      tree
+      less
+      gnugrep
+      gnused
+      gawk
+      which
+      wget
+      curl
+      rsync
+      unzip
+      zip
+      gnutar
+      gzip
+      p7zip
+      lazygit
+      man
+      texinfo
+      black
+      stylua
+      prettier
+      astyle
+      libgcc
+      shfmt
+      lua-language-server
+# Gui Packages
+      libreoffice-fresh
+      vlc
+      mpv
+# Dev Packages
+      git
+      rustup
+      go
+      nodePackages_latest.nodejs
+      python3full
+      pipx
+      gnumake
+      cmake
+      autoconf
+      automake
+      pkg-config
+      stow
+# Theme Packages
+      font-awesome
+      powerline-fonts
+      nitch
+# Security Packages
+      sbctl
+      mokutil
+      openssl
+      openssh
+      gnupg
+      pass
+      keepassxc
+# Kernel Packages
+      linux
+      linuxHeaders
+      linux-firmware
+      mkinitcpio-nfs-utils
+      basez
+      ghc_filesystem
+      glibc
+      systemd
+# Utility Packages
+      bc
+      xclip
+      wl-clipboard
+      xdg-utils
+      xdg-user-dirs
+      xdg-desktop-portal
+      mesa
       vulkan-tools
-      glxinfo
-      nvidia-vaapi-driver
-      libva-utils
-
-# PRIME Utilities
-      (writeShellScriptBin "prime-run" ''
-       export __NV_PRIME_RENDER_OFFLOAD=1
-       export __NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0
-       export __GLX_VENDOR_LIBRARY_NAME=nvidia
-       export __VK_LAYER_NV_optimus=NVIDIA_only
-       exec "$@"
-       '')
-
-# System Utilities
-      powertop
-      auto-cpufreq
-      tlp
-
-# ... rest of your packages ...
+      gpu-viewer
+      inxi
+      imagemagick
+      ffmpeg_6-full
+      yt-dlp
+      qbittorrent-enhanced
       ];
 
-# Environment variables for hybrid graphics
-  environment.sessionVariables = {
-# NVIDIA Variables
-    __NV_PRIME_RENDER_OFFLOAD = "1";
-    __NV_PRIME_RENDER_OFFLOAD_PROVIDER = "NVIDIA-G0";
-    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
-    GBM_BACKEND = "nvidia-drm";
-    __VK_LAYER_NV_optimus = "NVIDIA_only";
-    WLR_NO_HARDWARE_CURSORS = "1";
-    NVD_BACKEND = "direct";
+# Some programs need SUID wrappers, can be configured further or are
+# started in user sessions.
+# programs.mtr.enable = true;
+# programs.gnupg.agent = {
+#   enable = true;
+#   enableSSHSupport = true;
+# };
 
-# Intel VA-API
-    LIBVA_DRIVER_NAME = "iHD";
-    VDPAU_DRIVER = "va_gl";
+# Enable the OpenSSH daemon.
+# services.openssh.enable = true;
 
-# General
-    MOZ_DISABLE_RDD_SANDBOX = "1";  # Firefox sandbox fix
-      EGL_PLATFORM = "wayland";
-  };
+# Open ports in the firewall.
+# networking.firewall.allowedTCPPorts = [ ... ];
+# networking.firewall.allowedUDPPorts = [ ... ];
+# Or disable the firewall altogether.
+  networking.firewall.enable = false;
 
-# Power management for hybrid systems
-  powerManagement = {
-    enable = true;
-    powertop.enable = true;
-    cpuFreqGovernor = "powersave";
-  };
+  system.stateVersion = "25.05"; # Did you read the comment?
 
-  services.auto-cpufreq.enable = true;
-  services.auto-cpufreq.settings = {
-    battery = {
-      governor = "powersave";
-      turbo = "never";
-    };
-    charger = {
-      governor = "performance";
-      turbo = "auto";
-    };
-  };
-
-  services.tlp = {
-    enable = true;
-    settings = {
-      CPU_SCALING_GOVERNOR_ON_AC = "performance";
-      CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
-      PCIE_ASPM_ON_BAT = "powersupersave";
-      RUNTIME_PM_ON_AC = "on";
-      RUNTIME_PM_ON_BAT = "auto";
-      NVIDIA_DYNAMIC_POWER_MANAGEMENT = "1";
-    };
-  };
-
-# Special configuration for Budgie with hybrid graphics
-  services.xserver.displayManager.sessionCommands = ''
-# Fixes tearing in some applications
-    export CLUTTER_BACKEND=wayland
-    export SDL_VIDEODRIVER=wayland
-
-# NVIDIA PRIME environment variables
-    export __NV_PRIME_RENDER_OFFLOAD=1
-    export __GLX_VENDOR_LIBRARY_NAME=nvidia
-    '';
-
-# Enable necessary services
-  services = {
-    dbus.enable = true;
-    gvfs.enable = true;  # For file manager integration
-      udisks2.enable = true;
-    upower.enable = true;
-    blueman.enable = true;
-    printing.enable = true;
-    openssh.enable = false;
-  };
-
-# Nix Settings for Unstable Channel
-  nix = {
-    package = pkgs.nixUnstable;
-    settings = {
-      auto-optimise-store = true;
-      experimental-features = [ "nix-command" "flakes" "auto-allocate-uids" ];
-      trusted-users = [ "root" "hack" ];
-      builders-use-substitutes = true;
-# For systems with >8GB RAM
-      max-jobs = "auto";
-      cores = 0;
-    };
-    gc = {
-      automatic = true;
-      dates = "daily";
-      options = "--delete-older-than 7d";
-    };
-# Enable nix-ld for better compatibility
-    nixPath = [ "nixpkgs=${pkgs.path}" ];
-    ld = {
-      enable = true;
-      libraries = with pkgs; [
-        stdenv.cc.cc
-          openssl
-          curl
-          glib
-          util-linux
-          libseccomp
-          libvirt
-      ];
-    };
-  };
-
-# Security settings
-  security = {
-    sudo.wheelNeedsPassword = true;
-    polkit.enable = true;
-    protectKernelImage = true;
-    lockKernelModules = false;  # Required for NVIDIA power management
-  };
-
-  system.stateVersion = "25.05";  # Unstable channel
 }
