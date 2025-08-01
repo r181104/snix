@@ -71,7 +71,7 @@
   };
 
 # Enable touchpad support (enabled default in most desktopManager).
-  services.xserver.libinput.enable = true;
+  services.libinput.enable = true;
 
 # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.hack = {
@@ -101,9 +101,9 @@
       alsa-plugins
       alsa-lib
       pipewire
-      pipewire-pulse
-      pipewire-alsa
-      pipewire-jack
+# pipewire-pulse
+# pipewire-alsa
+# pipewire-jack
       pciutils
       libpulseaudio
       usbutils
@@ -160,7 +160,7 @@
       rustup
       go
       nodePackages_latest.nodejs
-      python3full
+# python3full
       pipx
       gnumake
       cmake
