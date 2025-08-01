@@ -1,0 +1,29 @@
+{
+  description = "My flake which is quite simple";
+
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    zen-browser.url = "github:youwen5/zen-browser-flake";
+    zen-browser.inputs.nixpkgs.follows = "nixpkgs";
+  };
+
+  outputs = { self, nixpkgs, zen-browser, ... }@inputs:
+    let
+    lib = nixpkgs.lib;
+  system = "x86_64-linux";
+  in
+  {
+    nixosConfigurations.hack = nixpkgs.lib.nixosSystem {
+      inherit system;
+      specialArgs = { inherit inputs; };
+      modules = [
+        ./configuration.nix
+	({ pkgs, ... }: {
+	environment.systemPackages = with pkgs; [
+	zen-browser.packages.${system}.default
+	];
+	})
+      ];
+    };
+  };
+}
