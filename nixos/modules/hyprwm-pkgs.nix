@@ -1,79 +1,69 @@
 { config, lib, pkgs, ... }:
+{
+# Setup for Hyprland
+  programs.hyprland = {
+    enable = true;
+    xwayland.enable = true;
+  };
 
-let
-# Combine all package lists
-allPackages = with pkgs; [
+  environment.systemPackages = with pkgs; [
 # Hyprland packages
-  hyprland
-  pyprland
-  hypridle
-  hyprlock
-  hyprpicker
+    hyprland
+      pyprland
+      hypridle
+      hyprlock
+      hyprpicker
+      swaynotificationcenter
 
 # Desktop portals
-  xdg-desktop-portal-hyprland
-  xdg-desktop-portal-wlr
-  xdg-desktop-portal-gtk
-  xdg-desktop-portal
+      xdg-desktop-portal-hyprland
+      xdg-desktop-portal-wlr
+      xdg-desktop-portal-gtk
+      xdg-desktop-portal
 
 # Wayland utilities
-  jamesdsp
-  grimblast
-  waybar
-  swww
-  wlogout
-  wl-clipboard
-  wlroots
-  xwaylandvideobridge
+      jamesdsp
+      grimblast
+      waybar
+      swww
+      wlogout
+      wl-clipboard
+      wlroots
 
 # System utilities
-  bluez
-  brightnessctl
-  pavucontrol
+      bluez
+      brightnessctl
+      pavucontrol
 
 # Terminal/Editor
-  kitty
+      kitty
 
 # GUI applications
-  gnome.nautilus
-  rofi-wayland
-  nwg-look
+      rofi-wayland
+      nwg-look
 
 # Themes
-  papirus-icon-theme
-  nordzy-cursor-theme
-  pywal
-  ];
-  in {
-    options.hyprland-packages.enable = lib.mkEnableOption "Hyprland custom package set";
-
-    config = lib.mkIf config.hyprland-packages.enable {
-# Enable Hyprland and Wayland support
-      programs.hyprland = {
-        enable = true;
-        xwayland.enable = true;
-      };
+      papirus-icon-theme
+      nordzy-cursor-theme
+      pywal
+      ];
 
 # Desktop portal configuration
-      xdg.portal = {
-        enable = true;
-        wlr.enable = true;
-        extraPortals = with pkgs; [
-          xdg-desktop-portal-hyprland
-            xdg-desktop-portal-gtk
-        ];
-      };
-
-# System packages
-      environment.systemPackages = allPackages;
+  xdg.portal = {
+    enable = true;
+    wlr.enable = true;
+    extraPortals = with pkgs; [
+      xdg-desktop-portal-hyprland
+        xdg-desktop-portal-gtk
+    ];
+  };
 
 # Environment variables for Wayland
-      environment.sessionVariables = {
-        NIXOS_OZONE_WL = "1";  # Enable Wayland for Chromium-based apps
-          QT_QPA_PLATFORM = "wayland";
-        SDL_VIDEODRIVER = "wayland";
-        XDG_SESSION_TYPE = "wayland";
-        XDG_CURRENT_DESKTOP = "Hyprland";
-      };
-    };
-  }
+  environment.sessionVariables = {
+    NIXOS_OZONE_WL = "1";  # Enable Wayland for Chromium-based apps
+      QT_QPA_PLATFORM = "wayland";
+    SDL_VIDEODRIVER = "wayland";
+    XDG_SESSION_TYPE = "wayland";
+    XDG_CURRENT_DESKTOP = "Hyprland";
+  };
+}

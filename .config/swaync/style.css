@@ -1,0 +1,25 @@
+/* Fallback colors in case pywal is not available */
+@define-color foreground #ffffff;
+@define-color background #1a1a1a;
+@define-color cursor #ffffff;
+
+@define-color color0 #1a1a1a;
+@define-color color1 #f38ba8;
+@define-color color2 #a6e3a1;
+@define-color color3 #f9e2af;
+@define-color color4 #89b4fa;
+@define-color color5 #f5c2e7;
+@define-color color6 #94e2d5;
+@define-color color7 #bac2de;
+@define-color color8 #6c7086;
+@define-color color9 #f38ba8;
+@define-color color10 #a6e3a1;
+@define-color color11 #f9e2af;
+@define-color color12 #89b4fa;
+@define-color color13 #f5c2e7;
+@define-color color14 #94e2d5;
+@define-color color15 #ffffff;
+
+/* Import theme files */
+@import 'themes/nova-dark/notifications.css';
+@import 'themes/nova-dark/central_control.css';

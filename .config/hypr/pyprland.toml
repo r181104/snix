@@ -1,0 +1,23 @@
+[pyprland]
+plugins = [
+  "scratchpads",
+  "magnify",
+]
+
+# Configure scratchpads
+[scratchpads.term]
+command = "kitty --class=scratchterm"
+animation = "fromTop"
+size = "60% 80%"
+lazy = true
+
+[scratchpads.pavucontrol]
+command = "pavucontrol"
+animation = "fromBottom"
+size = "80% 60%"
+
+[scratchpads.spotify]
+command = "LD_PRELOAD=/usr/lib/spotify-adblock.so spotify --enable-features=UseOzonePlatform --ozone-platform=wayland"
+animation = "fromRight"
+size = "60% 80%"
+lazy = true
