@@ -49,7 +49,7 @@
 
   services.xserver.enable = true;
   services.xserver.videoDrivers = [ "nvidia" ];
-  services.displayManager.sddm.enable = true;
+  services.displayManager.lightdm.enable = true;
 # services.displayManager.sddm.wayland.enable = true;
   services.xserver.desktopManager.budgie.enable = true;
   services.xserver.xkb = {
