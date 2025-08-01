@@ -1,8 +1,8 @@
 { config, pkgs, lib, ... }:
 {
 # Hardware configuration
-  hardware.enableRedistributableFirmware = mkDefault true;
-  hardware.bluetooth.enable = mkDefault true;
+  hardware.enableRedistributableFirmware = true;
+  hardware.bluetooth.enable = true;
   hardware.nvidia = {
     open = false;
   };

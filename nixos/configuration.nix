@@ -11,8 +11,6 @@
       ./modules/services.nix
     ];
 
-  basic-pkgs.enable = true;
-
 # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;

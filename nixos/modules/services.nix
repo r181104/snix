@@ -31,8 +31,5 @@
     dbus.enable = true;
     openssh.enable = true;
     gnome.gnome-keyring.enable = true;
-
-# Printing
-    printing.enable = mkDefault true;
   };
 }

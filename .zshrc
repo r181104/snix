@@ -5,13 +5,9 @@ fi
 # Auto-start Hyprland or startx on TTY1
 if [[ -z $DISPLAY ]] && [[ $(tty) =~ /dev/tty1 ]]; then
   # Replace 'hyprland' with 'startx' if you want to use X11 instead
-  # exec hyprland
+  exec hyprland
   # Alternatively, use:
   # exec startx
-fi
-
-if [[ -o interactive ]]; then
-  ssh-add ~/.ssh/id_rsa >/dev/null 2>&1
 fi
 
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"

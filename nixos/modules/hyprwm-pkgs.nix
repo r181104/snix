@@ -1,10 +1,5 @@
 { config, lib, pkgs, ... }:
 {
-# Setup for Hyprland
-  programs.hyprland = {
-    enable = true;
-    xwayland.enable = true;
-  };
 
   environment.systemPackages = with pkgs; [
 # Hyprland packages
@@ -50,6 +45,12 @@
       pywal
       ];
 
+# Setup for Hyprland
+  programs.hyprland = {
+    enable = true;
+    xwayland.enable = true;
+  };
+
 # Desktop portal configuration
   xdg.portal = {
     enable = true;
@@ -57,15 +58,7 @@
     extraPortals = with pkgs; [
       xdg-desktop-portal-hyprland
         xdg-desktop-portal-gtk
+        xdg-desktop-portal-wlr
     ];
-  };
-
-# Environment variables for Wayland
-  environment.sessionVariables = {
-    NIXOS_OZONE_WL = "1";  # Enable Wayland for Chromium-based apps
-      QT_QPA_PLATFORM = "wayland";
-    SDL_VIDEODRIVER = "wayland";
-    XDG_SESSION_TYPE = "wayland";
-    XDG_CURRENT_DESKTOP = "Hyprland";
   };
 }
