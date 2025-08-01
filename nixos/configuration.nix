@@ -47,14 +47,14 @@
     enable = true;
     displayManager.lightdm.enable = true;
     desktopManager.budgie.enable = true;
-# Enable touchpad support
-    libinput.enable = true;
 # Configure keymap
     xkb = {
       layout = "us";
       variant = "";
     };
   };
+
+  services.libinput.enable = true;
 
 # Sound Configuration
   security.rtkit.enable = true;
@@ -138,12 +138,13 @@
 # Hardware
   hardware = {
     bluetooth.enable = true;  # Enable Bluetooth support
-      pulseaudio.enable = false; # Disable in favor of PipeWire
-      opengl.enable = true;     # Enable OpenGL
+      graphics.enable = true;
   };
 
+  services.pulseaudio.enable = false; # Disable in favor of PipeWire
+
 # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
+    nixpkgs.config.allowUnfree = true;
 
   system.stateVersion = "25.05";
 }
