@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 {
 # Hardware configuration
   hardware.enableRedistributableFirmware = mkDefault true;
