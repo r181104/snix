@@ -47,11 +47,11 @@
     LC_TIME = "en_IN";
   };
 
+  services.desktopManager.gnome.enable = true;
+  services.displayManager.gdm.enable = true;
+
   services.xserver.enable = true;
   services.xserver.videoDrivers = [ "nvidia" ];
-  services.xserver.displayManager.lightdm.enable = true;
-  services.xserver.displayManager.lightdm.wayland.enable = true;
-  services.xserver.desktopManager.budgie.enable = true;
   services.xserver.xkb = {
     layout = "us";
     variant = "";
