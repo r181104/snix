@@ -6,10 +6,11 @@
     ./hardware-configuration.nix
       ./modules/basic-pkgs.nix
       ./modules/qtilewm-pkgs.nix
+      ./modules/hyprwm-pkgs.nix
     ];
 
   basic-pkgs.enable = true;
-# qtilewm-pkgs.enable = true;
+  qtilewm-pkgs.enable = false;
 
 # Bootloader.
   boot.loader.systemd-boot.enable = true;
