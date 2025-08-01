@@ -3,6 +3,15 @@
 {
   imports = [ ./hardware-configuration.nix ];
 
+  boot.kernelPackages = pkgs.linuxPackages_6_8; # Or 6.6, 6.1
+
+    services.xserver.videoDrivers = [ "nvidia" ];
+  hardware.nvidia = {
+    modesetting.enable = true;
+    powerManagement.enable = true;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
+  };
+
 # Boot Configuration
   boot = {
     loader = {
