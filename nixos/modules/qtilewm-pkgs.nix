@@ -156,16 +156,6 @@ in {
       };
     };
 
-    services.displayManager = {
-      defaultSession = "budgie-desktop";
-    };
-# Environment variables
-    environment.variables = {
-      QT_QPA_PLATFORM = "xcb";
-      SDL_VIDEODRIVER = "x11";
-      XDG_CURRENT_DESKTOP = "qtile";
-    };
-
 # Configure XDG portals
     xdg.portal = {
       enable = true;
