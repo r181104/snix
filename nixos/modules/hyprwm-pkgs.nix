@@ -9,10 +9,12 @@
   environment.systemPackages = with pkgs; [
 # Hyprland packages
     hyprland
+      hyprland-qtutils
       pyprland
       hypridle
       hyprlock
       hyprpicker
+      wayland-utils
       swaynotificationcenter
 
 # Desktop portals
