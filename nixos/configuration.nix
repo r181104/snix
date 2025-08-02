@@ -5,6 +5,7 @@
     [
     ./hardware-configuration.nix
       ./modules/bspwm.nix
+      ./modules/graphics.nix
     ];
 
   networking.hostName = "nix-hak";
