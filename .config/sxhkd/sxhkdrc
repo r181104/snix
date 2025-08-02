@@ -1,6 +1,15 @@
 super + Return
 	alacritty
 
+super + shift + Return
+	kitty
+
+super + b
+	brave
+
+super + e
+	thunar
+
 super + @space
 	rofi -show drun
 
@@ -15,9 +24,6 @@ super + {_,shift + }q
 
 super + shift + t
 	bspc desktop -l next
-
-super + b
-	brave
 
 super + {_,shift + }{1-9,0}
     bspc {desktop -f,node -d} ^{1-9,10} --follow

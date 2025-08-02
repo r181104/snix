@@ -9,5 +9,6 @@
       polybar
       rofi-wayland
       betterlockscreen
+      xfce.thunar
   ];
 }
