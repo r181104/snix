@@ -35,12 +35,13 @@
     dates = "weekly";
     options = "--delete-older-than 8";
   };
+
 # Shell configuration
   environment.shells = with pkgs; [ bash zsh ];
   users.defaultUserShell = pkgs.zsh;
   programs.zsh.enable = true;
-
   programs.firefox.enable = true;
+
 # To allow unfree for google-chrome 
   nixpkgs.config.allowUnfree = true;
   hardware.enableRedistributableFirmware = true;
@@ -59,17 +60,11 @@
       kdePackages.qt5compat
   ];
   services.xserver.desktopManager.budgie.enable = true;
-
-# Configure keymap in X11
   services.xserver.xkb = {
     layout = "us";
     variant = "";
   };
-
-# Enable CUPS to print documents.
   services.printing.enable = true;
-
-# Enable sound with pipewire.
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -80,14 +75,14 @@
     jack.enable = true;
     wireplumber.enable = true;
   };
-
+  services.openssh.enable = true;
   services.libinput.enable = true;
-# For Automounting usb's etc.
   services.udisks2.enable = true;
   services.udev.extraRules = ''
 # Example: Mount USB drives to /media/<label> automatically
     ACTION=="add", SUBSYSTEM=="block", ENV{ID_FS_USAGE}=="filesystem", RUN+="${pkgs.systemd}/bin/systemd-mount --no-block --automount=yes --collect $devnode /media/%E{ID_FS_LABEL}"
     '';
+
   security.polkit.enable = true;
 
   programs.mtr.enable = true;
@@ -96,7 +91,6 @@
     enableSSHSupport = true;
   };
 
-  services.openssh.enable = true;
   networking.firewall.enable = true;
 
 # $ nix search wget
