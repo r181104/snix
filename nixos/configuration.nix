@@ -17,7 +17,7 @@
     isNormalUser = true;
     shell = pkgs.zsh;
     description = "hack";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "input" ];
     packages = with pkgs; [
       bash
         zsh
