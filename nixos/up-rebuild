@@ -4,4 +4,6 @@ cp /etc/nixos/hardware-configuration.nix ~/snix/nixos/hardware-configuration.nix
 
 cd ~/snix/nixos/
 
+nix flake update
+
 sudo nixos-rebuild switch --upgrade --flake .#nix-hak
