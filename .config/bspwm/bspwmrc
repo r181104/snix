@@ -13,6 +13,7 @@ wal -R &
 pgrep -x sxhkd >/dev/null || sxhkd &
 pkill picom
 picom &
+libinput-gestures &
 jamesdsp --tray &
 ~/.config/polybar/launch.sh
 xset r rate 220 40
