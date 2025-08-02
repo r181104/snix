@@ -7,6 +7,7 @@
       feh
       picom
       polybar
+      pywal
       rofi-wayland
       i3lock-color
       papirus-icon-theme

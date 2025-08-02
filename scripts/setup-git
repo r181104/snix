@@ -16,7 +16,6 @@ fi
 # Check if SSH setup is already complete
 ssh_key="$HOME/.ssh/id_rsa"
 ssh_configured=true
-zsh_config="$HOME/.zshrc"
 
 # Check if SSH key exists
 if [ ! -f "$ssh_key" ]; then
@@ -27,11 +26,6 @@ fi
 current_url=$(git remote get-url origin 2>/dev/null)
 expected_url_prefix="git@github.com:$github_user/"
 if [[ "$current_url" != "$expected_url_prefix"* ]]; then
-  ssh_configured=false
-fi
-
-# Check if SSH agent is configured in Zsh
-if [ -f "$zsh_config" ] && ! grep -q "ssh-agent" "$zsh_config"; then
   ssh_configured=false
 fi
 
@@ -95,21 +89,6 @@ if [ $? -eq 0 ]; then
 else
   echo "Failed to update remote URL."
   exit 1
-fi
-
-# Configure SSH agent in Zsh config
-if [ -f "$zsh_config" ] && ! grep -q "ssh-agent" "$zsh_config"; then
-  echo "Adding SSH agent to $zsh_config..."
-  cat >>"$zsh_config" <<'EOF'
-
-# SSH Agent configuration
-if [ -z "$SSH_AUTH_SOCK" ]; then
-  eval "$(ssh-agent -s)" >/dev/null 2>&1
-  ssh-add ~/.ssh/id_rsa >/dev/null 2>&1
-fi
-EOF
-else
-  echo "SSH agent already configured in $zsh_config."
 fi
 
 # Start SSH agent and add key
