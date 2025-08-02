@@ -4,5 +4,6 @@
     bspwm
       sxhkd
       feh
+      polybar
   ];
 }
