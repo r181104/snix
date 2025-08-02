@@ -171,6 +171,7 @@
       kdePackages.qtsvg
       kdePackages.qtdeclarative
       kdePackages.qt5compat
+      ollama
       (pkgs.git.override { withLibsecret = false; })
       ];
 
