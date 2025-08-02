@@ -158,7 +158,7 @@ alias wq='bash ~/sqtile/scripts/wset'
 alias wh='bash ~/shypr/scripts/wset'
 
 alias random-lock='betterlockscreen -u ~/Wallpapers/Pictures --fx blur -l'
-alias op-net='bash ~/starchy/scripts/optimize-network'
+alias op-net='bash ~/snix/scripts/optimize-network'
 
 # ==========================================
 #           FILE OPERATIONS
