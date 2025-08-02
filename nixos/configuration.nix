@@ -158,10 +158,7 @@
       brave
       jamesdsp
       nodePackages_latest.nodejs
-      qt6.qtbase
-      qt6.qtvirtualkeyboard
-      qt6.qtmultimedia
-      qt6.qtmultimedia.ffmpeg
+      sddm-astronaut
       (pkgs.git.override { withLibsecret = false; })
       ];
 
