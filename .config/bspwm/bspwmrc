@@ -9,6 +9,7 @@ xset s off
 xset s noblank
 xset -dpms
 xss-lock -- betterlockscreen &
+wal -R &
 pgrep -x sxhkd >/dev/null || sxhkd &
 pkill picom
 picom &
