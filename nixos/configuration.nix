@@ -7,23 +7,23 @@
 {
   imports =
     [
-      ./hardware-configuration.nix
+    ./hardware-configuration.nix
     ];
 
   networking.hostName = "nix-hak";
   programs.nm-applet.enable = true;
   networking.networkmanager.enable = true;
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
+# Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.hack = {
     isNormalUser = true;
     shell = pkgs.zsh;
     description = "hack";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
-	bash
-	zsh
-	tree
+      bash
+        zsh
+        tree
     ];
   };
 
@@ -32,7 +32,7 @@
   boot.loader.systemd-boot.configurationLimit = 8;
   boot.loader.efi.canTouchEfiVariables = true;
 
- nix.gc = {
+  nix.gc = {
     automatic = true;
     dates = "weekly";
     options = "--delete-older-than 8";
@@ -47,10 +47,10 @@
   nixpkgs.config.allowUnfree = true;
   hardware.enableRedistributableFirmware = true;
 
-  # Set your time zone.
+# Set your time zone.
   time.timeZone = "Asia/Kolkata";
 
-  # Select internationalisation properties.
+# Select internationalisation properties.
   i18n.defaultLocale = "en_IN";
 
   i18n.extraLocaleSettings = {
@@ -65,24 +65,24 @@
     LC_TIME = "en_IN";
   };
 
-  # Enable the X11 windowing system.
+# Enable the X11 windowing system.
   services.xserver.enable = true;
 
-  # Enable the Deepin Desktop Environment.
+# Enable the Deepin Desktop Environment.
   services.displayManager.sddm.enable = true;
   services.displayManager.sddm.wayland.enable = true;
   services.xserver.desktopManager.budgie.enable = true;
 
-  # Configure keymap in X11
+# Configure keymap in X11
   services.xserver.xkb = {
     layout = "us";
     variant = "";
   };
 
-  # Enable CUPS to print documents.
+# Enable CUPS to print documents.
   services.printing.enable = true;
 
-  # Enable sound with pipewire.
+# Enable sound with pipewire.
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -103,27 +103,29 @@
     '';
   security.polkit.enable = true;
 
-  # $ nix search wget
+# $ nix search wget
   environment.systemPackages = with pkgs; [
     vim
-    wget
-    stow
-	gitFull
-	curl
-	neovim
-	tmux
-	alacritty
-	ghostty
-	foot
-	kitty
-	nodePackages_latest.nodejs
+      wget
+      stow
+      gitFull
+      curl
+      neovim
+      tmux
+      alacritty
+      ghostty
+      foot
+      kitty
+      fzf
+      zoxide
+      nodePackages_latest.nodejs
   ];
 
- programs.mtr.enable = true;
- programs.gnupg.agent = {
-   enable = true;
-   enableSSHSupport = true;
- };
+  programs.mtr.enable = true;
+  programs.gnupg.agent = {
+    enable = true;
+    enableSSHSupport = true;
+  };
 
   services.openssh.enable = true;
   networking.firewall.enable = true;
