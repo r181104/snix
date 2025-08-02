@@ -5,6 +5,7 @@
     bspwm
       sxhkd
       feh
+      picom
       polybar
       rofi-wayland
       betterlockscreen
