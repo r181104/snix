@@ -4,6 +4,7 @@
   imports =
     [
     ./hardware-configuration.nix
+      ./modules/bspwm.nix
     ];
 
   networking.hostName = "nix-hak";
