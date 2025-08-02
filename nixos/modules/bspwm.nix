@@ -8,7 +8,7 @@
       picom
       polybar
       rofi-wayland
-      betterlockscreen
+      i3lock-color
       papirus-icon-theme
       xfce.thunar
   ];
