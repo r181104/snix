@@ -6,5 +6,7 @@
       sxhkd
       feh
       polybar
+      rofi-wayland
+      betterlockscreen
   ];
 }

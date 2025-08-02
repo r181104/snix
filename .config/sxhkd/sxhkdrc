@@ -15,3 +15,6 @@ super + {_,shift + }q
 
 super + shift + t
 	bspc desktop -l next
+
+super + b
+	brave
