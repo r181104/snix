@@ -95,7 +95,7 @@
     vim
       wget
       stow
-      gitFull
+      (pkgs.git.override { withLibsecret = false; })
       curl
       neovim
       tmux
