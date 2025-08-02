@@ -1,9 +1,9 @@
 { config, pkgs, ... }:
 
 {
-  services.xserver.videoDrivers = [ "nvidia" ];
-  hardware.opengl.enable = true;
-  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
-  boot.kernelParams = [ "nomodeset" ];
+  hardware.graphics.enable = true;
+  hardware.nvidia.open = true;
   hardware.nvidia.modesetting.enable = true;
+  services.xserver.videoDrivers = [ "nvidia" ];
+  boot.kernelParams = [ "nomodeset" ];
 }
