@@ -136,7 +136,6 @@
       rsync
       unzip
       zip
-      tar
       gzip
       p7zip
       black
@@ -154,7 +153,6 @@
       python3Full
       powerline-fonts
       nitch
-      linux-headers
       nodePackages_latest.nodejs
       (pkgs.git.override { withLibsecret = false; })
       ];
