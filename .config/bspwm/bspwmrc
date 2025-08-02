@@ -4,7 +4,7 @@
 pgrep -x sxhkd >/dev/null || sxhkd &
 pkill picom
 picom &
-# feh --bg-fill ~/Wallpapers/
+feh --bg-fill ~/Wallpapers/Pictures/Anime-Girl4.png
 ~/.config/polybar/launch.sh
 
 # Monitor
