@@ -95,7 +95,6 @@
     vim
       wget
       stow
-      (pkgs.git.override { withLibsecret = false; })
       curl
       neovim
       tmux
@@ -105,7 +104,11 @@
       kitty
       fzf
       zoxide
+      lazygit
+      wl-clipboard 
+      openssh
       nodePackages_latest.nodejs
+      (pkgs.git.override { withLibsecret = false; })
   ];
 
 # Set your time zone.
