@@ -151,14 +151,8 @@ alias restart-dm='systemctl restart display-manager'
 # ==========================================
 #           PACKAGE MANAGEMENT
 # ==========================================
-# Arch Linux package management shortcuts
-alias i='paru --noconfirm -S --needed'
-alias u='paru --noconfirm -Syu'
-alias r='paru -Rns'
-alias remove-orphaned='sudo pacman -Rns $(pacman -Qtdq) && paru -Rns $(pacman -Qtdq)'
-alias s='paru -Ss'
-alias aggressively-clear-cache='sudo pacman -Scc && paru -Scc'
-alias clear-cache='sudo pacman -Sc && paru -Sc'
+alias rebel='bash ~/snix/nixos/rebuild'
+alias uprebel='bash ~/snix/nixos/up-rebuild'
 
 alias wq='bash ~/sqtile/scripts/wset'
 alias wh='bash ~/shypr/scripts/wset'
