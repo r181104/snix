@@ -9,6 +9,7 @@
       polybar
       rofi-wayland
       betterlockscreen
+      papirus-icon-theme
       xfce.thunar
   ];
 }
