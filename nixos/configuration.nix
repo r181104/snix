@@ -45,12 +45,19 @@
   nixpkgs.config.allowUnfree = true;
   hardware.enableRedistributableFirmware = true;
 
-# Enable the X11 windowing system.
   services.xserver.enable = true;
-
-# Enable the Deepin Desktop Environment.
-  services.displayManager.sddm.enable = true;
-  services.displayManager.sddm.wayland.enable = true;
+  services.displayManager.sddm = {
+    enable = true;
+    package = pkgs.kdePackages.sddm;
+    wayland.enable = true;
+    theme = "sddm-astronaut-theme";
+  };
+  services.displayManager.sddm.extraPackages = with pkgs; [
+    kdePackages.qtmultimedia
+      kdePackages.qtsvg
+      kdePackages.qtdeclarative
+      kdePackages.qt5compat
+  ];
   services.xserver.desktopManager.budgie.enable = true;
 
 # Configure keymap in X11
@@ -159,6 +166,10 @@
       jamesdsp
       nodePackages_latest.nodejs
       sddm-astronaut
+      kdePackages.qtmultimedia
+      kdePackages.qtsvg
+      kdePackages.qtdeclarative
+      kdePackages.qt5compat
       (pkgs.git.override { withLibsecret = false; })
       ];
 
