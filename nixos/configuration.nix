@@ -153,6 +153,8 @@
       python3Full
       powerline-fonts
       nitch
+      brave
+      jamesdsp
       nodePackages_latest.nodejs
       (pkgs.git.override { withLibsecret = false; })
       ];
