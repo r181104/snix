@@ -1,6 +1,9 @@
 #!/bin/sh
 
 # Autostart
+xrandr --output eDP-1 --mode "1920x1080" --rate "60.01"
+# xrandr --output DP-0 --mode "1920x1080" --rate "60.01"
+# xrandr --output HDMI-0 --mode "1920x1080" --rate "60.01"
 pgrep -x sxhkd >/dev/null || sxhkd &
 pkill picom
 picom &
