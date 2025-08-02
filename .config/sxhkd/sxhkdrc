@@ -27,3 +27,6 @@ super + {j,k}
 
 super + shift + Tab
     bspc node -d last.occupied --follow
+
+super + f  
+    bspc node -t ~fullscreen
