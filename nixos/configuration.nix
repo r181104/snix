@@ -169,6 +169,7 @@
       kdePackages.qt5compat
       ollama
       libinput-gestures
+      bibata-cursors
       (pkgs.git.override { withLibsecret = false; })
       ];
 

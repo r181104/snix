@@ -9,6 +9,8 @@ xset s off
 xset s noblank
 xset -dpms
 xss-lock -- betterlockscreen &
+xsetroot -cursor_name left_ptr
+xsetroot -xcf /run/current-system/sw/share/icons/Bibata-Modern-Classic/cursors/left_ptr 30
 wal -R &
 pgrep -x sxhkd >/dev/null || sxhkd &
 pkill picom
