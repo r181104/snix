@@ -166,6 +166,8 @@
       kdePackages.qtdeclarative
       kdePackages.qt5compat
       ollama
+      libinput
+      libinput-gestures
       (pkgs.git.override { withLibsecret = false; })
       ];
 
