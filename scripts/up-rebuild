@@ -8,4 +8,4 @@ nix flake update
 
 sudo nixos-rebuild switch --upgrade --flake .#nix-hak
 
-nix flake update
+nix store optimise
