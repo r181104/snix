@@ -17,7 +17,7 @@ pkill picom
 picom &
 libinput-gestures &
 jamesdsp --tray &
-~/.config/polybar/launch.sh
+~/snix/scripts/launch-poly
 xset r rate 220 40
 
 # Monitor
