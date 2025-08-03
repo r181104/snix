@@ -153,6 +153,7 @@ alias restart-dm='systemctl restart display-manager'
 # ==========================================
 alias rebel='bash ~/snix/nixos/rebuild'
 alias uprebel='bash ~/snix/nixos/up-rebuild'
+alias cwifi='bash ~/snix/scripts/cwifi'
 
 alias wq='bash ~/sqtile/scripts/wset'
 alias wh='bash ~/shypr/scripts/wset'
