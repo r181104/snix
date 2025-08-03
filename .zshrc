@@ -151,8 +151,8 @@ alias restart-dm='systemctl restart display-manager'
 # ==========================================
 #           PACKAGE MANAGEMENT
 # ==========================================
-alias rebel='bash ~/snix/nixos/rebuild'
-alias uprebel='bash ~/snix/nixos/up-rebuild'
+alias rebel='bash ~/snix/scripts/rebuild'
+alias uprebel='bash ~/snix/scripts/up-rebuild'
 alias cwifi='bash ~/snix/scripts/cwifi'
 
 alias wq='bash ~/sqtile/scripts/wset'
