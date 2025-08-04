@@ -180,18 +180,52 @@ tnoremap <Esc> <C-\><C-n>
 " Special Toggles
 nnoremap <leader>l :set list!<CR>  " Toggle invisible chars
 
+" ==== COMMENTING/UNCOMMENTING ====
+function! ToggleComment()
+  let comment_map = {
+        \ 'vim': '"',
+        \ 'python': '#',
+        \ 'sh': '#',
+        \ 'nix': '#',
+        \ 'zsh': '#',
+        \ 'javascript': '//',
+        \ 'typescript': '//',
+        \ 'c': '//',
+        \ 'cpp': '//',
+        \ 'go': '//',
+        \ 'lua': '--',
+        \ 'sql': '--',
+        \ 'ruby': '#',
+        \ 'yaml': '#',
+        \ 'conf': '#',
+        \ 'fstab': '#',
+        \ 'bash': '#',
+        \ 'make': '#',
+        \ 'cmake': '#'
+        \ }
+
+  let comment = get(comment_map, &filetype, '#')
+  let regex = '^\s*' . comment . '\s\?'
+  let line = getline('.')
+
+  if line =~ regex
+    execute 's/' . regex . '//'
+  else
+    execute 's/^/' . comment . ' /'
+  endif
+endfunction
+
+" Standard commenting keybinds
+nnoremap gcc :call ToggleComment()<CR>
+vnoremap gc :call ToggleComment()<CR>
+
 " ==== AUTOCOMMANDS ====
 " Persistent cursor position
 augroup vimrc_autocmds
   autocmd!
   autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g'\"" | endif
-  " Auto-remove trailing whitespace
   autocmd BufWritePre * %s/\s\+$//e
-  " Auto-resize splits
   autocmd VimResized * wincmd =
-  " Filetype-specific settings
-  autocmd FileType markdown setlocal wrap linebreak
-  autocmd FileType gitcommit setlocal spell
 augroup END
 
 " ==== ADVANCED SETTINGS ====
