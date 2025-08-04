@@ -6,6 +6,7 @@
       sxhkd
       feh
       picom
+      dunst
       polybar
       pywal
       rofi-wayland
