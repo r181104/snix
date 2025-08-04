@@ -1,7 +1,10 @@
 #!/bin/sh
 
 # Autostart
-xrandr -s 1920x1080_60.01
+xrandr --output eDP-1 --mode 1920x1080 --rate 60.01
+xrandr --output eDP-2 --mode 1920x1080 --rate 60.01
+xrandr --output DP-0 --mode 1920x1080 --rate 60.01
+xrandr --output HDMI-0 --mode 1920x1080 --rate 60.01
 xset s off
 xset s noblank
 xset -dpms
