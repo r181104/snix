@@ -225,7 +225,6 @@ augroup vimrc_autocmds
   autocmd!
   autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g'\"" | endif
   autocmd BufWritePre * %s/\s\+$//e
-  autocmd VimResized * wincmd =
 augroup END
 
 " ==== ADVANCED SETTINGS ====
