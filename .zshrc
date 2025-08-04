@@ -155,8 +155,9 @@ alias rebel='bash ~/snix/scripts/rebuild'
 alias uprebel='bash ~/snix/scripts/up-rebuild'
 alias cwifi='bash ~/snix/scripts/cwifi'
 
-alias wq='bash ~/sqtile/scripts/wset'
-alias wh='bash ~/shypr/scripts/wset'
+alias wq='~/sqtile/scripts/wset'
+alias wh='~/shypr/scripts/wset'
+alias wb='~/snix/scripts/wset'
 
 alias random-lock='betterlockscreen -u ~/Wallpapers/Pictures --fx blur -l'
 alias op-net='bash ~/snix/scripts/optimize-network'

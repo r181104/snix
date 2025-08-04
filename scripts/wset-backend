@@ -15,6 +15,9 @@ wal -i "$IMAGE" -n -s -t -e
 
 # python3 "$HOME/.config/nvim/pywal/chadwal.py"
 
+bspc wm -r
+bspc wm --restart
+
 ~/snix/scripts/launch-poly
 ~/snix/scripts/ref-dunst
 
