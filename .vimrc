@@ -53,9 +53,8 @@ set number            " Show absolute line numbers
 set relativenumber    " Show relative numbers (hybrid mode)
 set cursorline        " Highlight current line
 set scrolloff=8       " Keep 8 lines above/below cursor
-set nowrap            " No line wrapping
+set wrap              " Line wrapping enabled
 set textwidth=0       " Disable automatic line breaking
-" set colorcolumn=100   " Show right margin at column 100
 set showcmd           " Show command in bottom bar
 set showmatch         " Highlight matching brackets
 set signcolumn=yes    " Always show sign column
@@ -86,10 +85,6 @@ let mapleader=" "     " Space as leader key
 
 " Navigation
 nnoremap <leader>h :nohl<CR>     " Clear search highlights
-nnoremap <C-j> 5j                " Supercharged vertical nav
-nnoremap <C-k> 5k
-vnoremap <C-j> 5j
-vnoremap <C-k> 5k
 
 " Buffer management
 nnoremap <leader>bn :bnext<CR>   " Next buffer
@@ -97,8 +92,6 @@ nnoremap <leader>bp :bprev<CR>   " Previous buffer
 nnoremap <leader>bd :bdelete<CR> " Close buffer
 
 " Window control
-nnoremap <C-h> <C-w>h            " Move between windows
-nnoremap <C-l> <C-w>l
 nnoremap <leader>sv <C-w>v<C-w>l " Vertical split
 nnoremap <leader>sh <C-w>s       " Horizontal split
 
