@@ -47,7 +47,6 @@
   hardware.enableRedistributableFirmware = true;
 
   services.xserver.enable = true;
-  services.dunst.enable = true;
   services.displayManager.sddm = {
     enable = true;
     package = pkgs.kdePackages.sddm;
