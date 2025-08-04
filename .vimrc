@@ -128,9 +128,6 @@ nnoremap <C-j> <C-w>j                    " Move [j] down
 nnoremap <C-k> <C-w>k                    " Move [k] up
 nnoremap <C-l> <C-w>l                    " Move [l] right
 
-" Git integration (fallback without plugins)
-nnoremap <leader>git :!git status<CR>    " [git] status (shell fallback)
-
 " ==== COMMENTING/UNCOMMENTING (PLUGIN-FREE) ====
 " Toggle comments for multiple filetypes
 function! ToggleComment()
@@ -138,6 +135,7 @@ function! ToggleComment()
         \ 'vim': '"',
         \ 'python': '#',
         \ 'sh': '#',
+        \ 'nix': '#',
         \ 'zsh': '#',
         \ 'javascript': '//',
         \ 'c': '//',
