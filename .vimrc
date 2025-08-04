@@ -102,159 +102,122 @@ if !has('gui_running')
     let g:onedark_white = "253"
   endif
 endif
-
 " ==== EDITING ESSENTIALS ====
-set number            " Show absolute line numbers
-set relativenumber    " Show relative numbers (hybrid mode)
+set number            " Absolute line numbers
+set relativenumber    " Hybrid line numbering
 set cursorline        " Highlight current line
-set scrolloff=8       " Keep 8 lines above/below cursor
-set wrap              " Line wrapping enabled
-set textwidth=0       " Disable automatic line breaking
-set showcmd           " Show command in bottom bar
+set scrolloff=8       " Context lines when scrolling
+set sidescrolloff=8   " Horizontal context
+set wrap              " Enable line wrapping
+set linebreak         " Wrap at word boundaries
+set showcmd           " Show command in status
 set showmatch         " Highlight matching brackets
 set signcolumn=yes    " Always show sign column
+set virtualedit=block " Allow free cursor movement in visual block
 
 " ==== INDENTATION & TABS ====
 set tabstop=4         " Visual spaces per TAB
-set shiftwidth=4      " Columns for auto-indent
-set softtabstop=4     " Spaces inserted when pressing TAB
+set shiftwidth=4      " Auto-indent width
+set softtabstop=4     " Spaces per TAB in insert
 set expandtab         " Convert tabs to spaces
 set smartindent       " Context-aware indenting
-set autoindent        " Carry indentation to new lines
+set autoindent        " Maintain indent level
 
 " ==== SEARCH BEHAVIOR ====
-set incsearch         " Show matches while typing
-set hlsearch          " Highlight all matches
+set incsearch         " Live search
+set hlsearch          " Highlight matches
 set ignorecase        " Case-insensitive search
-set smartcase         " Case-sensitive if uppercase used
+set smartcase         " Case-sensitive if uppercase
+set wrapscan          " Wrap around file
 
-" ==== PERFORMANCE TWEAKS ====
+" ==== PERFORMANCE OPTIMIZATIONS ====
 set noswapfile        " Disable swap files
-set undofile          " Persistent undo history
-set undodir=~/.vim/undo " Undo directory (create this folder!)
-set updatetime=100    " Faster UI updates
-set synmaxcol=300     " Limit syntax highlighting to 300 cols
+set undofile          " Persistent undo
+set undodir=~/.vim/undo " Undo storage
+set updatetime=50     " Faster UI response
+set synmaxcol=500     " Limit syntax to 500 cols
+set ttimeoutlen=10    " Faster mode switching
 
 " ==== KEY MAPPINGS ====
-let mapleader=" "     " Space as leader key
+let mapleader=" "     " Space as leader
 
-" Navigation
-nnoremap <leader>h :nohl<CR>     " Clear search highlights
+" Navigation & UI
+nnoremap <silent> <leader>h :nohl<CR>
 nnoremap <leader>e :Explore<CR>
+nnoremap <leader>? :echo "Space-w: Save\nSpace-q: Quit\njk: Escape\nSpace-y: Yank\nSpace-t: Terminal\nSpace-l: Toggle list\nCtrl+hjkl: Window nav"<CR>
 
-" Buffer management
-nnoremap <leader>bn :bnext<CR>   " Next buffer
-nnoremap <leader>bp :bprev<CR>   " Previous buffer
-nnoremap <leader>bd :bdelete<CR> " Close buffer
+" Buffer Management
+nnoremap <leader>bn :bnext<CR>
+nnoremap <leader>bp :bprev<CR>
+nnoremap <leader>bd :bdelete<CR>
 
-" Window control
-nnoremap <leader>sv <C-w>v<C-w>l " Vertical split
-nnoremap <leader>sh <C-w>s       " Horizontal split
+" Window Control
+nnoremap <leader>sv <C-w>v<C-w>l
+nnoremap <leader>sh <C-w>s
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
 
-" Quality of life
-nnoremap Y y$                    " Yank to end of line
-nnoremap n nzzzv                 " Center search results
+" Quality of Life
+nnoremap Y y$
+nnoremap n nzzzv
 nnoremap N Nzzzv
-" nnoremap <leader>y :w !xclip -sel clip<CR><CR>
 vnoremap <leader>y :w !xclip -sel clip<CR><CR>
+nnoremap <leader>w :write<CR>
+nnoremap <leader>q :quit<CR>
 
-" File operations
-nnoremap <leader>w :write<CR>    " Save file
-nnoremap <leader>q :quit<CR>     " Quit window
-
-" Universal escape
-inoremap jk <Esc>                " Insert mode
-vnoremap jk <Esc>                " Visual mode
-cnoremap jk <C-c>                " Command mode
-tnoremap jk <C-\><C-n>           " Terminal mode
+" Universal Escape
+inoremap jk <Esc>
+vnoremap jk <Esc>
+cnoremap jk <C-c>
+tnoremap jk <C-\><C-n>
 
 " Terminal
-nnoremap <leader>ter :terminal<CR>
-tnoremap <Esc> <C-\><C-n>        " Escape terminal mode
+nnoremap <leader>t :terminal<CR>
+tnoremap <Esc> <C-\><C-n>
 
-" Window navigation
-nnoremap <C-h> <C-w>h            " Move left
-nnoremap <C-j> <C-w>j            " Move down
-nnoremap <C-k> <C-w>k            " Move up
-nnoremap <C-l> <C-w>l            " Move right
+" Special Toggles
+nnoremap <leader>l :set list!<CR>  " Toggle invisible chars
 
-" ==== COMMENTING/UNCOMMENTING ====
-function! ToggleComment()
-  let comment_map = {
-        \ 'vim': '"',
-        \ 'python': '#',
-        \ 'sh': '#',
-        \ 'nix': '#',
-        \ 'zsh': '#',
-        \ 'javascript': '//',
-        \ 'typescript': '//',
-        \ 'c': '//',
-        \ 'cpp': '//',
-        \ 'go': '//',
-        \ 'lua': '--',
-        \ 'sql': '--',
-        \ 'ruby': '#',
-        \ 'yaml': '#',
-        \ 'conf': '#',
-        \ 'fstab': '#',
-        \ 'bash': '#',
-        \ 'make': '#',
-        \ 'cmake': '#'
-        \ }
-
-  let comment = get(comment_map, &filetype, '#')
-  let regex = '^\s*' . comment . '\s\?'
-  let line = getline('.')
-
-  if line =~ regex
-    execute 's/' . regex . '//'
-  else
-    execute 's/^/' . comment . ' /'
-  endif
-endfunction
-
-" Standard commenting keybinds
-nnoremap gcc :call ToggleComment()<CR>
-vnoremap gc :call ToggleComment()<CR>
-
-" ==== KEYBIND HELP ====
-nnoremap <leader>? :echo "
-      \ Space-w: Save file\n
-      \ Space-q: Quit window\n
-      \ jk: Universal escape\n
-      \ Space-y: Yank to clipboard\n
-      \ Space-ter: Open terminal\n
-      \ gcc/gc: Toggle comments\n
-      \ Ctrl+h/j/k/l: Window nav\n
-      \ Space-bn/bp/bd: Buffer nav\n
-      \"<CR>
-
-" ==== ADVANCED FEATURES ====
+" ==== AUTOCOMMANDS ====
 " Persistent cursor position
-autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g'\"" | endif
+augroup vimrc_autocmds
+  autocmd!
+  autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g'\"" | endif
+  " Auto-remove trailing whitespace
+  autocmd BufWritePre * %s/\s\+$//e
+  " Auto-resize splits
+  autocmd VimResized * wincmd =
+  " Filetype-specific settings
+  autocmd FileType markdown setlocal wrap linebreak
+  autocmd FileType gitcommit setlocal spell
+augroup END
 
-" Auto-remove trailing whitespace
-autocmd BufWritePre * %s/\s\+$//e
+" ==== ADVANCED SETTINGS ====
+" Invisible chars configuration
+set listchars=tab:▸\ ,trail:•,nbsp:+,extends:»,precedes:«
+set fillchars=vert:│,fold:·
 
-" Custom status line
+" Improved status line
 set laststatus=2
 set statusline=
 set statusline+=%#PmenuSel#                     " Color
+set statusline+=\ %{toupper(mode())}\           " Mode indicator
 set statusline+=\ %f\                           " Filename
 set statusline+=%m%r%h%w                        " Flags
 set statusline+=%=                              " Right align
 set statusline+=[%{&ff}]                        " File format
-set statusline+=\ [%Y]                          " File type
-set statusline+=\ [%04l/%04L]                   " Line numbers
+set statusline+=\ ◊\ %Y                         " File type
+set statusline+=\ %04l:%-4c\                    " Line:Column
+set statusline+=\ %3p%%                         " Percentage
 
-" ==== TERMINAL COMPATIBILITY ====
-if !has('gui_running')
-  set t_Co=256
-  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+" Completion menu
+set wildmenu
+set wildmode=longest:full,full
+set wildignore=*.o,*~,*.pyc,*.class
 
-  " Set terminal cursor shape (may not work in all terminals)
-  let &t_SI = "\<Esc>[6 q"  " Solid block in insert mode
-  let &t_SR = "\<Esc>[4 q"  " Underline in replace mode
-  let &t_EI = "\<Esc>[2 q"  " Block in normal mode
+" Mouse support (optional)
+if has('mouse')
+  set mouse=a
 endif
