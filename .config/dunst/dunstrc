@@ -1,11 +1,8 @@
 [global]
-  # Position & Geometry
   monitor = 0
   follow = mouse
   origin = top-right
-  offset = 15,15
   width = 350
-  height = 0 300
   progress_bar = true
   progress_bar_height = 10
   progress_bar_frame_width = 1
@@ -17,13 +14,11 @@
   line_height = 3
   padding = 12
   horizontal_padding = 12
-  frame_width = 2
   separator_height = 2
   separator_color = "frame"
-  
+
   # Icons (moved to global section)
   icon_theme = Papirus-Dark
-  icon_theme_size = 48
 
   # Mouse actions (moved to global section)
   mouse_middle_click = close_current

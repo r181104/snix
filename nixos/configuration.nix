@@ -42,11 +42,12 @@
   programs.zsh.enable = true;
   programs.firefox.enable = true;
 
-# To allow unfree for google-chrome 
+# To allow unfree for google-chrome
   nixpkgs.config.allowUnfree = true;
   hardware.enableRedistributableFirmware = true;
 
   services.xserver.enable = true;
+  services.dunst.enable = true;
   services.displayManager.sddm = {
     enable = true;
     package = pkgs.kdePackages.sddm;
@@ -111,7 +112,7 @@
       fzf
       zoxide
       lazygit
-      wl-clipboard 
+      wl-clipboard
       bc
       xclip
       xdg-utils
@@ -170,6 +171,7 @@
       ollama
       libinput-gestures
       bibata-cursors
+      killall
       (pkgs.git.override { withLibsecret = false; })
       ];
 
