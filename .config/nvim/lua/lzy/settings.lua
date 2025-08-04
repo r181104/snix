@@ -67,7 +67,7 @@ opt.undofile = true -- Enable persistent undo
 -- --------------------------------------------------------------------------
 -- Search Highlighting
 -- --------------------------------------------------------------------------
-opt.hlsearch = false -- Don't highlight all search matches
+opt.hlsearch = true -- Don't highlight all search matches
 opt.incsearch = true -- Show matches as you type
 
 -- --------------------------------------------------------------------------
