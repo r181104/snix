@@ -103,18 +103,6 @@ if !has('gui_running')
   endif
 endif
 
-" ==== CLIPBOARD FIX ====
-" Ensure clipboard works properly
-if has('clipboard') || has('unnamedplus')
-  set clipboard=unnamedplus  " Use system clipboard by default
-  nnoremap <leader>y "+y
-  vnoremap <leader>y "+y
-else
-  " Fallback for systems without clipboard support
-  nnoremap <leader>y :echo "Clipboard not supported!"<CR>
-  vnoremap <leader>y :<C-u>echo "Clipboard not supported!"<CR>
-endif
-
 " ==== EDITING ESSENTIALS ====
 set number            " Show absolute line numbers
 set relativenumber    " Show relative numbers (hybrid mode)
@@ -152,6 +140,7 @@ let mapleader=" "     " Space as leader key
 
 " Navigation
 nnoremap <leader>h :nohl<CR>     " Clear search highlights
+nnoremap <leader>e :Explore<CR>
 
 " Buffer management
 nnoremap <leader>bn :bnext<CR>   " Next buffer
@@ -166,6 +155,8 @@ nnoremap <leader>sh <C-w>s       " Horizontal split
 nnoremap Y y$                    " Yank to end of line
 nnoremap n nzzzv                 " Center search results
 nnoremap N Nzzzv
+" nnoremap <leader>y :w !xclip -sel clip<CR><CR>
+vnoremap <leader>y :w !xclip -sel clip<CR><CR>
 
 " File operations
 nnoremap <leader>w :write<CR>    " Save file
