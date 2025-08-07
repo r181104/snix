@@ -4,8 +4,8 @@
   imports =
     [
     ./hardware-configuration.nix
-    ./modules/bspwm.nix
-    ./modules/graphics.nix
+      ./modules/bspwm.nix
+      ./modules/graphics.nix
     ];
 
   networking.hostName = "nix-hak";
@@ -171,7 +171,6 @@
       libinput-gestures
       bibata-cursors
       killall
-      cope
       (pkgs.git.override { withLibsecret = false; })
       ];
 
