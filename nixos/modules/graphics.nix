@@ -1,23 +1,18 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
-  services.xserver.videoDrivers = [ "modesetting" "nvidia" ];
-  hardware.nvidia = {
-    open = false;
-    modesetting.enable = true;
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
-    powerManagement.enable = true;
-    prime = {
-      offload = {
-        enable = true;
-        enableOffloadCmd = true;
-      };
-      intelBusId = "PCI:0:2:0";
-      nvidiaBusId = "PCI:1:0:0";
+    hardware.nvidia.open = false;
+    hardware.nvidia.prime = {
+        intelBusId = "PCI:0@0:2:0";
+        nvidiaBusId = "PCI:0@1:0:0";
+        offload.enable = true;
     };
-  };
-  hardware.opengl = {
-    enable = true;
-  };
-  powerManagement.enable = true;
+    hardware.nvidia = {
+    nvidiaSettings = true;
+    modesetting.enable = true;
+    forceFullCompositionPipeline = true;
+    };
+  boot.extraModulePackages = [ pkgs.linuxPackages.nvidia_x11 ];
+  boot.blacklistedKernelModules = [ "nouveau" "nvidia_drm" "nvidia_modeset" "nvidia" ];
+  environment.systemPackages = [ pkgs.linuxPackages.nvidia_x11 ];
 }
