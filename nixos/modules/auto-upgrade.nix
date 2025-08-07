@@ -4,7 +4,10 @@
     system.autoUpgrade = {
         enable = true;
         flake = "path:./flake.nix";
-        flags = [];
+        flags = [
+            "--recreate-lock-file"
+            "--commit-lock-file"
+        ];
         dates = "01:00";
     };
 }
