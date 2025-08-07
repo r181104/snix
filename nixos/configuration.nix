@@ -10,10 +10,9 @@
     ];
 
   networking.hostName = "nix-hak";
-  programs.nm-applet.enable = true;
   networking.networkmanager.enable = true;
+  networking.firewall.enable = true;
 
-# Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.hack = {
     isNormalUser = true;
     shell = pkgs.zsh;
@@ -25,8 +24,8 @@
         tree
     ];
   };
+  users.defaultUserShell = pkgs.zsh;
 
-# Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.systemd-boot.configurationLimit = 8;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -37,71 +36,24 @@
     options = "--delete-older-than 8";
   };
 
-# Shell configuration
   environment.shells = with pkgs; [ bash zsh ];
-  users.defaultUserShell = pkgs.zsh;
   programs.zsh.enable = true;
   programs.firefox.enable = true;
-
-# To allow unfree for google-chrome
-  nixpkgs.config.allowUnfree = true;
-  hardware.enableRedistributableFirmware = true;
-
-  services.xserver.enable = true;
-  services.displayManager.sddm = {
-    enable = true;
-    package = pkgs.kdePackages.sddm;
-    wayland.enable = true;
-    theme = "sddm-astronaut-theme";
-  };
-  services.displayManager.sddm.extraPackages = with pkgs; [
-    kdePackages.qtmultimedia
-      kdePackages.qtsvg
-      kdePackages.qtdeclarative
-      kdePackages.qt5compat
-  ];
-  services.xserver.desktopManager.budgie.enable = true;
-  services.xserver.xkb = {
-    layout = "us";
-    variant = "";
-  };
-  services.printing.enable = true;
-  services.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    jack.enable = true;
-    wireplumber.enable = true;
-  };
-  services.openssh.enable = true;
-  services.libinput.enable = true;
-  services.udisks2.enable = true;
-  services.udev.extraRules = ''
-# Example: Mount USB drives to /media/<label> automatically
-    ACTION=="add", SUBSYSTEM=="block", ENV{ID_FS_USAGE}=="filesystem", RUN+="${pkgs.systemd}/bin/systemd-mount --no-block --automount=yes --collect $devnode /media/%E{ID_FS_LABEL}"
-# Allow input group to access input devices
-    KERNEL=="event*", NAME="input/%k", MODE="660", GROUP="input"
-    '';
-
-  security.polkit.enable = true;
-
   programs.mtr.enable = true;
   programs.gnupg.agent = {
     enable = true;
     enableSSHSupport = true;
   };
+  programs.nm-applet.enable = true;
 
-  networking.firewall.enable = true;
+  nixpkgs.config.allowUnfree = true;
+  hardware.enableRedistributableFirmware = true;
 
-# Set your time zone.
+  security.polkit.enable = true;
+  security.rtkit.enable = true;
+
   time.timeZone = "Asia/Kolkata";
-
-# Select internationalisation properties.
   i18n.defaultLocale = "en_IN";
-
   i18n.extraLocaleSettings = {
     LC_ADDRESS = "en_IN";
     LC_IDENTIFICATION = "en_IN";
@@ -113,9 +65,7 @@
     LC_TELEPHONE = "en_IN";
     LC_TIME = "en_IN";
   };
-
   system.stateVersion = "25.05";
-
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
 }
