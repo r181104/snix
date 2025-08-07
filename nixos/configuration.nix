@@ -171,6 +171,7 @@
       libinput-gestures
       bibata-cursors
       killall
+      cope
       (pkgs.git.override { withLibsecret = false; })
       ];
 
