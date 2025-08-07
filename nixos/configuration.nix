@@ -8,12 +8,15 @@
       ./modules/graphics.nix
       ./modules/basic-pkgs.nix
       ./modules/services.nix
+      ./modules/security.nix
+      ./modules/auto-upgrade.nix
     ];
 
   networking.hostName = "nix-hak";
   networking.networkmanager.enable = true;
   networking.firewall.enable = true;
 
+  users.defaultUserShell = pkgs.zsh;
   users.users.hack = {
     isNormalUser = true;
     shell = pkgs.zsh;
@@ -25,7 +28,6 @@
         tree
     ];
   };
-  users.defaultUserShell = pkgs.zsh;
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.systemd-boot.configurationLimit = 8;
@@ -38,20 +40,9 @@
   };
 
   environment.shells = with pkgs; [ bash zsh ];
-  programs.zsh.enable = true;
-  programs.firefox.enable = true;
-  programs.mtr.enable = true;
-  programs.gnupg.agent = {
-    enable = true;
-    enableSSHSupport = true;
-  };
-  programs.nm-applet.enable = true;
 
   nixpkgs.config.allowUnfree = true;
   hardware.enableRedistributableFirmware = true;
-
-  security.polkit.enable = true;
-  security.rtkit.enable = true;
 
   time.timeZone = "Asia/Kolkata";
   i18n.defaultLocale = "en_IN";

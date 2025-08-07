@@ -81,4 +81,12 @@
       lshw
       (pkgs.git.override { withLibsecret = false; })
       ];
+  programs.zsh.enable = true;
+  programs.firefox.enable = true;
+  programs.mtr.enable = true;
+  programs.gnupg.agent = {
+    enable = true;
+    enableSSHSupport = true;
+  };
+  programs.nm-applet.enable = true;
 }
