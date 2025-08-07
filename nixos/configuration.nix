@@ -5,7 +5,7 @@
     [
     ./hardware-configuration.nix
       ./modules/bspwm.nix
-#       ./modules/graphics.nix
+      ./modules/graphics.nix
       ./modules/basic-pkgs.nix
     ];
 
