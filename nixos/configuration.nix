@@ -7,6 +7,7 @@
       ./modules/bspwm.nix
       ./modules/graphics.nix
       ./modules/basic-pkgs.nix
+      ./modules/services.nix
     ];
 
   networking.hostName = "nix-hak";
