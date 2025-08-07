@@ -1,22 +1,24 @@
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 {
-  hardware.graphics.enable = true;
+  hardware.graphics = {
+    enable = true;
+  };
+  services.xserver.videoDrivers = [ "modesetting" "nvidia" ];
   hardware.nvidia = {
-    open = false;
-    powerManagement.enable = true;
-    modesetting.enable = true;
-    nvidiaSettings = true;
     prime = {
       intelBusId = "PCI:0:2:0";
-      nvidiaBusId = "PCI:1:0:0";
-      offload = {
-        enable = true;
-        enableOffloadCmd = true;
-      };
-    };
+	  nvidiaBusId = "PCI:1:0:0";
+          offload = {
+            enable = true;
+            enableOffloadCmd = true;
+            };
+    forceFullCompositionPipeline = true;
+    modesetting.enable = true;
+    powerManagement.enable = false;
+    powerManagement.finegrained = false;
+    open = false;
+    nvidiaSettings = true;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
-  services.xserver.videoDrivers = [ "intel" ];
-  services.thermald.enable = true;
-  services.tlp.enable = true;
 }
