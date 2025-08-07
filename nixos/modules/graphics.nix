@@ -12,7 +12,8 @@
           offload = {
             enable = true;
             enableOffloadCmd = true;
-            };
+          };
+    };
     forceFullCompositionPipeline = true;
     modesetting.enable = true;
     powerManagement.enable = false;
