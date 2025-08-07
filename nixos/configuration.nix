@@ -12,9 +12,14 @@
       ./modules/auto-upgrade.nix
     ];
 
-  networking.hostName = "nix-hak";
-  networking.networkmanager.enable = true;
-  networking.firewall.enable = true;
+  networking = {
+    hostName = "nix-hak";
+    networkmanager.enable = true;
+    firewall = {
+        enable = true;
+        allowedTCPPorts = [ 80 443 2222 ];
+    };
+  };
 
   users.defaultUserShell = pkgs.zsh;
   users.users.hack = {
