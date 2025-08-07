@@ -41,6 +41,7 @@ set shiftwidth=4
 set softtabstop=4
 set expandtab
 set smartindent
+set cindent
 set autoindent
 set incsearch
 set hlsearch
@@ -153,3 +154,6 @@ set wildignore=*.o,*~,*.pyc,*.class
 if has('mouse')
   set mouse=a
 endif
+
+autocmd FileType python setlocal shiftwidth=4 softtabstop=4 expandtab
+autocmd FileType javascript setlocal shiftwidth=2 softtabstop=2 expandtab
