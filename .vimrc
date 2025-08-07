@@ -7,9 +7,10 @@ set ttyfast
 set lazyredraw
 colorscheme ron
 colorscheme retrobox
+highlight Normal guibg=black ctermbg=black
 
 if has('gui_running')
-  set transparency=5
+  set transparency=9
 else
 endif
 set termguicolors
@@ -26,6 +27,7 @@ endif
 set number
 set relativenumber
 set cursorline
+set cursorcolumn
 set scrolloff=8
 set sidescrolloff=8
 set wrap
