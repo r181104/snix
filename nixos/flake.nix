@@ -18,11 +18,11 @@
       specialArgs = { inherit inputs; };
       modules = [
         ./configuration.nix
-	({ pkgs, ... }: {
-	environment.systemPackages = with pkgs; [
-	zen-browser.packages.${system}.default
-	];
-	})
+          ({ pkgs, ... }: {
+           environment.systemPackages = with pkgs; [
+           zen-browser.packages.${system}.default
+           ];
+           })
       ];
     };
   };
