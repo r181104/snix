@@ -173,9 +173,8 @@ autocmd FileType conf        setlocal shiftwidth=2 softtabstop=2 expandtab
 autocmd FileType nix         setlocal shiftwidth=2 softtabstop=2 expandtab
 autocmd BufNewFile,BufRead *.rc set filetype=conf
 autocmd BufNewFile,BufRead *.nix set filetype=nix
-" Remove tabline file display
-set showtabline=0  " Completely hide the tabline
 
+set showtabline=0
 let g:currentmode = {
       \ 'n'  : ' NORMAL ',
       \ 'i'  : ' INSERT ',
@@ -222,7 +221,9 @@ set statusline+=%#StatusLineWarning#
 set statusline+=\ %{ReadOnly()}
 set statusline+=\ %m
 set statusline+=%*
+
 set statusline+=%#StatusLineGit#
+
 set statusline+=%=
 set statusline+=\ %{GitIndicator()}
 set statusline+=%#StatusLineInfo#
@@ -237,6 +238,6 @@ set statusline+=\
 
 hi StatusLine          guifg=#abb2bf guibg=#2c323c gui=NONE ctermfg=249 ctermbg=236
 hi StatusLineMode      guifg=#e2c08d guibg=#2c323c gui=bold ctermfg=180 cterm=bold
-hi StatusLineInfo      guifg=#7aa6da guibg=#2c323c gui=NONE ctermfg=110 cterm=bold
+hi StatusLineInfo      guifg=#7aa6da guibg=#2c323c gui=NONE ctermfg=110
 hi StatusLineWarning   guifg=#e06c75 guibg=#2c323c gui=bold ctermfg=168 cterm=bold
 hi StatusLineGit       guifg=#98c379 guibg=#2c323c gui=italic ctermfg=150 cterm=italic
