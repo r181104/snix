@@ -38,3 +38,4 @@ bspc config presel_feedback_color "$color    1"
 
 # Rules
 bspc rule -a mumble state=floating follow=on focus=on
+bspc rule -a brave state=fullscreen follow=on focus=on
