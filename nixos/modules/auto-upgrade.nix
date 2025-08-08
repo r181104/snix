@@ -3,7 +3,7 @@
 {
     system.autoUpgrade = {
         enable = true;
-        flake = "path:./flake.nix";
+        flake = "github:https://github.com/rishabh181104/snix/tree/master/nixos";
         flags = [
             "--recreate-lock-file"
             "--commit-lock-file"
