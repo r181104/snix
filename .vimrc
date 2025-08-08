@@ -135,19 +135,14 @@ augroup END
 set listchars=tab:▸\ ,trail:•,nbsp:+,extends:»,precedes:«
 set fillchars=vert:│,fold:·
 
-set laststatus=2
-set statusline=
-set statusline+=%#PmenuSel#
-set statusline+=\ %{toupper(mode())}\
-set statusline+=\ %f\
-set statusline+=%m%r%h%w
-set statusline+=%=
-set statusline+=[%{&ff}]
-set statusline+=\ ◊\ %Y
-set statusline+=\ %04l:%-4c\
-set statusline+=\ %3p%%
+function! HighlightSearch()
+  if &hls
+    return 'H'
+  else
+    return ''
+  endif
+endfunction
 
-set wildmenu
 set wildmode=longest:full,full
 set wildignore=*.o,*~,*.pyc,*.class
 
@@ -155,5 +150,93 @@ if has('mouse')
   set mouse=a
 endif
 
-autocmd FileType python setlocal shiftwidth=4 softtabstop=4 expandtab
-autocmd FileType javascript setlocal shiftwidth=2 softtabstop=2 expandtab
+autocmd FileType python      setlocal shiftwidth=4 softtabstop=4 expandtab
+autocmd FileType javascript  setlocal shiftwidth=2 softtabstop=2 expandtab
+autocmd FileType typescript  setlocal shiftwidth=2 softtabstop=2 expandtab
+autocmd FileType json        setlocal shiftwidth=2 softtabstop=2 expandtab
+autocmd FileType html        setlocal shiftwidth=2 softtabstop=2 expandtab
+autocmd FileType css         setlocal shiftwidth=2 softtabstop=2 expandtab
+autocmd FileType scss        setlocal shiftwidth=2 softtabstop=2 expandtab
+autocmd FileType yaml        setlocal shiftwidth=2 softtabstop=2 expandtab
+autocmd FileType ruby        setlocal shiftwidth=2 softtabstop=2 expandtab
+autocmd FileType java        setlocal shiftwidth=4 softtabstop=4 expandtab
+autocmd FileType c           setlocal shiftwidth=4 softtabstop=4 expandtab
+autocmd FileType cpp         setlocal shiftwidth=4 softtabstop=4 expandtab
+autocmd FileType go          setlocal shiftwidth=4 tabstop=4 noexpandtab
+autocmd FileType rust        setlocal shiftwidth=4 softtabstop=4 expandtab
+autocmd FileType lua         setlocal shiftwidth=2 softtabstop=2 expandtab
+autocmd FileType sh          setlocal shiftwidth=2 softtabstop=2 expandtab
+autocmd FileType zsh         setlocal shiftwidth=2 softtabstop=2 expandtab
+autocmd FileType vue         setlocal shiftwidth=2 softtabstop=2 expandtab
+autocmd FileType markdown    setlocal shiftwidth=2 softtabstop=2 expandtab
+autocmd FileType conf        setlocal shiftwidth=2 softtabstop=2 expandtab
+autocmd FileType nix         setlocal shiftwidth=2 softtabstop=2 expandtab
+autocmd BufNewFile,BufRead *.rc set filetype=conf
+autocmd BufNewFile,BufRead *.nix set filetype=nix
+" Remove tabline file display
+set showtabline=0  " Completely hide the tabline
+
+let g:currentmode = {
+      \ 'n'  : ' NORMAL ',
+      \ 'i'  : ' INSERT ',
+      \ 'R'  : ' REPLACE ',
+      \ 'v'  : ' VISUAL ',
+      \ 'V'  : ' V-LINE ',
+      \ 'x22': ' V-BLOCK ',
+      \ 'c'  : ' COMMAND ',
+      \ 't'  : ' TERMINAL '
+      \}
+
+function! FileSize()
+  let bytes = getfsize(expand('%:p'))
+  if bytes <= 0 | return '' | endif
+
+  if bytes >= 1024 * 1024
+    return printf('%.1f MB', bytes / (1024.0 * 1024))
+  elseif bytes >= 1024
+    return printf('%.1f KB', bytes / 1024.0)
+  else
+    return bytes . ' B'
+  endif
+endfunction
+
+function! ReadOnly()
+  return &readonly || !&modifiable ? '' : ''
+endfunction
+
+function! GitIndicator()
+  if !empty(finddir('.git', ';'))
+    return ' GIT'
+  endif
+  return ''
+endfunction
+
+set laststatus=2
+set statusline=
+set statusline+=%#StatusLineMode#
+set statusline+=\ %{toupper(g:currentmode[mode()])}\
+set statusline+=%#StatusLineInfo#
+set statusline+=[%n]
+set statusline+=\ %<%F
+set statusline+=%#StatusLineWarning#
+set statusline+=\ %{ReadOnly()}
+set statusline+=\ %m
+set statusline+=%*
+set statusline+=%#StatusLineGit#
+set statusline+=%=
+set statusline+=\ %{GitIndicator()}
+set statusline+=%#StatusLineInfo#
+set statusline+=\ %y
+set statusline+=\ %{(&fenc!=''?&fenc:&enc)}
+set statusline+=\ [%{&ff}]
+set statusline+=\ %{FileSize()}
+set statusline+=%#StatusLineMode#
+set statusline+=\ %3p%%
+set statusline+=\ \ %4l:%-3c
+set statusline+=\
+
+hi StatusLine          guifg=#abb2bf guibg=#2c323c gui=NONE ctermfg=249 ctermbg=236
+hi StatusLineMode      guifg=#e2c08d guibg=#2c323c gui=bold ctermfg=180 cterm=bold
+hi StatusLineInfo      guifg=#7aa6da guibg=#2c323c gui=NONE ctermfg=110 cterm=bold
+hi StatusLineWarning   guifg=#e06c75 guibg=#2c323c gui=bold ctermfg=168 cterm=bold
+hi StatusLineGit       guifg=#98c379 guibg=#2c323c gui=italic ctermfg=150 cterm=italic
