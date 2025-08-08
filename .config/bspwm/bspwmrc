@@ -17,6 +17,8 @@ pkill picom
 picom &
 libinput-gestures &
 jamesdsp --tray &
+nm-applet &
+blueman-applet &
 ~/snix/scripts/launch-poly
 xset r rate 220 40
 
