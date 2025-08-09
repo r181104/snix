@@ -1,4 +1,3 @@
-vim = vim
 vim.o.number = true
 vim.o.relativenumber = true
 vim.o.termguicolors = true
@@ -36,28 +35,19 @@ vim.o.winborder = "rounded"
 vim.g.mapleader = " "
 
 vim.pack.add({
-  { src = "https://github.com/ful1e5/onedark.nvim" },
   { src = "https://github.com/stevearc/oil.nvim" },
   { src = "https://github.com/ibhagwan/fzf-lua" },
   { src = "https://github.com/nvim-tree/nvim-web-devicons" },
   { src = "https://github.com/neovim/nvim-lspconfig" },
+  { src = "https://github.com/mason-org/mason.nvim" },
+  { src = "https://github.com/nvim-treesitter/nvim-treesitter" },
   { src = "https://github.com/chomosuke/typst-preview.nvim" },
   { src = "https://github.com/christoomey/vim-tmux-navigator" },
   { src = "https://github.com/kdheepak/lazygit.nvim" },
   { src = "https://github.com/folke/lazydev.nvim" },
+  { src = "https://github.com/catppuccin/nvim" },
+  { src = 'https://github.com/NvChad/showkeys',                opt = true },
 })
-
-vim.api.nvim_create_autocmd('LspAttach', {
-  callback = function(ev)
-    local client = vim.lsp.get_client_by_id(ev.data.client_id)
-    if client:supports_method('textDocument/completion') then
-      vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
-    end
-  end
-})
-vim.cmd("set completeopt+=noselect")
-
-vim.lsp.enable({ "lua_ls", "svelte-language-server", "tinymist" })
 
 vim.keymap.set('n', '<leader>so', ':update<CR> :source<CR>')
 vim.keymap.set('n', '<leader>w', ':write<CR>')
@@ -77,19 +67,56 @@ vim.keymap.set("n", "<C-l>", "<cmd> TmuxNavigateRight<CR>")
 
 vim.keymap.set("n", "<leader>git", ":LazyGit<CR>")
 
-require("onedark").setup({
-  function_style = "italic",
-  transparent = true,
-  sidebars = { "qf", "vista_kind", "terminal", "packer" },
-  colors = { hint = "orange0", error = "#ff0000" },
-  overrides = function(c)
-    return {
-      htmlTag = { fg = c.red0, bg = "#282c34", sp = c.hint, style = "underline" },
-      DiagnosticHint = { link = "LspDiagnosticsDefaultHint" },
-      TSField = {},
-    }
-  end
+require("catppuccin").setup({
+  flavour = "mocha",
+  transparent_background = true,
+  float = {
+    transparent = false,
+    solid = false,
+  },
+  show_end_of_buffer = false,
+  term_colors = true,
+  dim_inactive = {
+    enabled = false,
+    shade = "dark",
+    percentage = 0.15,
+  },
+  no_italic = false,
+  no_bold = false,
+  no_underline = false,
+  styles = {
+    comments = { "italic" },
+    conditionals = { "bold" },
+    loops = {},
+    functions = {},
+    keywords = {},
+    strings = {},
+    variables = {},
+    numbers = {},
+    booleans = {},
+    properties = {},
+    types = {},
+    operators = {},
+  },
+  color_overrides = {},
+  custom_highlights = {},
+  default_integrations = true,
+  auto_integrations = false,
+  integrations = {
+    cmp = true,
+    gitsigns = true,
+    nvimtree = true,
+    treesitter = true,
+    notify = true,
+    mini = {
+      enabled = true,
+      indentscope_color = "",
+    },
+  },
 })
+vim.cmd.colorscheme "catppuccin-mocha"
+
+require "showkeys".setup({ position = "top-right" })
 
 local fzf = require("fzf-lua")
 fzf.setup({
@@ -112,6 +139,13 @@ fzf.setup({
 vim.keymap.set("n", "<leader>ff", fzf.files, { desc = "Find files" })
 vim.keymap.set("n", "<leader>fg", fzf.live_grep, { desc = "Search text" })
 vim.keymap.set("n", "<leader>fb", fzf.buffers, { desc = "Find buffers" })
+
+require('nvim-treesitter.configs').setup({
+  auto_install = true,
+  highlight = {
+    enable = true,
+  },
+})
 
 require("oil").setup({
   default_file_explorer = true,
@@ -147,3 +181,25 @@ require("oil").setup({
 vim.keymap.set("n", "<leader>e", "<CMD>Oil<CR>", { desc = "Open oil file explorer" })
 
 vim.cmd(":hi statusline guibg=NONE")
+
+vim.lsp.enable({ "lua_ls", "svelte-language-server", "tinymist", "emmetls" })
+vim.lsp.config("lua_ls", {
+  settings = {
+    Lua = {
+      workspace = {
+        library = vim.api.nvim_get_runtime_file("", true),
+      }
+    }
+  }
+})
+require "mason".setup()
+
+vim.api.nvim_create_autocmd('LspAttach', {
+  callback = function(ev)
+    local client = vim.lsp.get_client_by_id(ev.data.client_id)
+    if client:supports_method('textDocument/completion') then
+      vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
+    end
+  end
+})
+vim.cmd("set completeopt+=noselect")
