@@ -32,8 +32,6 @@ vim.o.incsearch = true
 vim.o.scrolloff = 8
 vim.o.winborder = "rounded"
 
-vim.g.mapleader = " "
-
 vim.pack.add({
   { src = "https://github.com/stevearc/oil.nvim" },
   { src = "https://github.com/ibhagwan/fzf-lua" },
@@ -44,26 +42,8 @@ vim.pack.add({
   { src = "https://github.com/christoomey/vim-tmux-navigator" },
   { src = "https://github.com/kdheepak/lazygit.nvim" },
   { src = "https://github.com/catppuccin/nvim" },
-  { src = 'https://github.com/NvChad/showkeys',                opt = true },
+  { src = 'https://github.com/NvChad/showkeys',                cmd = "ShowkeysToggle" },
 })
-
-vim.keymap.set('n', '<leader>so', ':update<CR> :source<CR>')
-vim.keymap.set('n', '<leader>w', ':write<CR>')
-vim.keymap.set('n', '<leader>q', ':quit<CR>')
-vim.keymap.set({ "n", "v", "x" }, "<Leader>y", '"+y', { noremap = true, silent = true })
-vim.keymap.set({ "n", "v", "x" }, "<Leader>d", '"+d', { noremap = true, silent = true })
-vim.keymap.set({ "i", "v", "x" }, "jk", "<C-c>")
-
-vim.keymap.set('n', '<leader>for', vim.lsp.buf.format)
-
-vim.keymap.set('n', '<leader>e', ':Oil<CR>')
-
-vim.keymap.set("n", "<C-h>", "<cmd> TmuxNavigateLeft<CR>")
-vim.keymap.set("n", "<C-j>", "<cmd> TmuxNavigateDown<CR>")
-vim.keymap.set("n", "<C-k>", "<cmd> TmuxNavigateUp<CR>")
-vim.keymap.set("n", "<C-l>", "<cmd> TmuxNavigateRight<CR>")
-
-vim.keymap.set("n", "<leader>git", ":LazyGit<CR>")
 
 require("catppuccin").setup({
   flavour = "mocha",
@@ -134,10 +114,6 @@ fzf.setup({
   },
 })
 
-vim.keymap.set("n", "<leader>ff", fzf.files, { desc = "Find files" })
-vim.keymap.set("n", "<leader>fg", fzf.live_grep, { desc = "Search text" })
-vim.keymap.set("n", "<leader>fb", fzf.buffers, { desc = "Find buffers" })
-
 require('nvim-treesitter.configs').setup({
   auto_install = true,
   highlight = {
@@ -178,8 +154,6 @@ require("oil").setup({
   },
   use_default_keymaps = false,
 })
-vim.keymap.set("n", "<leader>e", "<CMD>Oil<CR>", { desc = "Open oil file explorer" })
-
 vim.cmd(":hi statusline guibg=NONE")
 
 vim.lsp.enable({ "lua_ls", "svelte-language-server", "tinymist", "emmetls", "pylsp" })
@@ -193,3 +167,23 @@ vim.api.nvim_create_autocmd('LspAttach', {
   end
 })
 vim.cmd("set completeopt+=noselect")
+
+local map = vim.keymap.set
+vim.g.mapleader = " "
+map('n', '<leader>so', ':update<CR> :source<CR>')
+map('n', '<leader>w', ':write<CR>')
+map('n', '<leader>q', ':quit<CR>')
+map({ "n", "v", "x" }, "<Leader>y", '"+y', { noremap = true, silent = true })
+map({ "n", "v", "x" }, "<Leader>d", '"+d', { noremap = true, silent = true })
+map({ "i", "v", "x", "t", "c" }, "jk", "<C-c>")
+map('n', '<leader>for', vim.lsp.buf.format)
+map('n', '<leader>e', ':Oil<CR>')
+map("n", "<C-h>", "<cmd> TmuxNavigateLeft<CR>")
+map("n", "<C-j>", "<cmd> TmuxNavigateDown<CR>")
+map("n", "<C-k>", "<cmd> TmuxNavigateUp<CR>")
+map("n", "<C-l>", "<cmd> TmuxNavigateRight<CR>")
+map("n", "<leader>git", ":LazyGit<CR>")
+map("n", "<leader>ff", fzf.files, { desc = "Find files" })
+map("n", "<leader>fg", fzf.live_grep, { desc = "Search text" })
+map("n", "<leader>fb", fzf.buffers, { desc = "Find buffers" })
+map("n", "<leader>e", "<CMD>Oil<CR>", { desc = "Open oil file explorer" })
