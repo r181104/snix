@@ -146,6 +146,8 @@ require('nvim-treesitter.configs').setup({
   },
 })
 
+require "mason".setup()
+
 require("oil").setup({
   default_file_explorer = true,
   columns = { "icon" },
@@ -182,9 +184,6 @@ vim.keymap.set("n", "<leader>e", "<CMD>Oil<CR>", { desc = "Open oil file explore
 vim.cmd(":hi statusline guibg=NONE")
 
 vim.lsp.enable({ "lua_ls", "svelte-language-server", "tinymist", "emmetls" })
-vim.lsp.config("lua_ls", {
-})
-require "mason".setup()
 
 vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(ev)
