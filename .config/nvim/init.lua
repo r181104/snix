@@ -182,7 +182,7 @@ vim.keymap.set("n", "<leader>e", "<CMD>Oil<CR>", { desc = "Open oil file explore
 
 vim.cmd(":hi statusline guibg=NONE")
 
-vim.lsp.enable({ "lua_ls", "svelte-language-server", "tinymist", "emmetls" })
+vim.lsp.enable({ "lua_ls", "svelte-language-server", "tinymist", "emmetls", "pylsp" })
 
 vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(ev)
