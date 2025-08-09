@@ -34,8 +34,8 @@ vim.o.winborder = "rounded"
 
 vim.pack.add({
   { src = "https://github.com/stevearc/oil.nvim" },
-  { src = "https://github.com/ibhagwan/fzf-lua" },
-  { src = "https://github.com/nvim-tree/nvim-web-devicons" },
+  -- { src = "https://github.com/ibhagwan/fzf-lua" },
+  -- { src = "https://github.com/nvim-tree/nvim-web-devicons" },
   { src = "https://github.com/mason-org/mason.nvim" },
   { src = "https://github.com/nvim-treesitter/nvim-treesitter" },
   { src = "https://github.com/chomosuke/typst-preview.nvim" },
@@ -43,8 +43,10 @@ vim.pack.add({
   { src = "https://github.com/kdheepak/lazygit.nvim" },
   { src = "https://github.com/catppuccin/nvim" },
   { src = 'https://github.com/NvChad/showkeys',                cmd = "ShowkeysToggle" },
+  { src = "https://github.com/echasnovski/mini.pick" },
 })
 
+require "mini.pick".setup()
 require("catppuccin").setup({
   flavour = "mocha",
   transparent_background = true,
@@ -93,36 +95,14 @@ require("catppuccin").setup({
   },
 })
 vim.cmd.colorscheme "catppuccin-mocha"
-
 require "showkeys".setup({ position = "top-right" })
-
-local fzf = require("fzf-lua")
-fzf.setup({
-  winopts = {
-    height = 0.9,
-    width = 0.9,
-    preview = {
-      hidden = "hidden",
-    },
-  },
-  keymap = {
-    fzf = {
-      ["tab"] = "down",
-      ["shift-tab"] = "up",
-      ["ctrl-p"] = "toggle-preview",
-    },
-  },
-})
-
 require('nvim-treesitter.configs').setup({
   auto_install = true,
   highlight = {
     enable = true,
   },
 })
-
 require "mason".setup()
-
 require("oil").setup({
   default_file_explorer = true,
   columns = { "icon" },
@@ -185,7 +165,6 @@ map("n", "<C-j>", "<cmd> TmuxNavigateDown<CR>")
 map("n", "<C-k>", "<cmd> TmuxNavigateUp<CR>")
 map("n", "<C-l>", "<cmd> TmuxNavigateRight<CR>")
 map("n", "<leader>git", ":LazyGit<CR>")
-map("n", "<leader>ff", fzf.files, { desc = "Find files" })
-map("n", "<leader>fg", fzf.live_grep, { desc = "Search text" })
-map("n", "<leader>fb", fzf.buffers, { desc = "Find buffers" })
+map('n', '<leader>ff', ":Pick files<CR>")
+map('n', '<leader>fh', ":Pick help<CR>")
 map("n", "<leader>e", "<CMD>Oil<CR>", { desc = "Open oil file explorer" })
