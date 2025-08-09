@@ -43,6 +43,7 @@ vim.pack.add({
   { src = "https://github.com/chomosuke/typst-preview.nvim" },
   { src = "https://github.com/christoomey/vim-tmux-navigator" },
   { src = "https://github.com/kdheepak/lazygit.nvim" },
+  { src = "https://github.com/folke/lazydev.nvim" },
 })
 
 vim.api.nvim_create_autocmd('LspAttach', {
