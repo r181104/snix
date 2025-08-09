@@ -7,7 +7,6 @@
       wget
       stow
       curl
-      neovim
       zed-editor
       tmux
       alacritty
