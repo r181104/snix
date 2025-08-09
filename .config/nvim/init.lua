@@ -43,7 +43,6 @@ vim.pack.add({
   { src = "https://github.com/chomosuke/typst-preview.nvim" },
   { src = "https://github.com/christoomey/vim-tmux-navigator" },
   { src = "https://github.com/kdheepak/lazygit.nvim" },
-  { src = "https://github.com/folke/lazydev.nvim" },
   { src = "https://github.com/catppuccin/nvim" },
   { src = 'https://github.com/NvChad/showkeys',                opt = true },
 })
