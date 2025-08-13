@@ -6,6 +6,8 @@ cd ~/snix/nixos/
 
 nix flake update
 
+git add . && git commit -m 's'
+
 sudo nixos-rebuild switch --upgrade --flake .#nix-hak
 
 nix store optimise
