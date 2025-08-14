@@ -1,15 +1,3 @@
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
-# Auto-start Hyprland or startx on TTY1
-if [[ -z $DISPLAY ]] && [[ $(tty) =~ /dev/tty1 ]]; then
-  # Replace 'hyprland' with 'startx' if you want to use X11 instead
-  exec hyprland
-  # Alternatively, use:
-  # exec startx
-fi
-
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 
 if [ ! -d "$ZINIT_HOME" ]; then
