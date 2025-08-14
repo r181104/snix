@@ -257,12 +257,24 @@ vim.api.nvim_create_autocmd('LspAttach', {
     if client:supports_method('textDocument/completion') then
       vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
     end
+    local opts = { buffer = ev.buf }
+    local map = vim.keymap.set
+    map('n', 'gd', vim.lsp.buf.definition, opts)
+    map('n', 'gD', vim.lsp.buf.declaration, opts)
+    map('n', 'gi', vim.lsp.buf.implementation, opts)
+    map('n', 'gr', vim.lsp.buf.references, opts)
+    map('n', 'K', vim.lsp.buf.hover, opts)
+    map('n', '<leader>ca', vim.lsp.buf.code_action, opts)
+    map('n', '<leader>for', function()
+      vim.lsp.buf.format({ async = true })
+    end, opts)
   end
 })
 vim.cmd("set completeopt+=noselect")
 
 local map = vim.keymap.set
 vim.g.mapleader = " "
+map({ "i", "v", "x", "t", "c" }, "<M-;>", "<ESC>")
 map('n', '<leader>so', ':update<CR> :source<CR>')
 map('n', '<leader>w', ':write<CR>')
 map('n', '<leader>q', ':quit<CR>')
@@ -270,8 +282,6 @@ map({ "n", "v", "x" }, "<Leader>y", '"+y', { noremap = true, silent = true })
 map({ "n", "v", "x" }, "<Leader>d", '"+d', { noremap = true, silent = true })
 map({ "n", "v", "x" }, "<Leader>s", ":e #<CR>")
 map({ "n", "v", "x" }, "<Leader>sf", ":sf #<CR>")
-map({ "i", "v", "x", "t", "c" }, "a;", "<ESC>")
-map('n', '<leader>for', vim.lsp.buf.format)
 map('n', '<leader>e', ':Oil<CR>')
 map("n", "<C-h>", "<cmd> TmuxNavigateLeft<CR>")
 map("n", "<C-j>", "<cmd> TmuxNavigateDown<CR>")
@@ -279,3 +289,9 @@ map("n", "<C-k>", "<cmd> TmuxNavigateUp<CR>")
 map("n", "<C-l>", "<cmd> TmuxNavigateRight<CR>")
 map("n", "<leader>git", ":LazyGit<CR>")
 map("n", "<leader>e", "<CMD>Oil<CR>", { desc = "Open oil file explorer" })
+
+vim.keymap.set('n', 'gd', vim.lsp.buf.definition)
+vim.keymap.set('n', 'K', vim.lsp.buf.hover)
+vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename)
+vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action)
+vim.keymap.set('n', 'gr', vim.lsp.buf.references)
