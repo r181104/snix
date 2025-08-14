@@ -34,8 +34,6 @@ vim.o.winborder = "rounded"
 
 vim.pack.add({
   { src = "https://github.com/stevearc/oil.nvim" },
-  -- { src = "https://github.com/ibhagwan/fzf-lua" },
-  -- { src = "https://github.com/nvim-tree/nvim-web-devicons" },
   { src = "https://github.com/mason-org/mason.nvim" },
   { src = "https://github.com/nvim-treesitter/nvim-treesitter" },
   { src = "https://github.com/chomosuke/typst-preview.nvim" },
@@ -44,9 +42,19 @@ vim.pack.add({
   { src = "https://github.com/catppuccin/nvim" },
   { src = 'https://github.com/NvChad/showkeys',                cmd = "ShowkeysToggle" },
   { src = "https://github.com/echasnovski/mini.pick" },
+  { src = "https://github.com/ThePrimeagen/harpoon",           branch = "harpoon2" },
+  { src = "https://github.com/nvim-lua/plenary.nvim" },
+  { src = "https://github.com/folke/which-key.nvim" },
+  { src = "https://github.com/catgoose/nvim-colorizer.lua" },
+  { src = "https://github.com/nvim-lualine/lualine.nvim" },
+  { src = "https://github.com/rcarriga/nvim-notify" },
+  { src = "https://github.com/MunifTanjim/nui.nvim" },
+  { src = "https://github.com/folke/noice.nvim" },
+  { src = "https://github.com/lewis6991/gitsigns.nvim" },
 })
 
 require "mini.pick".setup()
+require "which-key".setup()
 require("catppuccin").setup({
   flavour = "mocha",
   transparent_background = true,
@@ -95,6 +103,53 @@ require("catppuccin").setup({
   },
 })
 vim.cmd.colorscheme "catppuccin-mocha"
+
+require("lualine").setup({
+  options = {
+    theme = "catppuccin-mocha",
+    section_separators = { left = "", right = "" },
+    component_separators = { left = "", right = "" },
+  },
+  sections = {
+    lualine_a = { "mode" },
+    lualine_b = { "branch", "diff" },
+    lualine_c = { "filename" },
+    lualine_x = { "encoding", "fileformat", "filetype" },
+    lualine_y = { "progress" },
+    lualine_z = { "location" },
+  },
+})
+
+require("noice").setup({
+  lsp = {
+    override = {
+      ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+      ["vim.lsp.util.stylize_markdown"] = true,
+      ["cmp.entry.get_documentation"] = true,
+    },
+  },
+  presets = {
+    bottom_search = true,
+    command_palette = true,
+    long_message_to_split = true,
+    inc_rename = false,
+    lsp_doc_border = false,
+  },
+})
+
+require("gitsigns").setup({
+  signs = {
+    add = { text = "+" },
+    change = { text = "~" },
+    delete = { text = "_" },
+  },
+})
+vim.keymap.set("n", "<leader>gb", ":Gitsigns blame_line<CR>", { desc = "Git blame" })
+
+require("notify").setup({
+  background_colour = "#000000",
+})
+
 require "showkeys".setup({ position = "top-right" })
 require('nvim-treesitter.configs').setup({
   auto_install = true,
@@ -103,6 +158,46 @@ require('nvim-treesitter.configs').setup({
   },
 })
 require "mason".setup()
+
+local harpoon = require("harpoon")
+harpoon:setup()
+vim.keymap.set("n", "<leader>ha", function() harpoon:list():add() end, { desc = "Harpoon add file" })
+vim.keymap.set("n", "<leader>he", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end, { desc = "Harpoon menu" })
+vim.keymap.set("n", "<leader>h1", function() harpoon:list():select(1) end, { desc = "Harpoon file 1" })
+vim.keymap.set("n", "<leader>h2", function() harpoon:list():select(2) end, { desc = "Harpoon file 2" })
+vim.keymap.set("n", "<leader>h3", function() harpoon:list():select(3) end, { desc = "Harpoon file 3" })
+vim.keymap.set("n", "<leader>h4", function() harpoon:list():select(4) end, { desc = "Harpoon file 4" })
+
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = { "bspwmrc", "sxhkdrc" },
+  command = "set filetype=sh",
+})
+
+require("colorizer").setup({
+  filetypes = {
+    "*",
+  },
+  user_default_options = {
+    RGB = true,
+    RRGGBB = true,
+    RRGGBBAA = true,
+    AARRGGBB = true,
+    rgb_fn = true,
+    rgba_fn = true,
+    hsl_fn = true,
+    hsla_fn = true,
+    css = true,
+    css_fn = true,
+    names = true,
+    tailwind = true,
+    sass = { enable = true, parsers = { "css" } },
+    mode = "background",
+    virtualtext = "■",
+    always_update = true,
+  },
+})
+vim.keymap.set("n", "<leader>tc", "<cmd>ColorizerToggle<CR>", { desc = "Toggle Colorizer" })
+
 require("oil").setup({
   default_file_explorer = true,
   columns = { "icon" },
@@ -134,6 +229,7 @@ require("oil").setup({
   },
   use_default_keymaps = false,
 })
+
 vim.cmd(":hi statusline guibg=NONE")
 
 vim.lsp.enable({ "lua_ls", "svelte-language-server", "tinymist", "emmetls", "pylsp" })
