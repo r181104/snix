@@ -42,7 +42,6 @@ vim.pack.add({
   { src = "https://github.com/catppuccin/nvim" },
   { src = 'https://github.com/NvChad/showkeys',                cmd = "ShowkeysToggle" },
   { src = "https://github.com/echasnovski/mini.pick" },
-  { src = "https://github.com/ThePrimeagen/harpoon",           branch = "harpoon2" },
   { src = "https://github.com/nvim-lua/plenary.nvim" },
   { src = "https://github.com/folke/which-key.nvim" },
   { src = "https://github.com/catgoose/nvim-colorizer.lua" },
@@ -76,15 +75,15 @@ require("catppuccin").setup({
     comments = { "italic" },
     conditionals = { "bold" },
     loops = {},
-    functions = {},
-    keywords = {},
-    strings = {},
+    functions = { "italic" },
+    keywords = { "bold" },
+    strings = { "bold" },
     variables = {},
-    numbers = {},
-    booleans = {},
+    numbers = { "italic" },
+    booleans = { "italic" },
     properties = {},
     types = {},
-    operators = {},
+    operators = { "bold" },
   },
   color_overrides = {},
   custom_highlights = {},
@@ -102,7 +101,7 @@ require("catppuccin").setup({
     },
   },
 })
-vim.cmd.colorscheme "catppuccin-mocha"
+vim.cmd.colorscheme "catppuccin-macchiato"
 
 require("lualine").setup({
   options = {
@@ -158,15 +157,6 @@ require('nvim-treesitter.configs').setup({
   },
 })
 require "mason".setup()
-
-local harpoon = require("harpoon")
-harpoon:setup()
-vim.keymap.set("n", "<leader>ha", function() harpoon:list():add() end, { desc = "Harpoon add file" })
-vim.keymap.set("n", "<leader>he", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end, { desc = "Harpoon menu" })
-vim.keymap.set("n", "<leader>h1", function() harpoon:list():select(1) end, { desc = "Harpoon file 1" })
-vim.keymap.set("n", "<leader>h2", function() harpoon:list():select(2) end, { desc = "Harpoon file 2" })
-vim.keymap.set("n", "<leader>h3", function() harpoon:list():select(3) end, { desc = "Harpoon file 3" })
-vim.keymap.set("n", "<leader>h4", function() harpoon:list():select(4) end, { desc = "Harpoon file 4" })
 
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
   pattern = { "bspwmrc", "sxhkdrc" },
