@@ -50,6 +50,7 @@ vim.pack.add({
   { src = "https://github.com/MunifTanjim/nui.nvim" },
   { src = "https://github.com/folke/noice.nvim" },
   { src = "https://github.com/lewis6991/gitsigns.nvim" },
+  { src = "https://github.com/otavioschwanck/arrow.nvim" },
 })
 
 require "which-key".setup()
@@ -116,6 +117,12 @@ require("lualine").setup({
     lualine_y = { "progress" },
     lualine_z = { "location" },
   },
+})
+
+require('arrow').setup({
+  show_icons = true,
+  leader_key = ';',        -- Recommended to be a single key
+  buffer_leader_key = 'm', -- Per Buffer Mappings
 })
 
 local fzf = require("fzf-lua")
