@@ -41,8 +41,8 @@ vim.pack.add({
   { src = "https://github.com/kdheepak/lazygit.nvim" },
   { src = "https://github.com/catppuccin/nvim" },
   { src = 'https://github.com/NvChad/showkeys',                cmd = "ShowkeysToggle" },
-  { src = "https://github.com/echasnovski/mini.pick" },
-  { src = "https://github.com/nvim-lua/plenary.nvim" },
+  { src = "https://github.com/ibhagwan/fzf-lua" },
+  { src = "https://github.com/nvim-tree/nvim-web-devicons" },
   { src = "https://github.com/folke/which-key.nvim" },
   { src = "https://github.com/catgoose/nvim-colorizer.lua" },
   { src = "https://github.com/nvim-lualine/lualine.nvim" },
@@ -52,7 +52,6 @@ vim.pack.add({
   { src = "https://github.com/lewis6991/gitsigns.nvim" },
 })
 
-require "mini.pick".setup()
 require "which-key".setup()
 require("catppuccin").setup({
   flavour = "mocha",
@@ -118,6 +117,27 @@ require("lualine").setup({
     lualine_z = { "location" },
   },
 })
+
+local fzf = require("fzf-lua")
+fzf.setup({
+  winopts = {
+    height = 0.9,
+    width = 0.9,
+    preview = {
+      hidden = "hidden",
+    },
+  },
+  keymap = {
+    fzf = {
+      ["tab"] = "down",
+      ["shift-tab"] = "up",
+      ["ctrl-p"] = "toggle-preview",
+    },
+  },
+})
+vim.keymap.set("n", "<leader>ff", fzf.files, { desc = "Find files" })
+vim.keymap.set("n", "<leader>fg", fzf.live_grep, { desc = "Search text" })
+vim.keymap.set("n", "<leader>fb", fzf.buffers, { desc = "Find buffers" })
 
 require("noice").setup({
   lsp = {
@@ -251,6 +271,4 @@ map("n", "<C-j>", "<cmd> TmuxNavigateDown<CR>")
 map("n", "<C-k>", "<cmd> TmuxNavigateUp<CR>")
 map("n", "<C-l>", "<cmd> TmuxNavigateRight<CR>")
 map("n", "<leader>git", ":LazyGit<CR>")
-map('n', '<leader>ff', ":Pick files<CR>")
-map('n', '<leader>fh', ":Pick help<CR>")
 map("n", "<leader>e", "<CMD>Oil<CR>", { desc = "Open oil file explorer" })
