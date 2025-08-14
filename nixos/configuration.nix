@@ -21,7 +21,7 @@
     };
   };
 
-  users.defaultUserShell = pkgs.zsh;
+  users.defaultUserShell = pkgs.fish;
   users.users.hack = {
     isNormalUser = true;
     shell = pkgs.zsh;

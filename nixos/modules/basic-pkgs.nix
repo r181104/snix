@@ -81,6 +81,7 @@
       (pkgs.git.override { withLibsecret = false; })
       ];
   programs.zsh.enable = true;
+  programs.fish.enable = true;
   programs.firefox.enable = true;
   programs.mtr.enable = true;
   programs.gnupg.agent = {
