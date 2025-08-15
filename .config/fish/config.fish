@@ -58,6 +58,11 @@ if status is-interactive
     end
   end
 
+  # Git Operation
+  function gacp
+    git add .;git commit -m 's';git push
+  end
+
   # File operations
   function ls
     command ls -aFh --color=auto --group-directories-first $argv
