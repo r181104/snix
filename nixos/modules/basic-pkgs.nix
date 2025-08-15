@@ -15,6 +15,9 @@
       kitty
       fzf
       zoxide
+      peco
+      eza
+      ghq
       lazygit
       wl-clipboard
       bc

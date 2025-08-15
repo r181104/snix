@@ -11,6 +11,8 @@ if status is-interactive
   set -Ux BAT_THEME Dracula
   set -Ux FZF_DEFAULT_OPTS "--height 40% --layout=reverse --border --preview-window=wrap"
 
+  set -gx TERMINAL_FONT "JetBrainsMono NF"
+
   # ===== Development Variables =====
   set -Ux GOPATH $HOME/go
   set -Ux CARGO_HOME $HOME/.cargo
