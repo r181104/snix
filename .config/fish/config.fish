@@ -1,12 +1,17 @@
 if status is-interactive
 end
 
+if command -q starship
+  starship init fish | source
+end
+
 if command -q zoxide
   zoxide init fish | source
   function cd
     __zoxide_z $argv
   end
 end
+
 set -gx _ZO_ECHO 1       # Print directory after jumping (like `cd`)
 set -gx _ZO_EXCLUDE_DIRS "$HOME/private/*"  # Exclude dirs from history
 # functions --erase cd  # Restores Fish’s original `cd`
