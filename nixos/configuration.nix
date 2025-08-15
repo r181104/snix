@@ -21,10 +21,10 @@
     };
   };
 
-  users.defaultUserShell = pkgs.zsh;
+  users.defaultUserShell = pkgs.fish;
   users.users.hack = {
     isNormalUser = true;
-    shell = pkgs.zsh;
+    shell = pkgs.fish;
     description = "hack";
     extraGroups = [ "networkmanager" "wheel" "input" ];
     packages = with pkgs; [
@@ -44,7 +44,7 @@
     options = "--delete-older-than 8";
   };
 
-  environment.shells = with pkgs; [ bash zsh ];
+  environment.shells = with pkgs; [ bash zsh fish ];
 
   nixpkgs.config.allowUnfree = true;
   hardware.enableRedistributableFirmware = true;

@@ -15,6 +15,11 @@ alias n "nvim"
 alias sn "sudo nvim"
 
 # Terminal Commands
+alias .. "cd .."
+alias ... "cd ../.."
+alias .... "cd ../../.."
+alias ..... "cd ../../../.."
+alias ...... "cd ../../../../.."
 alias c "clear"
 alias ls "eza -a --icons --grid"
 alias ll "eza -la --icons --grid"
