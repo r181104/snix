@@ -142,9 +142,6 @@ fzf.setup({
     },
   },
 })
-vim.keymap.set("n", "<leader>ff", fzf.files, { desc = "Find files" })
-vim.keymap.set("n", "<leader>fg", fzf.live_grep, { desc = "Search text" })
-vim.keymap.set("n", "<leader>fb", fzf.buffers, { desc = "Find buffers" })
 
 require("noice").setup({
   lsp = {
@@ -289,6 +286,9 @@ map("n", "<C-k>", "<cmd> TmuxNavigateUp<CR>")
 map("n", "<C-l>", "<cmd> TmuxNavigateRight<CR>")
 map("n", "<leader>git", ":LazyGit<CR>")
 map("n", "<leader>e", "<CMD>Oil<CR>", { desc = "Open oil file explorer" })
+map("n", "<leader>ff", fzf.files, { desc = "Find files" })
+map("n", "<leader>fg", fzf.live_grep, { desc = "Search text" })
+map("n", "<leader>fb", fzf.buffers, { desc = "Find buffers" })
 
 vim.keymap.set('n', 'gd', vim.lsp.buf.definition)
 vim.keymap.set('n', 'K', vim.lsp.buf.hover)
