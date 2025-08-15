@@ -7,6 +7,7 @@
       wget
       stow
       curl
+      starship
       zed-editor
       tmux
       alacritty
