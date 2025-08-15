@@ -21,10 +21,10 @@
     };
   };
 
-  users.defaultUserShell = pkgs.fish;
+  users.defaultUserShell = pkgs.zsh;
   users.users.hack = {
     isNormalUser = true;
-    shell = pkgs.fish;
+    shell = pkgs.zsh;
     description = "hack";
     extraGroups = [ "networkmanager" "wheel" "input" ];
     packages = with pkgs; [
