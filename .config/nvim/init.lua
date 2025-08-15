@@ -51,6 +51,12 @@ vim.pack.add({
   { src = "https://github.com/folke/noice.nvim" },
   { src = "https://github.com/lewis6991/gitsigns.nvim" },
   { src = "https://github.com/otavioschwanck/arrow.nvim" },
+  { src = "https://github.com/hrsh7th/nvim-cmp" },         -- Completion engine
+  { src = "https://github.com/hrsh7th/cmp-nvim-lsp" },     -- LSP source
+  { src = "https://github.com/hrsh7th/cmp-buffer" },       -- Buffer words
+  { src = "https://github.com/hrsh7th/cmp-path" },         -- Path completion
+  { src = "https://github.com/saadparwaiz1/cmp_luasnip" }, -- Snippets (optional)
+  { src = "https://github.com/L3MON4D3/LuaSnip" },         -- Snippet engine (optional)
 })
 
 require "which-key".setup()
@@ -141,6 +147,59 @@ fzf.setup({
       ["ctrl-p"] = "toggle-preview",
     },
   },
+})
+
+local cmp = require('cmp')
+local luasnip = require('luasnip')
+
+cmp.setup({
+  snippet = {
+    expand = function(args)
+      luasnip.lsp_expand(args.body) -- For snippet support
+    end,
+  },
+  mapping = cmp.mapping.preset.insert({
+    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<CR>'] = cmp.mapping.confirm({
+      behavior = cmp.ConfirmBehavior.Replace,
+      select = true,
+    }),
+    ['<Tab>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      elseif luasnip.expand_or_jumpable() then
+        luasnip.expand_or_jump()
+      else
+        fallback()
+      end
+    end, { 'i', 's' }),
+    ['<S-Tab>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item()
+      elseif luasnip.jumpable(-1) then
+        luasnip.jump(-1)
+      else
+        fallback()
+      end
+    end, { 'i', 's' }),
+  }),
+  sources = cmp.config.sources({
+    { name = 'nvim_lsp' }, -- LSP-based completion
+    { name = 'luasnip' },  -- Snippets
+    { name = 'buffer' },   -- Current buffer words
+    { name = 'path' },     -- File system paths
+  })
+})
+
+cmp.setup.cmdline(':', {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = cmp.config.sources({
+    { name = 'path' }
+  }, {
+    { name = 'cmdline' }
+  })
 })
 
 require("noice").setup({
@@ -250,10 +309,6 @@ vim.lsp.enable({ "lua_ls", "svelte-language-server", "tinymist", "emmetls", "pyl
 
 vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(ev)
-    local client = vim.lsp.get_client_by_id(ev.data.client_id)
-    if client:supports_method('textDocument/completion') then
-      vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
-    end
     local opts = { buffer = ev.buf }
     local map = vim.keymap.set
     map('n', 'gd', vim.lsp.buf.definition, opts)
@@ -265,8 +320,11 @@ vim.api.nvim_create_autocmd('LspAttach', {
     map('n', '<leader>for', function()
       vim.lsp.buf.format({ async = true })
     end, opts)
+    local client = vim.lsp.get_client_by_id(ev.data.client_id)
+    client.server_capabilities.completionProvider = true
   end
 })
+
 vim.cmd("set completeopt+=noselect")
 
 local map = vim.keymap.set
@@ -289,6 +347,7 @@ map("n", "<leader>e", "<CMD>Oil<CR>", { desc = "Open oil file explorer" })
 map("n", "<leader>ff", fzf.files, { desc = "Find files" })
 map("n", "<leader>fg", fzf.live_grep, { desc = "Search text" })
 map("n", "<leader>fb", fzf.buffers, { desc = "Find buffers" })
+map('i', '<M-o>', '<C-x><C-o>') -- Force trigger completion
 
 vim.keymap.set('n', 'gd', vim.lsp.buf.definition)
 vim.keymap.set('n', 'K', vim.lsp.buf.hover)
