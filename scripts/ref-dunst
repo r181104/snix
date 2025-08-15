@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 # Replace pywal placeholders with actual colors
 sed -i "

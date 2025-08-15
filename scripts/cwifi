@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 # Colors for better UI
 RED='\033[0;31m'
