@@ -23,21 +23,21 @@ zoxide init fish | source
 alias cd=z
 
 # fzf configuration
-set -g FZF_PREVIEW_FILE_CMD "eza --color=always --icons -la"
-set -g FZF_PREVIEW_DIR_CMD "eza --color=always --icons -la"
+set -g FZF_PREVIEW_FILE_CMD "eza --icons --color=always --icons -la"
+set -g FZF_PREVIEW_DIR_CMD "eza --icons --color=always --icons -la"
 set -g FZF_DEFAULT_OPTS "--layout=reverse --border --height=40%"
 
 # ==========================================
-#           EZA (MODERN LS REPLACEMENT)
+#           eza --icons (MODERN LS REPLACEMENT)
 # ==========================================
-alias ls="eza  -a --color=always --icons --group-directories-first"
-alias l="eza -F"
-alias la="eza -aF"
-alias ll="eza -l --git --no-user --time-style=long-iso"
-alias lla="eza -la --git --no-user --time-style=long-iso"
-alias lt="eza -T --level=2"
-alias lta="eza -Ta --level=2"
-alias tree="eza -T"
+alias ls="eza --icons -a --color=always --icons --group-directories-first"
+alias l="eza --icons -F"
+alias la="eza --icons -aF"
+alias ll="eza --icons -l --git --no-user --time-style=long-iso"
+alias lla="eza --icons -la --git --no-user --time-style=long-iso"
+alias lt="eza --icons -T --level=2"
+alias lta="eza --icons -Ta --level=2"
+alias tree="eza --icons -T"
 
 # ==========================================
 #           SYSTEM ALIASES
@@ -62,7 +62,7 @@ alias v="vim"
 alias sv="sudo vim"
 
 # System info
-alias df="eza -aFh"
+alias df="eza --icons -aFh"
 alias du="du -h -c"
 alias free="free -m"
 alias ps="ps auxf"
@@ -109,6 +109,10 @@ bind \e\[3~ delete-char
 bind \cp history-search-backward
 bind \cn history-search-forward
 
+# Cycling through command history with Alt+p and Alt+n
+bind \en down-or-search
+bind \ep up-or-search
+
 # ==========================================
 #           HELPER FUNCTIONS
 # ==========================================
@@ -125,7 +129,7 @@ function mkcd
 end
 
 function treed
-    eza --tree --level=$argv[1] $argv[2..]
+    eza --icons --tree --level=$argv[1] $argv[2..]
 end
 
 function freshclam
