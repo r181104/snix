@@ -1,0 +1,1 @@
+../../snix/.config/fish/config.fish
