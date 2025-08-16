@@ -52,3 +52,16 @@ vim.o.hlsearch = true
 vim.o.incsearch = true
 vim.o.scrolloff = 8
 vim.o.winborder = "rounded"
+
+local map = vim.keymap.set
+map("n", "<leader>w", ":write<CR>", { desc = "Save file" })
+map("n", "<leader>q", ":quit<CR>", { desc = "Quit" })
+-- Multi-mode mapping for jk to escape
+-- map({ "i", "v", "s", "x", "c", "t", "o" }, "jk", "<C-c>", { desc = "Toggle to normal mode" })
+map("n", "<leader>ter", ":terminal<CR>", { desc = "Opens a terminal" })
+map({ "n", "v" }, "<Leader>y", '"+y', { noremap = true, silent = true, desc = "Yank to system clipboard" })
+map("n", "<C-h>", "<cmd> TmuxNavigateLeft<CR>", { desc = "Move to left split" })
+map("n", "<C-j>", "<cmd> TmuxNavigateDown<CR>", { desc = "Move to below split" })
+map("n", "<C-k>", "<cmd> TmuxNavigateUp<CR>", { desc = "Move to above split" })
+map("n", "<C-l>", "<cmd> TmuxNavigateRight<CR>", { desc = "Move to right split" })
+map("n", "<leader>git", ":LazyGit<CR>", { desc = "Open LazyGit" })
