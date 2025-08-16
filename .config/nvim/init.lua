@@ -60,6 +60,11 @@ opt.hlsearch = false
 opt.incsearch = true
 opt.scrolloff = 8 
 opt.isfname:append("@-@")
+
+local augroup = vim.api.nvim_create_augroup
+local LpcGroup = augroup('lpc', {})
+local autocmd = vim.api.nvim_create_autocmd
+
 local map = vim.keymap.set
 map("n", "<leader>w", ":write<CR>", { desc = "Save file" })
 map("n", "<leader>q", ":quit<CR>", { desc = "Quit" })
@@ -81,16 +86,18 @@ map("n", "<C-u>", "<C-u>zz")
 map("n", "n", "nzzzv")
 map("n", "N", "Nzzzv")
 
-vim.api.nvim_create_autocmd("LspAttach", {
-  callback = function(args)
-    local opts = { noremap = true, buffer = args.buf, silent = true }
-    map("n", "gd", vim.lsp.buf.definition, opts)
-    map("n", "K", vim.lsp.buf.hover, opts)
-    map("n", "<leader>ca", vim.lsp.buf.code_action, opts)
-    map("n", "<leader>gr", vim.lsp.buf.references, opts)
-    map("n", "<leader>rn", vim.lsp.buf.rename, opts)
-    map("n", "<leader>fd", vim.diagnostic.open_float, opts)
-    map({"n", "v"}, "<leader>for", vim.lsp.buf.format, opts)
+autocmd('LspAttach', {
+    group = LpcGroup,
+    callback = function(e)
+        local opts = { buffer = e.buf }
+        map("n", "gd", function() vim.lsp.buf.definition() end, opts)
+        map("n", "K", function() vim.lsp.buf.hover() end, opts)
+        map("n", "<leader>ws", function() vim.lsp.buf.workspace_symbol() end, opts)
+        map("n", "<leader>fd", function() vim.diagnostic.open_float() end, opts)
+        map("n", "<leader>ca", function() vim.lsp.buf.code_action() end, opts)
+        map("n", "<leader>gr", function() vim.lsp.buf.references() end, opts)
+        map("n", "<leader>rn", function() vim.lsp.buf.rename() end, opts)
+        map("i", "<C-s>", function() vim.lsp.buf.signature_help() end, opts)
     end
 })
 map("n", "<leader>fe", vim.diagnostic.open_float, { desc = "Show diagnostics" })
