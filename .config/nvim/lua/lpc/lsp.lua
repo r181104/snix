@@ -3,7 +3,7 @@ return {
     "williamboman/mason.nvim",
     config = function()
       require("mason").setup()
-    end
+    end,
   },
   {
     "williamboman/mason-lspconfig.nvim",
@@ -21,68 +21,70 @@ return {
           -- "lua_ls"
         },
       })
-    end
+    end,
   },
   {
     "neovim/nvim-lspconfig",
     config = function()
-      local capabilities = require('cmp_nvim_lsp').default_capabilities()
+      local capabilities = require("cmp_nvim_lsp").default_capabilities()
       local lspconfig = require("lspconfig")
       lspconfig.lua_ls.setup({
-        capabilities = capabilities
+        capabilities = capabilities,
       })
       lspconfig.pyright.setup({
-        capabilities = capabilities
+        capabilities = capabilities,
       })
       lspconfig.gopls.setup({
-        capabilities = capabilities
+        capabilities = capabilities,
       })
       lspconfig.rust_analyzer.setup({
-        capabilities = capabilities
+        capabilities = capabilities,
       })
       lspconfig.ts_ls.setup({
-        capabilities = capabilities
+        capabilities = capabilities,
       })
       lspconfig.cssls.setup({
-        capabilities = capabilities
+        capabilities = capabilities,
       })
       lspconfig.clangd.setup({
-        capabilities = capabilities
+        capabilities = capabilities,
       })
       lspconfig.jdtls.setup({
-        capabilities = capabilities
+        capabilities = capabilities,
       })
       lspconfig.rnix.setup({
-        capabilities = capabilities
+        capabilities = capabilities,
       })
       local vim = vim
       local map = vim.keymap.set
       local bufopts = { noremap = true, silent = true, buffer = buffer }
-      map('n', 'gD', vim.lsp.buf.declaration, bufopts)
-      map('n', 'gd', vim.lsp.buf.definition, bufopts)
-      map('n', 'K', vim.lsp.buf.hover, bufopts)
-      map('n', 'gi', vim.lsp.buf.implementation, bufopts)
-      map('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
-      map('n', '<leader>D', vim.lsp.buf.type_definition, bufopts)
-      map('n', '<leader>rn', vim.lsp.buf.rename, bufopts)
-      map('n', '<leader>ca', vim.lsp.buf.code_action, bufopts)
-      map('n', 'gr', vim.lsp.buf.references, bufopts)
-    end
+      map("n", "gD", vim.lsp.buf.declaration, bufopts)
+      map("n", "gd", vim.lsp.buf.definition, bufopts)
+      map("n", "K", vim.lsp.buf.hover, bufopts)
+      map("n", "gi", vim.lsp.buf.implementation, bufopts)
+      map("n", "<C-k>", vim.lsp.buf.signature_help, bufopts)
+      map("n", "<leader>D", vim.lsp.buf.type_definition, bufopts)
+      map("n", "<leader>rn", vim.lsp.buf.rename, bufopts)
+      map("n", "<leader>ca", vim.lsp.buf.code_action, bufopts)
+      map("n", "gr", vim.lsp.buf.references, bufopts)
+    end,
   },
   {
-    'nvimtools/none-ls.nvim',
+    "nvimtools/none-ls.nvim",
     dependencies = {
-      'nvim-lua/plenary.nvim',
+      "nvim-lua/plenary.nvim",
     },
     config = function()
       local null_ls = require("null-ls")
       null_ls.setup({
         sources = {
           null_ls.builtins.formatting.stylua,
-          null_ls.builtins.diagnostics.luacheck,
+        },
       })
       local bufopts = { noremap = true, silent = true, buffer = buffer }
-      vim.keymap.set('n', '<leader>fr', function() vim.lsp.buf.format { async = true } end, bufopts)
-    end
-  }
+      vim.keymap.set("n", "<leader>fr", function()
+        vim.lsp.buf.format({ async = true })
+      end, bufopts)
+    end,
+  },
 }
