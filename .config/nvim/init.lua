@@ -74,7 +74,7 @@ opt.undofile = true -- Enable persistent undo
 -- --------------------------------------------------------------------------
 -- Search Highlighting
 -- --------------------------------------------------------------------------
-opt.hlsearch = true -- Don't highlight all search matches
+opt.hlsearch = false -- Don't highlight all search matches
 opt.incsearch = true -- Show matches as you type
 -- --------------------------------------------------------------------------
 -- Scroll Offset
@@ -87,7 +87,7 @@ opt.isfname:append("@-@") -- Allow @ in file names
 local map = vim.keymap.set
 map("n", "<leader>w", ":write<CR>", { desc = "Save file" })
 map("n", "<leader>q", ":quit<CR>", { desc = "Quit" })
-map("n", "<leader>so", ":update source<CR>", { desc = "Quit" })
+map("n", "<leader>so", ":source ~/.config/nvim/init.lua <CR>", { desc = "Quit" })
 map("n", "<leader>ter", ":terminal<CR>", { desc = "Opens a terminal" })
 map({ "n", "v" }, "<Leader>y", '"+y', { noremap = true, silent = true, desc = "Yank to system clipboard" })
 map("n", "<C-h>", "<cmd> TmuxNavigateLeft<CR>", { desc = "Move to left split" })
@@ -95,4 +95,3 @@ map("n", "<C-j>", "<cmd> TmuxNavigateDown<CR>", { desc = "Move to below split" }
 map("n", "<C-k>", "<cmd> TmuxNavigateUp<CR>", { desc = "Move to above split" })
 map("n", "<C-l>", "<cmd> TmuxNavigateRight<CR>", { desc = "Move to right split" })
 map("n", "<leader>git", ":LazyGit<CR>", { desc = "Open LazyGit" })
-map("n", "<leader>e", "<CMD>Oil<CR>", { desc = "Open oil file explorer" })

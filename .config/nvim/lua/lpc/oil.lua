@@ -35,5 +35,6 @@ return {
     },
     use_default_keymaps = false,
   })
+vim.keymap.set("n", "<leader>e", "<CMD>Oil<CR>", { desc = "Open oil file explorer" })
 end
 }
