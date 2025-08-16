@@ -3,12 +3,11 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
     zen-browser.url = "github:youwen5/zen-browser-flake";
     zen-browser.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, zen-browser, neovim-nightly-overlay, ... }@inputs:
+  outputs = { self, nixpkgs, zen-browser, ... }@inputs:
     let
     lib = nixpkgs.lib;
   system = "x86_64-linux";
@@ -21,7 +20,7 @@
         ./configuration.nix
           ({ pkgs, ... }: {
            environment.systemPackages = with pkgs; [
-           neovim-nightly-overlay.packages.${pkgs.system}.default
+           # neovim-nightly-overlay.packages.${pkgs.system}.default
            zen-browser.packages.${system}.default
            ];
            })
