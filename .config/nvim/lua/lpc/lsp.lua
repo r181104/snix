@@ -9,7 +9,7 @@ return {
     "williamboman/mason-lspconfig.nvim",
     config = function()
       require("mason-lspconfig").setup({
-        ensure_installed = { "ts_ls", "pyright" }
+        ensure_installed = { "ts_ls", "pyright", "rust_analyzer" }
       })
     end
   },
@@ -21,6 +21,7 @@ return {
       lspconfig.nil_ls.setup({})
       lspconfig.gopls.setup({})
       lspconfig.pyright.setup({})
+      lspconfig.rust_analyzer.setup({})
     end
   }
 }
