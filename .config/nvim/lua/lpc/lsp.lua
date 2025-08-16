@@ -1,90 +1,102 @@
 return {
-  {
-    "williamboman/mason.nvim",
-    config = function()
-      require("mason").setup()
-    end,
-  },
-  {
-    "williamboman/mason-lspconfig.nvim",
-    config = function()
-      require("mason-lspconfig").setup({
-        ensure_installed = {
-          "pyright",
-          "gopls",
-          "ts_ls",
-          "cssls",
-          "rust_analyzer",
-          "clangd",
-          "jdtls",
-          "rnix",
-          -- "lua_ls"
-        },
-      })
-    end,
-  },
-  {
-    "neovim/nvim-lspconfig",
-    config = function()
-      local capabilities = require("cmp_nvim_lsp").default_capabilities()
-      local lspconfig = require("lspconfig")
-      lspconfig.lua_ls.setup({
-        capabilities = capabilities,
-      })
-      lspconfig.pyright.setup({
-        capabilities = capabilities,
-      })
-      lspconfig.gopls.setup({
-        capabilities = capabilities,
-      })
-      lspconfig.rust_analyzer.setup({
-        capabilities = capabilities,
-      })
-      lspconfig.ts_ls.setup({
-        capabilities = capabilities,
-      })
-      lspconfig.cssls.setup({
-        capabilities = capabilities,
-      })
-      lspconfig.clangd.setup({
-        capabilities = capabilities,
-      })
-      lspconfig.jdtls.setup({
-        capabilities = capabilities,
-      })
-      lspconfig.rnix.setup({
-        capabilities = capabilities,
-      })
-      local vim = vim
-      local map = vim.keymap.set
-      local bufopts = { noremap = true, silent = true, buffer = buffer }
-      map("n", "gD", vim.lsp.buf.declaration, bufopts)
-      map("n", "gd", vim.lsp.buf.definition, bufopts)
-      map("n", "K", vim.lsp.buf.hover, bufopts)
-      map("n", "gi", vim.lsp.buf.implementation, bufopts)
-      map("n", "<C-k>", vim.lsp.buf.signature_help, bufopts)
-      map("n", "<leader>D", vim.lsp.buf.type_definition, bufopts)
-      map("n", "<leader>rn", vim.lsp.buf.rename, bufopts)
-      map("n", "<leader>ca", vim.lsp.buf.code_action, bufopts)
-      map("n", "gr", vim.lsp.buf.references, bufopts)
-    end,
-  },
-  {
-    "nvimtools/none-ls.nvim",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-    },
-    config = function()
-      local null_ls = require("null-ls")
-      null_ls.setup({
-        sources = {
-          null_ls.builtins.formatting.stylua,
-        },
-      })
-      local bufopts = { noremap = true, silent = true, buffer = buffer }
-      vim.keymap.set("n", "<leader>fr", function()
-        vim.lsp.buf.format({ async = true })
-      end, bufopts)
-    end,
-  },
+	{
+		"mason-org/mason.nvim",
+		config = function()
+			require("mason").setup({
+				opts = {
+					ui = {
+						icons = {
+							package_installed = "✓",
+							package_pending = "➜",
+							package_uninstalled = "✗",
+						},
+					},
+				},
+			})
+		end,
+	},
+	{
+		"mason-org/mason-lspconfig.nvim",
+		dependencies = {
+			"mason-org/mason.nvim",
+			"neovim/nvim-lspconfig",
+		},
+		config = function()
+			require("mason-lspconfig").setup({
+				opts = {
+					ensure_installed = { "lua_ls", "pyright", "ts_ls" },
+					automatic_installation = true,
+					automatic_enable = true,
+				},
+			})
+		end,
+	},
+	{
+		"neovim/nvim-lspconfig",
+		config = function()
+			require("lspconfig").lua_ls.setup({
+				settings = {
+					Lua = {
+						diagnostics = { globals = { "vim" } },
+					},
+				},
+			})
+		end,
+	},
+	{
+		"stevearc/conform.nvim",
+		event = { "BufReadPre", "BufNewFile" },
+		opts = {
+			formatters_by_ft = {
+				lua = { "stylua" },
+				python = { "isort", "black" },
+				javascript = { "prettier" },
+				typescript = { "prettier" },
+				-- Add more filetypes/formatters
+			},
+			format_on_save = {
+				lsp_fallback = true,
+				timeout_ms = 500,
+			},
+		},
+		config = function(_, opts)
+			require("conform").setup(opts)
+			-- Manual format keymap
+			vim.keymap.set({ "n", "v" }, "<leader>mp", function()
+				require("conform").format({ lsp_fallback = true, timeout_ms = 500 })
+			end, { desc = "Format file or range" })
+		end,
+	},
+	{
+		"mfussenegger/nvim-lint",
+		event = { "BufReadPre", "BufNewFile" },
+		config = function()
+			local lint = require("lint")
+			lint.linters_by_ft = {
+				javascript = { "eslint_d" },
+				typescript = { "eslint_d" },
+				python = { "pylint" },
+				-- Add more
+			}
+			local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
+			vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
+				group = lint_augroup,
+				callback = function()
+					lint.try_lint()
+				end,
+			})
+			vim.keymap.set("n", "<leader>l", lint.try_lint, { desc = "Trigger linting" })
+		end,
+	},
+	{
+		"WhoIsSethDaniel/mason-tool-installer.nvim",
+		dependencies = { "mason-org/mason.nvim" },
+		config = function()
+			require("mason-tool-installer").setup({
+				opts = {
+					ensure_installed = { "stylua", "black", "isort", "prettier", "eslint_d", "pylint" },
+				},
+			})
+		end,
+	},
 }
