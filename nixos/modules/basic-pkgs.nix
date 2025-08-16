@@ -5,6 +5,7 @@
   environment.systemPackages = with pkgs; [
     vim
     neovim
+    shellcheck
     wget
     stow
     curl
