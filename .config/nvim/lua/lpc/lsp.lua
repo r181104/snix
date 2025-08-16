@@ -11,8 +11,10 @@ return {
       require("mason-lspconfig").setup({
         ensure_installed = {
           "ts_ls",
+          "gopls",
           "pyright",
           "rust_analyzer",
+          "rnix",
           -- "lua_ls"
         },
       })
@@ -23,7 +25,7 @@ return {
     config = function()
       local lspconfig = require("lspconfig")
       lspconfig.lua_ls.setup({})
-      lspconfig.nil_ls.setup({})
+      lspconfig.rnix.setup({})
       lspconfig.gopls.setup({})
       lspconfig.pyright.setup({})
       lspconfig.rust_analyzer.setup({})

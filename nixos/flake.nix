@@ -9,22 +9,22 @@
 
   outputs = { self, nixpkgs, zen-browser, ... }@inputs:
     let
-    lib = nixpkgs.lib;
-  system = "x86_64-linux";
-  in
-  {
-    nixosConfigurations.nix-hak = nixpkgs.lib.nixosSystem {
-      inherit system;
-      specialArgs = { inherit inputs; };
-      modules = [
-        ./configuration.nix
+      lib = nixpkgs.lib;
+      system = "x86_64-linux";
+    in
+    {
+      nixosConfigurations.nix-hak = nixpkgs.lib.nixosSystem {
+        inherit system;
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./configuration.nix
           ({ pkgs, ... }: {
-           environment.systemPackages = with pkgs; [
-           # neovim-nightly-overlay.packages.${pkgs.system}.default
-           zen-browser.packages.${system}.default
-           ];
-           })
-      ];
+            environment.systemPackages = with pkgs; [
+              # neovim-nightly-overlay.packages.${pkgs.system}.default
+              zen-browser.packages.${system}.default
+            ];
+          })
+        ];
+      };
     };
-  };
 }

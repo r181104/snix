@@ -3,7 +3,7 @@
 {
   imports =
     [
-    ./hardware-configuration.nix
+      ./hardware-configuration.nix
       ./modules/bspwm.nix
       ./modules/graphics.nix
       ./modules/basic-pkgs.nix
@@ -16,8 +16,8 @@
     hostName = "nix-hak";
     networkmanager.enable = true;
     firewall = {
-        enable = true;
-        allowedTCPPorts = [ 80 443 2222 ];
+      enable = true;
+      allowedTCPPorts = [ 80 443 2222 ];
     };
   };
 
@@ -29,8 +29,8 @@
     extraGroups = [ "networkmanager" "wheel" "input" ];
     packages = with pkgs; [
       bash
-        zsh
-        tree
+      zsh
+      tree
     ];
   };
 
