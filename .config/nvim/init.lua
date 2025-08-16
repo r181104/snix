@@ -33,7 +33,6 @@ vim.o.scrolloff = 8
 vim.o.winborder = "rounded"
 
 vim.g.mapleader = " "
-vim.g.maplocalleader = "\\"
 
 vim.pack.add({
     { src = "https://github.com/christoomey/vim-tmux-navigator" },
@@ -109,7 +108,7 @@ require("noice").setup({
         command_palette = true,
         long_message_to_split = true,
         inc_rename = false,
-        lsp_doc_border = false,
+        lsp_doc_border = true,
     }
 })
 
@@ -140,7 +139,7 @@ require 'nvim-treesitter.configs'.setup {
 local cmp = require('cmp')
 local luasnip = require('luasnip')
 local lspconfig = require('lspconfig')
-local servers = { 'lua_ls', 'rust-analyzer' }
+local servers = { 'lua_ls', 'rustfmt' }
 for _, lsp in ipairs(servers) do
     lspconfig[lsp].setup {
         capabilities = require('cmp_nvim_lsp').default_capabilities()
@@ -176,13 +175,6 @@ cmp.setup {
         { name = 'buffer' },
     })
 }
-
-cmp.setup.cmdline(':', {
-    mapping = cmp.mapping.preset.cmdline(),
-    sources = cmp.config.sources({
-        { name = 'path' }
-    })
-})
 
 -- Key mappings
 local map = vim.keymap.set
