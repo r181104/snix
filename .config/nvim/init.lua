@@ -95,14 +95,3 @@ map("n", "<C-j>", "<cmd> TmuxNavigateDown<CR>", { desc = "Move to below split" }
 map("n", "<C-k>", "<cmd> TmuxNavigateUp<CR>", { desc = "Move to above split" })
 map("n", "<C-l>", "<cmd> TmuxNavigateRight<CR>", { desc = "Move to right split" })
 map("n", "<leader>git", ":LazyGit<CR>", { desc = "Open LazyGit" })
-
-local bufopts = { noremap = true, silent = true, buffer = bufnr }
-map('n', 'gD', vim.lsp.buf.declaration, bufopts)
-map('n', 'gd', vim.lsp.buf.definition, bufopts)
-map('n', 'K', vim.lsp.buf.hover, bufopts)
-map('n', 'gi', vim.lsp.buf.implementation, bufopts)
-map('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
-map('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
-map('n', '<space>rn', vim.lsp.buf.rename, bufopts)
-map('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
-map('n', 'gr', vim.lsp.buf.references, bufopts)
