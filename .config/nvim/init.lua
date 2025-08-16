@@ -1,3 +1,4 @@
+local vim = vim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
 	local lazyrepo = "https://github.com/folke/lazy.nvim.git"
@@ -17,7 +18,12 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
-require("lazy").setup("lpc")
+require("lazy").setup(
+  "lpc",
+  {
+  checker = { enabled = true, notify = false },
+  change_detection = { notify = false },
+})
 
 local opt = vim.opt
 -- --------------------------------------------------------------------------
@@ -96,12 +102,27 @@ map("n", "<C-k>", "<cmd> TmuxNavigateUp<CR>", { desc = "Move to above split" })
 map("n", "<C-l>", "<cmd> TmuxNavigateRight<CR>", { desc = "Move to right split" })
 map("n", "<leader>git", ":LazyGit<CR>", { desc = "Open LazyGit" })
 
-map("n", "<leader>fg", vim.lsp.buf.format, {})
-
 vim.api.nvim_create_autocmd("LspAttach", {
-	callback = function(args)
-		local bufnr = args.buf
-		vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = bufnr, desc = "Go to definition" })
-		vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = bufnr, desc = "Hover info" })
-	end,
+  callback = function(args)
+    local opts = { buffer = args.buf, silent = true }
+    map("n", "gd", vim.lsp.buf.definition, opts)
+    map("n", "K", vim.lsp.buf.hover, opts)
+    map("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+    map("n", "<leader>gr", vim.lsp.buf.references, opts)
+    map("n", "<leader>rn", vim.lsp.buf.rename, opts)
+    map("n", "[d", vim.diagnostic.goto_prev, opts)
+    map("n", "]d", vim.diagnostic.goto_next, opts)
+    map("n", "<leader>fd", vim.diagnostic.open_float, opts)
+    map({ "n", "x" }, "<leader>fr", function()
+      require("conform").format({ async = true, lsp_fallback = true })
+    end, { desc = "Format buffer" })
+  end,
+})
+map("n", "<leader>fe", vim.diagnostic.open_float, { desc = "Show diagnostics" })
+map("n", "<leader>ce", vim.diagnostic.setqflist, { desc = "Diagnostics to quickfix" })
+
+vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+  callback = function()
+    require("lint").try_lint()
+  end,
 })
