@@ -1,3 +1,4 @@
+local vim = vim
 local root_files = {
   '.luarc.json',
   '.luarc.jsonc',
