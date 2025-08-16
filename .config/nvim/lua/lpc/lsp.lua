@@ -49,7 +49,7 @@ return {
         "tailwindcss",
       },
       handlers = {
-        function(server_name) -- default handler (optional)
+        function(server_name)
           require("lspconfig")[server_name].setup {
             capabilities = capabilities
           }
@@ -78,8 +78,6 @@ return {
               Lua = {
                 format = {
                   enable = true,
-                  -- Put format options here
-                  -- NOTE: the value should be STRING!!
                   defaultConfig = {
                     indent_style = "space",
                     indent_size = "2",
