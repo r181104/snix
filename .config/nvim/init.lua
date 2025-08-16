@@ -1,4 +1,4 @@
-local vim = vim
+local jim = vim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
 	local lazyrepo = "https://github.com/folke/lazy.nvim.git"
@@ -26,70 +26,40 @@ require("lazy").setup(
 })
 
 local opt = vim.opt
--- --------------------------------------------------------------------------
--- Appearance
--- --------------------------------------------------------------------------
-opt.number = true -- Show absolute line numbers
-opt.relativenumber = true -- Show relative line numbers
-opt.termguicolors = true -- Enable true color support
-opt.cursorline = true -- Highlight the current line
-opt.cursorcolumn = true -- Highlight the current column
-opt.showmode = false -- Don't show mode (handled by statusline)
-opt.signcolumn = "yes" -- Always show the sign column
--- --------------------------------------------------------------------------
--- Indentation
--- --------------------------------------------------------------------------
-opt.tabstop = 2 -- Number of spaces per tab
-opt.shiftwidth = 2 -- Number of spaces for each indentation
-opt.softtabstop = 2 -- Number of spaces for <Tab> in insert mode
-opt.expandtab = true -- Use spaces instead of tabs
-opt.smartindent = true -- Smart autoindenting
-opt.autoindent = true -- Copy indent from current line when starting new one
--- --------------------------------------------------------------------------
--- Text Wrapping
--- --------------------------------------------------------------------------
-opt.wrap = true -- Enable line wrapping
-opt.linebreak = true -- Wrap lines at convenient points
-opt.showbreak = "↪" -- Show this symbol at wrapped lines
-opt.sidescroll = 1 -- Minimal number of columns to scroll horizontally
--- --------------------------------------------------------------------------
--- Search
--- --------------------------------------------------------------------------
-opt.ignorecase = true -- Ignore case in search patterns
-opt.smartcase = true -- Override ignorecase if search contains uppercase
--- --------------------------------------------------------------------------
--- Performance
--- --------------------------------------------------------------------------
-opt.updatetime = 300 -- Faster completion
+opt.number = true 
+opt.relativenumber = true
+opt.termguicolors = true
+opt.cursorline = true 
+opt.cursorcolumn = true
+opt.showmode = false 
+opt.signcolumn = "yes" 
+opt.tabstop = 2 
+opt.shiftwidth = 2 
+opt.softtabstop = 2 
+opt.expandtab = true 
+opt.smartindent = true
+opt.autoindent = true 
+opt.wrap = true 
+opt.linebreak = true
+opt.showbreak = "↪" 
+opt.sidescroll = 1 
+opt.ignorecase = true 
+opt.smartcase = true 
+opt.updatetime = 300
 opt.timeout = true
-opt.timeoutlen = 500 -- Shorter timeout for mapped sequences
--- --------------------------------------------------------------------------
--- Splits
--- --------------------------------------------------------------------------
-opt.splitbelow = true -- Horizontal splits below
-opt.splitright = true -- Vertical splits to the right
--- --------------------------------------------------------------------------
--- Undo and Backup
--- --------------------------------------------------------------------------
-opt.swapfile = false -- Don't use swapfile
-opt.backup = false -- Don't create backup files
+opt.timeoutlen = 500 
+opt.splitbelow = true
+opt.splitright = true
+opt.swapfile = false 
+opt.backup = false 
 local undodir = os.getenv("HOME") .. "/.vim/undodir"
-vim.fn.mkdir(undodir, "p") -- Create undodir if it doesn't exist
-opt.undodir = undodir -- Set undo directory
-opt.undofile = true -- Enable persistent undo
--- --------------------------------------------------------------------------
--- Search Highlighting
--- --------------------------------------------------------------------------
-opt.hlsearch = false -- Don't highlight all search matches
-opt.incsearch = true -- Show matches as you type
--- --------------------------------------------------------------------------
--- Scroll Offset
--- --------------------------------------------------------------------------
-opt.scrolloff = 8 -- Keep 8 lines above/below cursor
-opt.isfname:append("@-@") -- Allow @ in file names
--- --------------------------------------------------------------------------
--- Keymaps
--- --------------------------------------------------------------------------
+vim.fn.mkdir(undodir, "p") 
+opt.undodir = undodir 
+opt.undofile = true 
+opt.hlsearch = false
+opt.incsearch = true
+opt.scrolloff = 8 
+opt.isfname:append("@-@")
 local map = vim.keymap.set
 map("n", "<leader>w", ":write<CR>", { desc = "Save file" })
 map("n", "<leader>q", ":quit<CR>", { desc = "Quit" })
@@ -102,9 +72,18 @@ map("n", "<C-k>", "<cmd> TmuxNavigateUp<CR>", { desc = "Move to above split" })
 map("n", "<C-l>", "<cmd> TmuxNavigateRight<CR>", { desc = "Move to right split" })
 map("n", "<leader>git", ":LazyGit<CR>", { desc = "Open LazyGit" })
 
+-- Prime's remaps
+map("v", "J", ":m '>+1<CR>gv=gv")
+map("v", "K", ":m '<-2<CR>gv=gv")
+map("n", "J", "mzJ`z")
+map("n", "<C-d>", "<C-d>zz")
+map("n", "<C-u>", "<C-u>zz")
+map("n", "n", "nzzzv")
+map("n", "N", "Nzzzv")
+
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(args)
-    local opts = { buffer = args.buf, silent = true }
+    local opts = { noremap = true, buffer = args.buf, silent = true }
     map("n", "gd", vim.lsp.buf.definition, opts)
     map("n", "K", vim.lsp.buf.hover, opts)
     map("n", "<leader>ca", vim.lsp.buf.code_action, opts)
@@ -113,16 +92,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
     map("n", "[d", vim.diagnostic.goto_prev, opts)
     map("n", "]d", vim.diagnostic.goto_next, opts)
     map("n", "<leader>fd", vim.diagnostic.open_float, opts)
-    map({ "n", "x" }, "<leader>fr", function()
-      require("conform").format({ async = true, lsp_fallback = true })
-    end, { desc = "Format buffer" })
-  end,
+    map({"n", "v"}, "<leader>for", vim.lsp.buf.format, opts)
+    end
 })
 map("n", "<leader>fe", vim.diagnostic.open_float, { desc = "Show diagnostics" })
 map("n", "<leader>ce", vim.diagnostic.setqflist, { desc = "Diagnostics to quickfix" })
-
-vim.api.nvim_create_autocmd({ "BufWritePost" }, {
-  callback = function()
-    require("lint").try_lint()
-  end,
-})
