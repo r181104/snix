@@ -252,17 +252,7 @@ require("oil").setup({
 
 vim.cmd(":hi statusline guibg=NONE")
 
-vim.lsp.enable({
-  "html",          -- HTML
-  "cssls",         -- CSS
-  "ts_ls",         -- JavaScript/TypeScript
-  "jdtls",         -- Java
-  "clangd",        -- C++
-  "rust_analyzer", -- Rust
-  "pyright",       -- Python
-  "sqlls",         -- SQL
-  "lua_ls",        -- Lua
-  "bashls",
+vim.lsp.enable({ "html", "cssls", "ts_ls", "jdtls", "clangd", "rust_analyzer", "pyright", "sqlls", "lua_ls", "bashls",
 })
 vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(ev)
@@ -282,29 +272,11 @@ vim.api.nvim_create_autocmd('LspAttach', {
   end
 })
 
-local cmp = require("cmp")
-cmp.setup({
-  snippet = {
-    expand = function(args)
-      require("luasnip").lsp_expand(args.body)
-    end,
-  },
-  mapping = cmp.mapping.preset.insert({
-    ["<CR>"] = cmp.mapping.confirm({ select = true }),
-  }),
-  sources = cmp.config.sources({
-    { name = "nvim_lsp" },
-    { name = "luasnip" },
-    { name = "buffer" },
-    { name = "path" },
-  }),
-})
-
 vim.cmd("set completeopt+=noselect")
 
 local map = vim.keymap.set
 vim.g.mapleader = " "
-map({ "i", "v", "x", "t", "c" }, "<M-;>", "<ESC>")
+map({ "i", "v", "x", "t", "c" }, "<M-`>", "<ESC>")
 map('n', '<leader>so', ':update<CR> :source<CR>')
 map('n', '<leader>w', ':write<CR>')
 map('n', '<leader>q', ':quit<CR>')
@@ -323,9 +295,3 @@ map("n", "<leader>ff", fzf.files, { desc = "Find files" })
 map("n", "<leader>fg", fzf.live_grep, { desc = "Search text" })
 map("n", "<leader>fb", fzf.buffers, { desc = "Find buffers" })
 map('i', '<M-o>', '<C-x><C-o>') -- Force trigger completion
-
-vim.keymap.set('n', 'gd', vim.lsp.buf.definition)
-vim.keymap.set('n', 'K', vim.lsp.buf.hover)
-vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename)
-vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action)
-vim.keymap.set('n', 'gr', vim.lsp.buf.references)
