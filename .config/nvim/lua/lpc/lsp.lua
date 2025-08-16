@@ -9,7 +9,12 @@ return {
     "williamboman/mason-lspconfig.nvim",
     config = function()
       require("mason-lspconfig").setup({
-        ensure_installed = { "ts_ls", "pyright", "rust_analyzer" }
+        ensure_installed = {
+          "ts_ls",
+          "pyright",
+          "rust_analyzer",
+          -- "lua_ls"
+        },
       })
     end
   },
@@ -22,6 +27,7 @@ return {
       lspconfig.gopls.setup({})
       lspconfig.pyright.setup({})
       lspconfig.rust_analyzer.setup({})
+      vim.keymap.set('n', '<space>fr', function() vim.lsp.buf.format { async = true } end, bufopts)
     end
   }
 }
