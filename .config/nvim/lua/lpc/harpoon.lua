@@ -4,7 +4,7 @@ return {
   dependencies = {
     "nvim-lua/plenary.nvim",
   },
-  config = function ()
+  config = function()
     local harpoon = require("harpoon")
     harpoon:setup()
 
@@ -17,5 +17,5 @@ return {
     map("n", "<M-s>", function() harpoon:list():select(4) end)
     map("n", "<C-S-P>", function() harpoon:list():prev() end)
     map("n", "<C-S-N>", function() harpoon:list():next() end)
-end
+  end
 }
