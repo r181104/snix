@@ -11,9 +11,9 @@ return {
       require("mason-lspconfig").setup({
         ensure_installed = {
           "ts_ls",
-          -- "gopls",
-          -- "rust_analyzer",
+          "gopls",
           "pyright",
+          "starlark_rust",
           "rnix",
           -- "lua_ls"
         },
@@ -28,6 +28,9 @@ return {
       lspconfig.lua_ls.setup({
         capabilities = capabilities
       })
+      lspconfig.ts_ls.setup({
+        capabilities = capabilities
+      })
       lspconfig.rnix.setup({
         capabilities = capabilities
       })
@@ -37,11 +40,12 @@ return {
       lspconfig.pyright.setup({
         capabilities = capabilities
       })
-      lspconfig.rust_analyzer.setup({
+      lspconfig.starlark_rust.setup({
         capabilities = capabilities
       })
+      local vim = vim
       local map = vim.keymap.set
-      local bufopts = { noremap = true, silent = true, buffer = bufnr }
+      local bufopts = { noremap = true, silent = true, buffer = buffer }
       map('n', 'gD', vim.lsp.buf.declaration, bufopts)
       map('n', 'gd', vim.lsp.buf.definition, bufopts)
       map('n', 'K', vim.lsp.buf.hover, bufopts)
