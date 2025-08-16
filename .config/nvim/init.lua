@@ -140,7 +140,7 @@ require 'nvim-treesitter.configs'.setup {
 local cmp = require('cmp')
 local luasnip = require('luasnip')
 local lspconfig = require('lspconfig')
-local servers = { 'lua_ls', 'rustfmt' }
+local servers = { 'lua_ls', 'rust-analyzer' }
 for _, lsp in ipairs(servers) do
     lspconfig[lsp].setup {
         capabilities = require('cmp_nvim_lsp').default_capabilities()
