@@ -5,7 +5,7 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
   if vim.v.shell_error ~= 0 then
     vim.api.nvim_echo({
       { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-      { out, "WarningMsg" },
+      { out,                            "WarningMsg" },
       { "\nPress any key to exit..." },
     }, true, {})
     vim.fn.getchar()
@@ -23,22 +23,22 @@ local opt = vim.opt
 -- --------------------------------------------------------------------------
 -- Appearance
 -- --------------------------------------------------------------------------
-opt.number = true -- Show absolute line numbers
+opt.number = true         -- Show absolute line numbers
 opt.relativenumber = true -- Show relative line numbers
-opt.termguicolors = true -- Enable true color support
-opt.cursorline = true -- Highlight the current line
-opt.cursorcolumn = true -- Highlight the current column
-opt.showmode = false -- Don't show mode (handled by statusline)
-opt.signcolumn = "yes" -- Always show the sign column
+opt.termguicolors = true  -- Enable true color support
+opt.cursorline = true     -- Highlight the current line
+opt.cursorcolumn = true   -- Highlight the current column
+opt.showmode = false      -- Don't show mode (handled by statusline)
+opt.signcolumn = "yes"    -- Always show the sign column
 -- --------------------------------------------------------------------------
 -- Indentation
 -- --------------------------------------------------------------------------
-opt.tabstop = 2 -- Number of spaces per tab
-opt.shiftwidth = 2 -- Number of spaces for each indentation
-opt.softtabstop = 2 -- Number of spaces for <Tab> in insert mode
-opt.expandtab = true -- Use spaces instead of tabs
+opt.tabstop = 2        -- Number of spaces per tab
+opt.shiftwidth = 2     -- Number of spaces for each indentation
+opt.softtabstop = 2    -- Number of spaces for <Tab> in insert mode
+opt.expandtab = true   -- Use spaces instead of tabs
 opt.smartindent = true -- Smart autoindenting
-opt.autoindent = true -- Copy indent from current line when starting new one
+opt.autoindent = true  -- Copy indent from current line when starting new one
 -- --------------------------------------------------------------------------
 -- Text Wrapping
 -- --------------------------------------------------------------------------
@@ -50,7 +50,7 @@ opt.sidescroll = 1 -- Minimal number of columns to scroll horizontally
 -- Search
 -- --------------------------------------------------------------------------
 opt.ignorecase = true -- Ignore case in search patterns
-opt.smartcase = true -- Override ignorecase if search contains uppercase
+opt.smartcase = true  -- Override ignorecase if search contains uppercase
 -- --------------------------------------------------------------------------
 -- Performance
 -- --------------------------------------------------------------------------
@@ -65,12 +65,12 @@ opt.splitright = true -- Vertical splits to the right
 -- --------------------------------------------------------------------------
 -- Undo and Backup
 -- --------------------------------------------------------------------------
-opt.swapfile = false -- Don't use swapfile
-opt.backup = false -- Don't create backup files
+opt.swapfile = false       -- Don't use swapfile
+opt.backup = false         -- Don't create backup files
 local undodir = os.getenv("HOME") .. "/.vim/undodir"
 vim.fn.mkdir(undodir, "p") -- Create undodir if it doesn't exist
-opt.undodir = undodir -- Set undo directory
-opt.undofile = true -- Enable persistent undo
+opt.undodir = undodir      -- Set undo directory
+opt.undofile = true        -- Enable persistent undo
 -- --------------------------------------------------------------------------
 -- Search Highlighting
 -- --------------------------------------------------------------------------
@@ -79,7 +79,7 @@ opt.incsearch = true -- Show matches as you type
 -- --------------------------------------------------------------------------
 -- Scroll Offset
 -- --------------------------------------------------------------------------
-opt.scrolloff = 8 -- Keep 8 lines above/below cursor
+opt.scrolloff = 8         -- Keep 8 lines above/below cursor
 opt.isfname:append("@-@") -- Allow @ in file names
 -- --------------------------------------------------------------------------
 -- Keymaps
@@ -95,3 +95,15 @@ map("n", "<C-j>", "<cmd> TmuxNavigateDown<CR>", { desc = "Move to below split" }
 map("n", "<C-k>", "<cmd> TmuxNavigateUp<CR>", { desc = "Move to above split" })
 map("n", "<C-l>", "<cmd> TmuxNavigateRight<CR>", { desc = "Move to right split" })
 map("n", "<leader>git", ":LazyGit<CR>", { desc = "Open LazyGit" })
+
+local bufopts = { noremap = true, silent = true, buffer = bufnr }
+map('n', 'gD', vim.lsp.buf.declaration, bufopts)
+map('n', 'gd', vim.lsp.buf.definition, bufopts)
+map('n', 'K', vim.lsp.buf.hover, bufopts)
+map('n', 'gi', vim.lsp.buf.implementation, bufopts)
+map('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
+map('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
+map('n', '<space>rn', vim.lsp.buf.rename, bufopts)
+map('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
+map('n', 'gr', vim.lsp.buf.references, bufopts)
+map('n', '<space>f', function() vim.lsp.buf.format { async = true } end, bufopts)

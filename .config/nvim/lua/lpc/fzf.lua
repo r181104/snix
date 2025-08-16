@@ -4,24 +4,24 @@ return {
   opts = {},
   config = function()
     local fzf = require("fzf-lua")
-fzf.setup({
-    winopts = {
+    fzf.setup({
+      winopts = {
         height = 0.9,
         width = 0.9,
         preview = {
-            hidden = "hidden",
+          hidden = "hidden",
         },
-    },
-    keymap = {
+      },
+      keymap = {
         fzf = {
-            ["tab"] = "down", 
-            ["shift-tab"] = "up",
-            ["ctrl-p"] = "toggle-preview", 
+          ["tab"] = "down",
+          ["shift-tab"] = "up",
+          ["ctrl-p"] = "toggle-preview",
         },
-    },
-})
-vim.keymap.set("n", "<leader>ff", fzf.files, { desc = "Find files" })
-vim.keymap.set("n", "<leader>fg", fzf.live_grep, { desc = "Search text" })
-vim.keymap.set("n", "<leader>fb", fzf.buffers, { desc = "Find buffers" })
-end
+      },
+    })
+    vim.keymap.set("n", "<leader>ff", fzf.files, { desc = "Find files" })
+    vim.keymap.set("n", "<leader>fg", fzf.live_grep, { desc = "Search text" })
+    vim.keymap.set("n", "<leader>fb", fzf.buffers, { desc = "Find buffers" })
+  end
 }

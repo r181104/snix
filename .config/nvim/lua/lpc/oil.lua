@@ -4,10 +4,10 @@ return {
   dependencies = { "nvim-tree/nvim-web-devicons" },
   config = function()
     require("oil").setup({
-    default_file_explorer = true,
-    columns = { "icon" },
-    view_options = { show_hidden = true },
-    keymaps = {
+      default_file_explorer = true,
+      columns = { "icon" },
+      view_options = { show_hidden = true },
+      keymaps = {
         ["<CR>"] = { "actions.select", mode = "n", desc = "Open file/directory" },
         ["h"] = { "actions.parent", mode = "n", desc = "Go to parent directory" },
         ["l"] = { "actions.select", mode = "n", desc = "Open file/directory" },
@@ -22,19 +22,19 @@ return {
         ["gx"] = { "actions.open_external", mode = "n", desc = "Open in external program" },
         ["q"] = { "actions.close", mode = "n", desc = "Close oil buffer" },
         ["<Esc>"] = {
-            callback = function()
-                if vim.fn.mode() == "n" then
-                    require("oil.actions").close.callback()
-                end
-            end,
-            mode = "n",
-            desc = "Close oil buffer in normal mode",
+          callback = function()
+            if vim.fn.mode() == "n" then
+              require("oil.actions").close.callback()
+            end
+          end,
+          mode = "n",
+          desc = "Close oil buffer in normal mode",
         },
         ["g?"] = { "actions.show_help", mode = "n", desc = "Show help" },
         ["gs"] = { "actions.change_sort", mode = "n", desc = "Change sort order" },
-    },
-    use_default_keymaps = false,
-  })
-vim.keymap.set("n", "<leader>e", "<CMD>Oil<CR>", { desc = "Open oil file explorer" })
-end
+      },
+      use_default_keymaps = false,
+    })
+    vim.keymap.set("n", "<leader>e", "<CMD>Oil<CR>", { desc = "Open oil file explorer" })
+  end
 }
