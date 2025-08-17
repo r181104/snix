@@ -43,13 +43,30 @@ return {
 			cmp_lsp.default_capabilities()
 		)
 
+		-- Improved root directory detection with fallback
 		local function get_project_root(fname)
 			return lspconfig_util.root_pattern(unpack(root_files))(fname)
 				or lspconfig_util.find_git_ancestor(fname)
 				or vim.fn.getcwd()
 		end
 
+		-- Notification function for LSP attachment
+		local notify_lsp_attach = function(client, bufnr)
+			local msg = string.format("LSP: %s attached", client.name)
+			vim.notify(msg, vim.log.levels.INFO, {
+				title = "LSP Status",
+				timeout = 1500,
+				on_open = function(win)
+					local buf = vim.api.nvim_win_get_buf(win)
+					vim.api.nvim_buf_set_option(buf, "filetype", "markdown")
+				end,
+			})
+		end
+
+		-- Common on_attach function
 		local on_attach = function(client, bufnr)
+			notify_lsp_attach(client, bufnr) -- Show attachment notification
+
 			-- Enable formatting with conform.nvim
 			if client.supports_method("textDocument/formatting") then
 				vim.api.nvim_create_autocmd("BufWritePre", {
@@ -60,14 +77,30 @@ return {
 					end,
 				})
 			end
+
+			-- Optional diagnostic helper
+			if client.supports_method("textDocument/publishDiagnostics") then
+				vim.api.nvim_create_autocmd("CursorHold", {
+					buffer = bufnr,
+					callback = function()
+						vim.diagnostic.open_float(nil, {
+							focusable = false,
+							close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
+							source = "always",
+							prefix = " ",
+							scope = "cursor",
+						})
+					end,
+				})
+			end
 		end
 
 		require("fidget").setup({})
 		require("mason").setup()
 		require("mason-lspconfig").setup({
 			ensure_installed = {
-				-- "lua_ls",
-				-- "pyright",
+				"lua_ls",
+				"pyright",
 				"rnix",
 				"gopls",
 				"tailwindcss",
@@ -81,6 +114,7 @@ return {
 				"sqlls",
 			},
 			handlers = {
+				-- Default handler for all servers
 				function(server_name)
 					local config = {
 						capabilities = capabilities,
@@ -90,6 +124,7 @@ return {
 						end,
 					}
 
+					-- Merge with server-specific config
 					if server_specific[server_name] then
 						config = vim.tbl_deep_extend("force", config, server_specific[server_name])
 					end
@@ -99,6 +134,7 @@ return {
 			},
 		})
 
+		-- Server-specific configurations
 		local server_specific = {
 			lua_ls = {
 				settings = {
@@ -165,6 +201,7 @@ return {
 			},
 		}
 
+		-- Setup rust-analyzer separately
 		lspconfig.rust_analyzer.setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
@@ -200,6 +237,7 @@ return {
 			}),
 		})
 
+		-- Diagnostic configuration
 		vim.diagnostic.config({
 			virtual_text = true,
 			float = {
@@ -210,6 +248,23 @@ return {
 				header = "",
 				prefix = "",
 			},
+			-- Add this to show diagnostics on hover
+			severity_sort = true,
+			update_in_insert = false,
+		})
+
+		-- Show line diagnostics automatically in hover window
+		vim.o.updatetime = 250
+		vim.api.nvim_create_autocmd("CursorHold", {
+			callback = function()
+				vim.diagnostic.open_float(nil, {
+					focusable = false,
+					close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
+					border = "rounded",
+					source = "always",
+					prefix = " ",
+				})
+			end,
 		})
 	end,
 }
