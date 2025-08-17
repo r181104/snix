@@ -30,14 +30,37 @@ return {
 		require("conform").setup({
 			formatters_by_ft = {},
 		})
+
 		local cmp = require("cmp")
 		local cmp_lsp = require("cmp_nvim_lsp")
+		local lspconfig = require("lspconfig")
+		local lspconfig_util = require("lspconfig.util")
+
 		local capabilities = vim.tbl_deep_extend(
 			"force",
 			{},
 			vim.lsp.protocol.make_client_capabilities(),
 			cmp_lsp.default_capabilities()
 		)
+
+		local function get_project_root(fname)
+			return lspconfig_util.root_pattern(unpack(root_files))(fname)
+				or lspconfig_util.find_git_ancestor(fname)
+				or vim.fn.getcwd()
+		end
+
+		local on_attach = function(client, bufnr)
+			-- Enable formatting with conform.nvim
+			if client.supports_method("textDocument/formatting") then
+				vim.api.nvim_create_autocmd("BufWritePre", {
+					group = vim.api.nvim_create_augroup("LspFormat." .. bufnr, {}),
+					buffer = bufnr,
+					callback = function()
+						require("conform").format({ bufnr = bufnr, async = false })
+					end,
+				})
+			end
+		end
 
 		require("fidget").setup({})
 		require("mason").setup()
@@ -50,107 +73,108 @@ return {
 				"tailwindcss",
 				"html",
 				"cssls",
-				-- JSON/YAML
 				"jsonls",
 				"yamlls",
-				-- Shell
 				"bashls",
-				-- C/C++
 				"clangd",
-				-- Java
 				"jdtls",
-				-- SQL
 				"sqlls",
 			},
 			handlers = {
 				function(server_name)
-					require("lspconfig")[server_name].setup({
+					local config = {
 						capabilities = capabilities,
-					})
+						on_attach = on_attach,
+						root_dir = function(fname)
+							return get_project_root(fname)
+						end,
+					}
+
+					if server_specific[server_name] then
+						config = vim.tbl_deep_extend("force", config, server_specific[server_name])
+					end
+
+					lspconfig[server_name].setup(config)
 				end,
-				["lua_ls"] = function()
-					local lspconfig = require("lspconfig")
-					lspconfig.lua_ls.setup({
-						capabilities = capabilities,
-						settings = {
-							Lua = {
-								format = {
-									enable = true,
-									defaultConfig = {
-										indent_style = "space",
-										indent_size = "2",
-									},
-								},
+			},
+		})
+
+		local server_specific = {
+			lua_ls = {
+				settings = {
+					Lua = {
+						format = {
+							enable = true,
+							defaultConfig = {
+								indent_style = "space",
+								indent_size = "2",
 							},
 						},
-					})
-				end,
-				["rust_analyzer"] = function()
-					require("lspconfig").rust_analyzer.setup({
-						capabilities = capabilities,
-						settings = {
-							["rust-analyzer"] = {
-								checkOnSave = {
-									command = "clippy",
-								},
+						workspace = {
+							checkThirdParty = false,
+						},
+					},
+				},
+			},
+
+			pyright = {
+				settings = {
+					pyright = {
+						disableOrganizeImports = false,
+						analysis = {
+							useLibraryCodeForTypes = true,
+							diagnosticMode = "workspace",
+						},
+					},
+				},
+			},
+
+			rnix = {
+				settings = {
+					nix = {
+						formatCommand = "nixpkgs-fmt",
+					},
+				},
+			},
+
+			tailwindcss = {
+				filetypes = {
+					"html",
+					"css",
+					"scss",
+					"javascript",
+					"javascriptreact",
+					"typescript",
+					"typescriptreact",
+					"vue",
+					"svelte",
+				},
+				settings = {
+					tailwindCSS = {
+						experimental = {
+							classRegex = {
+								"tw`([^`]*)",
+								'tw="([^"]*)',
+								'tw={"([^"}]*)',
+								"tw\\.\\w+`([^`]*)",
+								"tw\\(.*?\\)`([^`]*)",
 							},
 						},
-					})
-				end,
-				["pyright"] = function()
-					require("lspconfig").pyright.setup({
-						capabilities = capabilities,
-						settings = {
-							pyright = {
-								disableOrganizeImports = false,
-								analysis = {
-									useLibraryCodeForTypes = true,
-									diagnosticMode = "workspace",
-								},
-							},
-						},
-					})
-				end,
-				["rnix"] = function()
-					require("lspconfig").rnix.setup({
-						capabilities = capabilities,
-						settings = {
-							nix = {
-								formatCommand = "nixpkgs-fmt",
-							},
-						},
-					})
-				end,
-				["tailwindcss"] = function()
-					local lspconfig = require("lspconfig")
-					lspconfig.tailwindcss.setup({
-						capabilities = capabilities,
-						filetypes = {
-							"html",
-							"css",
-							"scss",
-							"javascript",
-							"javascriptreact",
-							"typescript",
-							"typescriptreact",
-							"vue",
-							"svelte",
-						},
-						settings = {
-							tailwindCSS = {
-								experimental = {
-									classRegex = {
-										"tw`([^`]*)",
-										'tw="([^"]*)',
-										'tw={"([^"}]*)',
-										"tw\\.\\w+`([^`]*)",
-										"tw\\(.*?\\)`([^`]*)",
-									},
-								},
-							},
-						},
-					})
-				end,
+					},
+				},
+			},
+		}
+
+		lspconfig.rust_analyzer.setup({
+			capabilities = capabilities,
+			on_attach = on_attach,
+			root_dir = lspconfig_util.root_pattern("Cargo.toml", "rust-project.json", unpack(root_files)),
+			settings = {
+				["rust-analyzer"] = {
+					checkOnSave = {
+						command = "clippy",
+					},
+				},
 			},
 		})
 
@@ -158,7 +182,7 @@ return {
 		cmp.setup({
 			snippet = {
 				expand = function(args)
-					require("luasnip").lsp_expand(args.body) -- For `luasnip` users.
+					require("luasnip").lsp_expand(args.body)
 				end,
 			},
 			mapping = cmp.mapping.preset.insert({
@@ -170,14 +194,14 @@ return {
 			sources = cmp.config.sources({
 				{ name = "copilot", group_index = 2 },
 				{ name = "nvim_lsp" },
-				{ name = "luasnip" }, -- For luasnip users.
+				{ name = "luasnip" },
 			}, {
 				{ name = "buffer" },
 			}),
 		})
 
 		vim.diagnostic.config({
-			-- update_in_insert = true,
+			virtual_text = true,
 			float = {
 				focusable = false,
 				style = "minimal",
