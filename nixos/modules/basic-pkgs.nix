@@ -22,16 +22,11 @@
     tree
     which
     rsync
-    black
-    stylua
-    prettier
-    astyle
     gcc
-    shfmt
-    lua-language-server
     rustup
     go
     python3Full
+    uv
     nodePackages_latest.nodejs
     ollama
 
