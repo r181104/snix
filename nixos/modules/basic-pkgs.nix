@@ -34,6 +34,20 @@
     lua-language-server
     pyright
 
+    # Formatters
+    stylua
+    prettier
+    prettierd
+    black
+    isort
+    gotools
+    nixpkgs-fmt
+    shfmt
+    yamlfmt
+    clang-tools
+    google-java-format
+    python313Packages.sqlfmt
+
     # Terminal Emulators
     alacritty
     ghostty

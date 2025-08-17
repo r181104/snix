@@ -1,10 +1,5 @@
 #!/bin/sh
 
-if [[ $EUID -ne 0 ]]; then
-   exec sudo "$0" "$@"  # Re-run with sudo
-   exit 1
-fi
-
 cp /etc/nixos/hardware-configuration.nix ~/snix/nixos/hardware-configuration.nix
 
 cd ~/snix/nixos/

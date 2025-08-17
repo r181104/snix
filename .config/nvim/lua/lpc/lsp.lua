@@ -48,6 +48,19 @@ return {
         "rnix",
         "gopls",
         "tailwindcss",
+            "html",
+    "cssls",
+    -- JSON/YAML
+    "jsonls",
+    "yamlls",
+    -- Shell
+    "bashls",
+    -- C/C++
+    "clangd",
+    -- Java
+    "jdtls",
+    -- SQL
+    "sqlls",
       },
       handlers = {
         function(server_name)
