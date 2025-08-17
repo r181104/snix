@@ -100,7 +100,6 @@ return {
 		require("mason-lspconfig").setup({
 			ensure_installed = {
 				"lua_ls",
-				"pyright",
 				"rnix",
 				"gopls",
 				"tailwindcss",

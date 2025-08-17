@@ -31,7 +31,7 @@
     ollama
 
     # Lsp servers
-    lua-language-server
+    pyright
 
     # Formatters
     stylua
