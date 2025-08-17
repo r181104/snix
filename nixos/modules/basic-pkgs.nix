@@ -30,6 +30,9 @@
     nodePackages_latest.nodejs
     ollama
 
+    # LSP servers
+    lua-language-server
+
     # Formatters
     stylua
     prettier

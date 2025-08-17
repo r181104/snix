@@ -99,7 +99,7 @@ return {
 		require("mason").setup()
 		require("mason-lspconfig").setup({
 			ensure_installed = {
-				"lua_ls",
+				-- "lua_ls",  --It don't work for someway when i install it through mason so i recommend to install thorugh your package manager
 				"pyright",
 				"rnix",
 				"gopls",
