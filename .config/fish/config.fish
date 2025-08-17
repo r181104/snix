@@ -47,6 +47,10 @@ function gacp
   git add .;git commit -m 's';git push
 end
 
+function gac
+  git add .;git commit -m 's'
+end
+
 function fish_greeting
   random choice "Hello!" "Hi!" "Good Day!" "Howdy!"
 end

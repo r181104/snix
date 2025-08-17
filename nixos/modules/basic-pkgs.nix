@@ -58,6 +58,8 @@
     zip
     gzip
     p7zip
+    obs-studio
+    obsidian
 
     # System Monitoring
     btop
