@@ -98,23 +98,6 @@ autocmd('LspAttach', {
     map("n", "<leader>gr", function() vim.lsp.buf.references() end, opts)
     map("n", "<leader>rn", function() vim.lsp.buf.rename() end, opts)
     map("i", "<C-s>", function() vim.lsp.buf.signature_help() end, opts)
-    map({ "n", "v" }, "<leader>fm", function()
-        require("conform").format({
-          async = true,
-          lsp_fallback = true,
-          timeout_ms = 500,
-        })
-      end, { desc = "[F]or[m]at buffer" })
-    map("v", "<leader>f", function()
-        require("conform").format({
-          async = true,
-          lsp_fallback = true,
-          range = {
-            ["start"] = vim.api.nvim_buf_get_mark(0, "<"),
-            ["end"] = vim.api.nvim_buf_get_mark(0, ">"),
-          },
-        })
-      end, { desc = "[F]ormat selection" })
   end
 })
 map("n", "<leader>fe", vim.diagnostic.open_float, { desc = "Show diagnostics" })
