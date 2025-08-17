@@ -62,7 +62,7 @@ fi
 # Generate RSA SSH key with passphrase
 if [ ! -f "$ssh_key" ]; then
   echo "Generating RSA SSH key..."
-  echo "$passphrase" | ssh-keygen -t rsa -b 4096 -C "lazygit@hyprland" -f "$ssh_key" -N "$passphrase"
+  echo "$passphrase" | ssh-keygen -t rsa -b 4096 -C "lazygit@hak" -f "$ssh_key" -N "$passphrase"
   if [ $? -ne 0 ]; then
     echo "Failed to generate RSA SSH key."
     exit 1
@@ -108,19 +108,10 @@ else
   echo "SSH connection successful."
 fi
 
-# Recommend gnome-keyring for passphrase management
-echo ""
-echo "Since Hyprland lacks a default keyring, consider installing gnome-keyring for passphrase management:"
-echo "1. Install: 'sudo pacman -S gnome-keyring seahorse'"
-echo "2. Add to ~/.config/hypr/hyprland.conf:"
-echo "   exec-once = /usr/lib/gnome-keyring-daemon --start --components=ssh"
-echo "3. Use 'seahorse' to manage keys."
-
 # Output next steps
 echo ""
 echo "Next steps:"
 echo "1. Go to GitHub > Settings > SSH and GPG keys > New SSH key."
 echo "2. Paste the copied key (run 'wl-paste' if needed)."
-echo "3. Name it (e.g., 'Hyprland Arch') and save."
-echo "4. Test lazygit: Run 'lazygit', stage (s), commit (c), push (p)."
+echo "3. Test lazygit: Run 'lazygit', stage (s), commit (c), push (p)."
 echo "If issues persist, check 'git remote -v' and 'ssh -vT git@github.com'."
