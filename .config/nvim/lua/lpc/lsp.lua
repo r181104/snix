@@ -43,8 +43,7 @@ return {
     require("mason").setup()
     require("mason-lspconfig").setup({
       ensure_installed = {
-        -- "lua_ls",
-        -- "rust_analyzer",
+        "lua_ls",
         "pyright",
         "rnix",
         "gopls",
@@ -88,6 +87,18 @@ return {
               }
             }
           }
+        end,
+                ["rust_analyzer"] = function()
+          require("lspconfig").rust_analyzer.setup({
+            capabilities = capabilities,
+            settings = {
+              ["rust-analyzer"] = {
+                checkOnSave = {
+                  command = "clippy",
+                },
+              }
+            }
+          })
         end,
         ["pyright"] = function()
           require("lspconfig").pyright.setup({
