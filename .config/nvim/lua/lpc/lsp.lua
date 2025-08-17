@@ -72,18 +72,6 @@ return {
           vim.g.zig_fmt_parse_errors = 0
           vim.g.zig_fmt_autosave = 0
         end,
-        ["pyright"] = function()
-          local lspconfig = require("lspconfig")
-          lspconfig.pyright.setup {
-            capabilities = capabilities,
-          }
-        end,
-        ["rnix"] = function()
-          local lspconfig = require("lspconfig")
-          lspconfig.rnix.setup {
-            capabilities = capabilities,
-          }
-        end,
         ["lua_ls"] = function()
           local lspconfig = require("lspconfig")
           lspconfig.lua_ls.setup {
@@ -100,6 +88,30 @@ return {
               }
             }
           }
+        end,
+        ["pyright"] = function()
+          require("lspconfig").pyright.setup({
+            capabilities = capabilities,
+            settings = {
+              pyright = {
+                disableOrganizeImports = false,
+                analysis = {
+                  useLibraryCodeForTypes = true,
+                  diagnosticMode = "workspace",
+                }
+              }
+            }
+          })
+        end,
+        ["rnix"] = function()
+          require("lspconfig").rnix.setup({
+            capabilities = capabilities,
+            settings = {
+              nix = {
+                formatCommand = "nixpkgs-fmt",
+              }
+            }
+          })
         end,
         ["tailwindcss"] = function()
           local lspconfig = require("lspconfig")
