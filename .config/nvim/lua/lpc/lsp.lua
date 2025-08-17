@@ -46,6 +46,7 @@ return {
         -- "lua_ls",
         -- "rust_analyzer",
         "pyright",
+        "rnix",
         "gopls",
         "tailwindcss",
       },
@@ -74,6 +75,12 @@ return {
         ["pyright"] = function()
           local lspconfig = require("lspconfig")
           lspconfig.pyright.setup {
+            capabilities = capabilities,
+          }
+        end,
+        ["rnix"] = function()
+          local lspconfig = require("lspconfig")
+          lspconfig.rnix.setup {
             capabilities = capabilities,
           }
         end,

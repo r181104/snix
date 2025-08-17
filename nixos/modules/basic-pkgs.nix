@@ -3,25 +3,47 @@
 {
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    # Development Tools
     vim
     neovim
     shellcheck
-    wget
     stow
-    curl
     starship
     zed-editor
     tmux
-    alacritty
-    ghostty
-    foot
-    kitty
     fzf
     zoxide
     peco
     eza
     ghq
     lazygit
+    ripgrep
+    bat
+    tree
+    which
+    rsync
+    black
+    stylua
+    prettier
+    astyle
+    gcc
+    shfmt
+    lua-language-server
+    rustup
+    go
+    python3Full
+    nodePackages_latest.nodejs
+    ollama
+
+    # Terminal Emulators
+    alacritty
+    ghostty
+    foot
+    kitty
+
+    # System Utilities
+    wget
+    curl
     wl-clipboard
     bc
     xclip
@@ -29,10 +51,32 @@
     xdg-user-dirs
     xdg-desktop-portal
     inxi
+    killall
+    lshw
+    usbutils
+    openssh
+    unzip
+    zip
+    gzip
+    p7zip
+
+    # System Monitoring
+    btop
+    htop
+    powertop
+
+    # Multimedia
     imagemagick
     ffmpeg
     yt-dlp
-    qbittorrent
+    vlc
+    mpv
+    kdePackages.qtmultimedia
+    kdePackages.qtsvg
+    kdePackages.qtdeclarative
+    kdePackages.qt5compat
+
+    # Bluetooth/Audio
     blueman
     bluez
     brightnessctl
@@ -42,48 +86,21 @@
     alsa-plugins
     alsa-lib
     pipewire
-    usbutils
-    openssh
-    ripgrep
-    bat
-    btop
-    htop
-    powertop
-    tree
-    which
-    rsync
-    unzip
-    zip
-    gzip
-    p7zip
-    black
-    stylua
-    prettier
-    astyle
-    gcc
-    shfmt
-    lua-language-server
+    jamesdsp
+
+    # Applications
+    qbittorrent
     libreoffice-fresh
-    vlc
-    mpv
-    rustup
-    go
-    python3Full
+    brave
+
+    # UI/Theming
     powerline-fonts
     nitch
-    brave
-    jamesdsp
-    nodePackages_latest.nodejs
     sddm-astronaut
-    kdePackages.qtmultimedia
-    kdePackages.qtsvg
-    kdePackages.qtdeclarative
-    kdePackages.qt5compat
-    ollama
-    libinput-gestures
     bibata-cursors
-    killall
-    lshw
+    libinput-gestures
+
+    # Git (special override)
     (pkgs.git.override { withLibsecret = false; })
   ];
   programs.zsh.enable = true;
