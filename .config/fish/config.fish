@@ -31,6 +31,8 @@ set -gx LS_COLORS "di 1;3;34:fi=0"
 
 set -g fish_key_bindings fish_default_key_bindings
 
+set -gx NIX_USER_PROFILE_DIR "$HOME/.local/share/nix/profiles"
+
 bind \en down-or-search
 bind \ep up-or-search
 
@@ -49,6 +51,21 @@ end
 
 function gac
   git add .;git commit -m 's'
+end
+
+function optimise-nix
+  nix-env -q | xargs nix-env -e
+  sudo nix-store --gc --print-roots | grep obsolete
+end
+
+function clean-nix
+  sudo nix-env -p /nix/var/nix/profiles/system --delete-generations +5
+  sudo nix-store --gc --print-roots | grep /tmp | awk '{print $1}' | xargs rm -f
+end
+
+function store-size
+  df -h /              
+  du -sh /nix/store     
 end
 
 function fish_greeting

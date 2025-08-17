@@ -41,8 +41,9 @@
   nix.gc = {
     automatic = true;
     dates = "weekly";
-    options = "--delete-older-than 8";
+    options = "--delete-older-than 7d";
   };
+  nix.settings.auto-optimise-store = true;
 
   environment.shells = with pkgs; [ bash zsh fish ];
 
