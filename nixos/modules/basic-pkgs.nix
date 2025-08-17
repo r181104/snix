@@ -30,6 +30,10 @@
     nodePackages_latest.nodejs
     ollama
 
+    # Lsp servers
+    lua-language-server
+    pyright
+
     # Terminal Emulators
     alacritty
     ghostty
