@@ -30,9 +30,6 @@
     nodePackages_latest.nodejs
     ollama
 
-    # Lsp servers
-    pyright
-
     # Formatters
     stylua
     prettier
