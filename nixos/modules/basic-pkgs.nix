@@ -5,7 +5,6 @@
   environment.systemPackages = with pkgs; [
     # Development Tools
     vim
-    neovim
     shellcheck
     stow
     starship
@@ -29,9 +28,6 @@
     uv
     nodePackages_latest.nodejs
     ollama
-
-    # LSP servers
-    lua-language-server
 
     # Formatters
     stylua
