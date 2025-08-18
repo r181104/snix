@@ -20,8 +20,6 @@ set -gx LS_COLORS "di 1;3;34:fi=0"
 
 set -g fish_key_bindings fish_default_key_bindings
 
-set -gx NIX_USER_PROFILE_DIR "$HOME/.local/share/nix/profiles"
-
 bind \en down-or-search
 bind \ep up-or-search
 
