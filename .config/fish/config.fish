@@ -154,13 +154,6 @@ if command -q starship
   starship init fish | source
 end
 
-# if command -q zoxide
-#   zoxide init fish | source
-#   function cd
-#     __zoxide_z $argv
-#   end
-# end
-
 if command -q zoxide
     set -gx _ZO_FZF_PREVIEW 'ls --color=always {}'
     zoxide init fish | source
@@ -170,14 +163,32 @@ if command -q fzf
     fzf_key_bindings | source
 end
 
-function fzf_nvim
-  set -l selected_file (fzf --height 40% --reverse --prompt "Open file in nvim: ")
-  if test -n "$selected_file"
-    nvim "$selected_file"
-    commandline -f repaint
-  end
+function fzf_nvim --description "Fuzzy-find a file and open in Neovim"
+    set -l selected_file (fzf --height=40% --reverse --ansi \
+        --prompt="📝 Open in nvim: " \
+        --preview 'eza --icons --color=always --long --git --group --modified {1..1} 2>/dev/null' \
+        --preview-window=right:60%:wrap)
+    if test -n "$selected_file"
+        nvim "$selected_file"
+        commandline -f repaint
+    end
 end
-bind \er fzf_nvim  # \er   Alt+R (Fish uses escape sequences for Alt)
+bind \er fzf_nvim
+
+
+function fzf_zoxide_dir --description "Fuzzy-find a directory from zoxide and jump"
+    set -l selected_dir (
+        zoxide query -l | fzf --height=40% --reverse --ansi \
+            --prompt="📂 Jump to: " \
+            --preview 'eza --icons --tree --level=2 --color=always {} 2>/dev/null' \
+            --preview-window=right:50%:wrap
+    )
+    if test -n "$selected_dir"
+        z "$selected_dir"
+        commandline -f repaint
+    end
+end
+bind \ed fzf_zoxide_dir
 
 function gacp
   git add .;git commit -m 's';git push
