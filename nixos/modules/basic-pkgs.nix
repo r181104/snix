@@ -1,6 +1,9 @@
-{ config, pkgs, lib, ... }:
-
 {
+  config,
+  pkgs,
+  lib,
+  ...
+}: {
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     # Development Tools
@@ -118,7 +121,7 @@
     libinput-gestures
 
     # Git (special override)
-    (pkgs.git.override { withLibsecret = false; })
+    (pkgs.git.override {withLibsecret = false;})
   ];
   programs.zsh.enable = true;
   programs.fish.enable = true;

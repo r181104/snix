@@ -1,23 +1,24 @@
-{ config, pkgs, ... }:
-
 {
-  imports =
-    [
-      ./hardware-configuration.nix
-      ./modules/bspwm.nix
-      ./modules/graphics.nix
-      ./modules/basic-pkgs.nix
-      ./modules/services.nix
-      ./modules/security.nix
-      ./modules/auto-upgrade.nix
-    ];
+  config,
+  pkgs,
+  ...
+}: {
+  imports = [
+    ./hardware-configuration.nix
+    ./modules/bspwm.nix
+    ./modules/graphics.nix
+    ./modules/basic-pkgs.nix
+    ./modules/services.nix
+    ./modules/security.nix
+    ./modules/auto-upgrade.nix
+  ];
 
   networking = {
     hostName = "nix-hak";
     networkmanager.enable = true;
     firewall = {
       enable = true;
-      allowedTCPPorts = [ 80 443 2222 ];
+      allowedTCPPorts = [80 443 2222];
     };
   };
 
@@ -26,7 +27,7 @@
     isNormalUser = true;
     shell = pkgs.fish;
     description = "hack";
-    extraGroups = [ "networkmanager" "wheel" "input" ];
+    extraGroups = ["networkmanager" "wheel" "input"];
     packages = with pkgs; [
       bash
       zsh
@@ -45,7 +46,7 @@
   };
   nix.settings.auto-optimise-store = true;
 
-  environment.shells = with pkgs; [ bash zsh fish ];
+  environment.shells = with pkgs; [bash zsh fish];
 
   nixpkgs.config.allowUnfree = true;
   hardware.enableRedistributableFirmware = true;
@@ -64,5 +65,5 @@
     LC_TIME = "en_IN";
   };
   system.stateVersion = "25.05";
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = ["nix-command" "flakes"];
 }

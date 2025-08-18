@@ -1,6 +1,8 @@
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   system.autoUpgrade = {
     enable = true;
     flake = "github:https://github.com/rishabh181104/snix/tree/master/nixos";

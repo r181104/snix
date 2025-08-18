@@ -1,5 +1,8 @@
-{ config, pkgs, ... }:
 {
+  config,
+  pkgs,
+  ...
+}: {
   services.xserver.windowManager.bspwm.enable = true;
   environment.systemPackages = with pkgs; [
     bspwm
