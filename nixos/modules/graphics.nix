@@ -9,9 +9,12 @@
     open = false;
     # modesetting.enable = true;
     nvidiaSettings = true;
-    forceFullCompositionPipeline = true;
+    # forceFullCompositionPipeline = true;
     prime = {
-      offload.enable = true;
+      offload = {
+        enable = true;
+        enableOffloadCmd = true;
+      };
       intelBusId = "PCI:0:2:0"; # adjust with `lspci | grep VGA`
       nvidiaBusId = "PCI:1:0:0"; # adjust with `lspci | grep VGA`
     };
