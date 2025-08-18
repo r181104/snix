@@ -33,7 +33,7 @@
     lua-language-server
     pyright
     gopls
-    # vscode-css-languageserver
+    nixd
     vscode-langservers-extracted
 
     # Formatters
@@ -49,6 +49,7 @@
     clang-tools
     google-java-format
     python313Packages.sqlfmt
+    alejandra
 
     # Terminal Emulators
     alacritty
