@@ -197,6 +197,7 @@ vim.lsp.enable({
 	"gopls",
 	"rust_analyzer",
 	"pyright",
+	"clangd",
 	"html",
 	"cssls",
 	"jsonls",
