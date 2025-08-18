@@ -53,6 +53,10 @@ function gac
   git add .;git commit -m 's'
 end
 
+function gs
+    git status
+end
+
 function optimise-nix
   nix-env -q | xargs nix-env -e
   sudo nix-store --gc --print-roots | grep obsolete
