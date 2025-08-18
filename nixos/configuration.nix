@@ -9,6 +9,7 @@
     ./modules/services.nix
     ./modules/security.nix
     ./modules/bspwm.nix
+    ./modules/graphics.nix
     ./modules/auto-upgrade.nix
   ];
 
