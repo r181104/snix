@@ -29,6 +29,9 @@
     nodePackages_latest.nodejs
     ollama
 
+    # Servers
+    lua-language-server
+
     # Formatters
     stylua
     prettier
