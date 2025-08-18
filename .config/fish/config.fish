@@ -1,17 +1,6 @@
 if status is-interactive
 end
 
-if command -q starship
-  starship init fish | source
-end
-
-if command -q zoxide
-  zoxide init fish | source
-  function cd
-    __zoxide_z $argv
-  end
-end
-
 set -gx _ZO_ECHO 1       # Print directory after jumping (like `cd`)
 set -gx _ZO_EXCLUDE_DIRS "$HOME/private/*"  # Exclude dirs from history
 # functions --erase cd  # Restores Fish’s original `cd`
@@ -35,61 +24,6 @@ set -gx NIX_USER_PROFILE_DIR "$HOME/.local/share/nix/profiles"
 
 bind \en down-or-search
 bind \ep up-or-search
-
-function fzf_nvim
-  set -l selected_file (fzf --height 40% --reverse --prompt "Open file in nvim: ")
-  if test -n "$selected_file"
-    nvim "$selected_file"
-    commandline -f repaint
-  end
-end
-bind \er fzf_nvim  # \er   Alt+R (Fish uses escape sequences for Alt)
-
-function gacp
-  git add .;git commit -m 's';git push
-end
-
-function gac
-  git add .;git commit -m 's'
-end
-
-function gs
-    git status
-end
-
-function optimise-nix
-  nix-env -q | xargs nix-env -e
-  sudo nix-store --gc --print-roots | grep obsolete
-end
-
-function clean-nix
-  sudo nix-env -p /nix/var/nix/profiles/system --delete-generations +5
-  sudo nix-store --gc --print-roots | grep /tmp | awk '{print $1}' | xargs rm -f
-end
-
-function store-size
-  df -h /              
-  du -sh /nix/store     
-end
-
-function fish_greeting
-  random choice "Hello!" "Hi!" "Good Day!" "Howdy!"
-end
-
-function fish_title
-    echo $argv[1] (prompt_pwd)
-    pwd
-end
-
-function tty_kill_all
-    set ttys (who | grep -v 'tty1' | cut -d' ' -f2 | sort -u)
-    if test -n "$ttys"
-        set tty_csv (string join , $ttys)
-        sudo pkill -t "$tty_csv"
-    else
-        echo "No TTYs found (excluding tty1)"
-    end
-end
 
 #  =========================================
 #           BASIC ALIASES (using eza)
@@ -215,3 +149,78 @@ alias random-lock 'betterlockscreen -u ~/Wallpapers/Pictures --fx blur -l'
 alias anime '~/stecore/scripts/./ani-cli'
 
 alias mirror-rating 'rate-mirrors --entry-country=IN --protocol=https arch | sudo tee /etc/pacman.d/mirrorlist'
+
+if command -q starship
+  starship init fish | source
+end
+
+# if command -q zoxide
+#   zoxide init fish | source
+#   function cd
+#     __zoxide_z $argv
+#   end
+# end
+
+if command -q zoxide
+    set -gx _ZO_FZF_PREVIEW 'ls --color=always {}'
+    zoxide init fish | source
+end
+
+if command -q fzf
+    fzf_key_bindings | source
+end
+
+function fzf_nvim
+  set -l selected_file (fzf --height 40% --reverse --prompt "Open file in nvim: ")
+  if test -n "$selected_file"
+    nvim "$selected_file"
+    commandline -f repaint
+  end
+end
+bind \er fzf_nvim  # \er   Alt+R (Fish uses escape sequences for Alt)
+
+function gacp
+  git add .;git commit -m 's';git push
+end
+
+function gac
+  git add .;git commit -m 's'
+end
+
+function gs
+    git status
+end
+
+function optimise-nix
+  nix-env -q | xargs nix-env -e
+  sudo nix-store --gc --print-roots | grep obsolete
+end
+
+function clean-nix
+  sudo nix-env -p /nix/var/nix/profiles/system --delete-generations +5
+  sudo nix-store --gc --print-roots | grep /tmp | awk '{print $1}' | xargs rm -f
+end
+
+function store-size
+  df -h /              
+  du -sh /nix/store     
+end
+
+function fish_greeting
+  random choice "Hello!" "Hi!" "Good Day!" "Howdy!"
+end
+
+function fish_title
+    echo $argv[1] (prompt_pwd)
+    pwd
+end
+
+function tty_kill_all
+    set ttys (who | grep -v 'tty1' | cut -d' ' -f2 | sort -u)
+    if test -n "$ttys"
+        set tty_csv (string join , $ttys)
+        sudo pkill -t "$tty_csv"
+    else
+        echo "No TTYs found (excluding tty1)"
+    end
+end
