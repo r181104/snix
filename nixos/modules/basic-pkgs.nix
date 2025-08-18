@@ -31,6 +31,7 @@
     uv
     nodePackages_latest.nodejs
     ollama
+    pciutils
 
     # Servers
     lua-language-server

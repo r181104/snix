@@ -5,11 +5,12 @@
 }: {
   imports = [
     ./hardware-configuration.nix
-    ./modules/bspwm.nix
-    ./modules/graphics.nix
     ./modules/basic-pkgs.nix
     ./modules/services.nix
     ./modules/security.nix
+    ./modules/graphics.nix
+    ./modules/bspwm.nix
+    ./modules/gaming.nix
     ./modules/auto-upgrade.nix
   ];
 
