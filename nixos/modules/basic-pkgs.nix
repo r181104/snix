@@ -112,7 +112,6 @@
     qbittorrent
     libreoffice-fresh
     brave
-    notion-app
 
     # UI/Theming
     powerline-fonts
