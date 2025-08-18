@@ -31,6 +31,10 @@
 
     # Servers
     lua-language-server
+    pyright
+    gopls
+    # vscode-css-languageserver
+    vscode-langservers-extracted
 
     # Formatters
     stylua
