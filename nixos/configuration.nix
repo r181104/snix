@@ -8,9 +8,7 @@
     ./modules/basic-pkgs.nix
     ./modules/services.nix
     ./modules/security.nix
-    ./modules/graphics.nix
     ./modules/bspwm.nix
-    ./modules/gaming.nix
     ./modules/auto-upgrade.nix
   ];
 
@@ -37,7 +35,7 @@
   };
 
   boot.loader.systemd-boot.enable = true;
-  boot.loader.systemd-boot.configurationLimit = 8;
+  boot.loader.systemd-boot.configurationLimit = 5;
   boot.loader.efi.canTouchEfiVariables = true;
 
   nix.gc = {
