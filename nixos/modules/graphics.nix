@@ -22,11 +22,10 @@
   boot.blacklistedKernelModules = ["nouveau"];
 
   # OpenGL / Vulkan
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
     extraPackages = with pkgs; [
       mesa
-      mesa_drivers
       libGL
       vulkan-loader
       vulkan-tools
@@ -42,8 +41,6 @@
 
   # System Packages (GPU tools)
   environment.systemPackages = with pkgs; [
-    nvidia_x11
-    nvidia-settings
     vdpauinfo
     vulkan-tools
     vulkan-validation-layers

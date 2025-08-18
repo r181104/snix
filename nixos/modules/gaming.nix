@@ -4,34 +4,27 @@
   lib,
   ...
 }: {
-  # -------------------------------
-  # Steam & Gaming Tools
-  # -------------------------------
   programs.steam.enable = true;
-  programs.steam.launchOptions = "--no-sandbox"; # optional, if needed
 
+  # All system packages in a single list
   environment.systemPackages = with pkgs; [
     steam
-    protontricks # optional, useful for tweaking Windows games
-    lutris # optional, if you use Lutris
+    protontricks
+    lutris
     wine
-    winePackages.staging # for better compatibility
-    gamemode # improves performance on Linux
-    mangohud # overlays FPS, GPU usage, etc.
+    winePackages.staging
+    gamemode
+    mangohud
+
+    # 32-bit Vulkan libs for Steam/Proton
+    pkgsi686Linux.vulkan-loader
+    pkgsi686Linux.vulkan-tools
+    pkgsi686Linux.libGL
   ];
 
-  # -------------------------------
-  # Vulkan / 32-bit libs for Steam/Proton
-  # -------------------------------
-  environment.systemPackages = with pkgs; [
-    pkgs.pkgsi686Linux.vulkan-loader
-    pkgs.pkgsi686Linux.vulkan-tools
-    pkgs.pkgsi686Linux.libGL
-  ];
-
-  # -------------------------------
-  # NVIDIA Offload Alias for Gaming
-  # -------------------------------
-  environment.variables.NV_PRIME_RENDER_OFFLOAD = "1";
-  environment.variables.__GLX_VENDOR_LIBRARY_NAME = "nvidia";
+  # Environment variables for NVIDIA offload
+  environment.variables = {
+    NV_PRIME_RENDER_OFFLOAD = "1";
+    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+  };
 }
