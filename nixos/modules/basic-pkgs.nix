@@ -43,7 +43,6 @@
     black
     isort
     gotools
-    nixpkgs-fmt
     shfmt
     yamlfmt
     clang-tools

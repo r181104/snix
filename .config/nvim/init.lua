@@ -253,7 +253,7 @@ require("conform").setup({
 		markdown = { { "prettierd", "prettier" } },
 		go = { "gofumpt", "goimports" },
 		rust = { "rustfmt" },
-		nix = { "nixpkgs-fmt" },
+		nix = { "alejandra" },
 		sh = { "shfmt" },
 		yaml = { "yamlfmt" },
 		c = { "clang-format" },
