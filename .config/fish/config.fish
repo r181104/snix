@@ -187,6 +187,7 @@ alias 666 'chmod -R 666'
 alias 755 'chmod -R 755'
 alias 777 'chmod -R 777'
 alias sha1 'openssl sha1'
+alias chown 'sudo chown -R $USER'
 
 #  =========================================
 #           DEVELOPMENT & TOOLS
