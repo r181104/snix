@@ -4,7 +4,7 @@
   ...
 }: {
   services.xserver.enable = true;
-  services.xserver.videoDrivers = ["intel"];
+  services.xserver.videoDrivers = ["intel" "nvidia"];
   services.displayManager.sddm = {
     enable = true;
     package = pkgs.kdePackages.sddm;
