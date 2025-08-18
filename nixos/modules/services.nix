@@ -4,7 +4,8 @@
   ...
 }: {
   services.xserver.enable = true;
-  services.xserver.videoDrivers = ["intel" "nvidia"];
+  services.xserver.videoDrivers = ["intel"];
+  services.gnome.gnome-keyring.enable = true;
   services.displayManager.sddm = {
     enable = true;
     package = pkgs.kdePackages.sddm;
@@ -17,7 +18,6 @@
     kdePackages.qtdeclarative
     kdePackages.qt5compat
   ];
-  services.xserver.desktopManager.budgie.enable = true;
   services.xserver.xkb = {
     layout = "us";
     variant = "";

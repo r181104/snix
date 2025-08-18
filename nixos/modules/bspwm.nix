@@ -15,6 +15,7 @@
     rofi-wayland
     i3lock-color
     papirus-icon-theme
+    libinput-gestures
     xfce.thunar
   ];
 }

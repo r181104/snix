@@ -119,7 +119,6 @@
     nitch
     sddm-astronaut
     bibata-cursors
-    libinput-gestures
 
     # Git (special override)
     (pkgs.git.override {withLibsecret = false;})
