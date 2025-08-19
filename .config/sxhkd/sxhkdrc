@@ -5,7 +5,7 @@ super + shift + Return
 	kitty
 
 super + b
-	brave
+    brave --gtk-version=3 --disable-extensions --disable-background-networking --disable-sync --disable-component-update --disable-default-apps --disable-translate --disable-notifications --no-first-run --enable-features=FastTabUnloading
 
 super + e
 	thunar
