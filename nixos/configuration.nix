@@ -39,7 +39,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.systemd-boot.configurationLimit = 5;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelParams = lib.mkForce ["video=eDP-1:1920x1080@60"];
+  boot.kernelParams = lib.mkForce ["video=1920x1080@60"];
 
   nix.gc = {
     automatic = true;
