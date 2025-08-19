@@ -18,6 +18,7 @@
     };
   };
 
+  boot.extraModulePackages = [pkgs.linuxPackages.nvidia_x11];
   boot.blacklistedKernelModules = ["nouveau"];
 
   hardware.graphics = {
