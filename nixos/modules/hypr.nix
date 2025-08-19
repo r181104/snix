@@ -14,7 +14,6 @@
     xdg-desktop-portal-wlr
     xdg-desktop-portal-gtk
     xdg-desktop-portal
-    grimblast-git
     waybar
     swww
     wlogout
