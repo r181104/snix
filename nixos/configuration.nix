@@ -8,8 +8,7 @@
     ./modules/basic-pkgs.nix
     ./modules/services.nix
     ./modules/security.nix
-    ./modules/graphics.nix
-    ./modules/hypr.nix
+    # ./modules/graphics.nix
     ./modules/bspwm.nix
     ./modules/auto-upgrade.nix
   ];
