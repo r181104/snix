@@ -4,7 +4,6 @@
   ...
 }: {
   services.xserver.enable = true;
-  services.xserver.displayManager.defaultSession = "bspwm";
   services.xserver.desktopManager.budgie.enable = true;
   services.xserver.videoDrivers = ["intel"];
   services.gnome.gnome-keyring.enable = true;
@@ -14,6 +13,7 @@
   #   wayland.enable = true;
   #   theme = "sddm-astronaut-theme";
   # };
+# services.xserver.displayManager.defaultSession = "bspwm";
   # services.displayManager.sddm.extraPackages = with pkgs; [
   #   kdePackages.qtmultimedia
   #   kdePackages.qtsvg
