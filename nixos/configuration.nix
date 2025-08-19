@@ -10,6 +10,7 @@
     ./modules/security.nix
     ./modules/graphics.nix
     ./modules/bspwm.nix
+    ./modules/swayfx.nix
     ./modules/auto-upgrade.nix
   ];
 
