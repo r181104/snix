@@ -12,6 +12,7 @@
     ./modules/graphics.nix
     ./modules/bspwm.nix
     ./modules/auto-upgrade.nix
+    ./modules/virt.nix
   ];
 
   networking = {
