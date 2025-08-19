@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 if [ "$#" -ne 1 ]; then
   echo "Usage: $0 <path_to_image"
@@ -13,10 +13,9 @@ feh --bg-fill "$IMAGE"
 
 wal -i "$IMAGE" -n -s -t -e
 
-~/snix/scripts/launch-poly
-~/snix/scripts/ref-dunst
+# python3 "$HOME/.config/nvim/pywal/chadwal.py"
 
-bspc wm -r
-bspc wm --restart
+qtile cmd-obj -o cmd -f reload_config
+bash $HOME/snix/scripts/ref-dunst
 
 dunstify "Theme Applied" "Wallpaper and Theme updated successfully"
