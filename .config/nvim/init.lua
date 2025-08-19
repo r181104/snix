@@ -203,6 +203,7 @@ vim.lsp.enable({
 	"jsonls",
 	"eslint",
 	"nixd",
+	"hyprls",
 })
 
 -- =============================
@@ -239,7 +240,8 @@ cmp.setup({
 -- =============================
 -- Formatter (Conform)
 -- =============================
-require("conform").setup({
+local conform = require("conform")
+conform.setup({
 	formatters_by_ft = {
 		lua = { "stylua" },
 		python = { "isort", "black" },
@@ -261,6 +263,7 @@ require("conform").setup({
 		cpp = { "clang-format" },
 		java = { "google-java-format" },
 		sql = { "sqlfmt" },
+		hyprlang = { "shfmt" },
 	},
 })
 

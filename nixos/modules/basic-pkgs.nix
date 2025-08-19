@@ -39,6 +39,7 @@
     gopls
     nixd
     vscode-langservers-extracted
+    hyprls
 
     # Formatters
     stylua
