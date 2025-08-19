@@ -17,5 +17,6 @@
     papirus-icon-theme
     libinput-gestures
     xfce.thunar
+    xorg.xorgserver
   ];
 }

@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  lib,
   ...
 }: {
   imports = [
@@ -10,7 +11,6 @@
     ./modules/security.nix
     ./modules/graphics.nix
     ./modules/bspwm.nix
-    ./modules/swayfx.nix
     ./modules/auto-upgrade.nix
   ];
 
@@ -39,6 +39,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.systemd-boot.configurationLimit = 5;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.kernelParams = lib.mkForce ["video=eDP-1:1920x1080@60"];
 
   nix.gc = {
     automatic = true;
