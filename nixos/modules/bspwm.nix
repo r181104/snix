@@ -12,7 +12,7 @@
     dunst
     polybar
     pywal
-    dmenu
+    bemenu
     i3lock-color
     papirus-icon-theme
     libinput-gestures

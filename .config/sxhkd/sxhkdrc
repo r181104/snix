@@ -11,10 +11,10 @@ super + e
 	thunar
 
 super + @space
-    ~/snix/scripts/dmenu
+    bemenu-run --fn 'JetBrainsMono NF 20' -l 8 -i --nb '#1d1f21cc' --nf '#c5c8c6' --sb '#81a2becc' --sf '#sffffff'
 
 control + @space
-    ~/snix/scripts/wset
+    ~/snix/scripts/wsetbs
 
 super + Escape
 	pkill -USR1 -x sxhkd
