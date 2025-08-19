@@ -11,7 +11,7 @@ super + e
 	thunar
 
 super + @space
-	rofi -show drun
+    ~/snix/scripts/dmenu
 
 control + @space
     ~/snix/scripts/wset
