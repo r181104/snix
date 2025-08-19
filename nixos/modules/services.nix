@@ -13,7 +13,7 @@
     wayland.enable = true;
     theme = "sddm-astronaut-theme";
   };
-  services.displayManager.defaultSession = "sway";
+  services.displayManager.defaultSession = "none+bspwm";
   services.displayManager.sddm.extraPackages = with pkgs; [
     kdePackages.qtmultimedia
     kdePackages.qtsvg
