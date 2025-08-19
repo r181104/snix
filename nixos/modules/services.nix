@@ -4,7 +4,7 @@
   ...
 }: {
   services.xserver.enable = true;
-  services.xserver.videoDrivers = ["intel" "nvidia"];
+  services.xserver.videoDrivers = ["intel" "nouveau"];
   services.gnome.gnome-keyring.enable = true;
   services.displayManager.sddm = {
     enable = true;

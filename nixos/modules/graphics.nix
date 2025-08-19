@@ -4,22 +4,22 @@
   lib,
   ...
 }: {
-  hardware.nvidia = {
-    open = false;
-    modesetting.enable = true;
-    nvidiaSettings = true;
-    prime = {
-      offload = {
-        enable = true;
-        enableOffloadCmd = true;
-      };
-      intelBusId = "PCI:0:2:0";
-      nvidiaBusId = "PCI:1:0:0";
-    };
-  };
+  # hardware.nvidia = {
+  #   open = false;
+  #   modesetting.enable = true;
+  #   nvidiaSettings = true;
+  #   prime = {
+  #     offload = {
+  #       enable = true;
+  #       enableOffloadCmd = true;
+  #     };
+  #     intelBusId = "PCI:0:2:0";
+  #     nvidiaBusId = "PCI:1:0:0";
+  #   };
+  # };
 
-  boot.extraModulePackages = [pkgs.linuxPackages.nvidia_x11];
-  boot.blacklistedKernelModules = ["nouveau"];
+  # boot.extraModulePackages = [pkgs.linuxPackages.nvidia_x11];
+  # boot.blacklistedKernelModules = ["nouveau"];
 
   hardware.graphics = {
     enable = true;

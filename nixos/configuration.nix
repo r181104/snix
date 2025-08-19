@@ -9,7 +9,6 @@
     ./modules/services.nix
     ./modules/security.nix
     ./modules/graphics.nix
-    ./modules/gaming.nix
     ./modules/hypr.nix
     ./modules/bspwm.nix
     ./modules/auto-upgrade.nix
