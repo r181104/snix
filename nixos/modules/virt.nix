@@ -10,8 +10,4 @@
     spice
     kvmtool
   ];
-  services.libvirtd = {
-    enable = true;
-    qemu = true;
-  };
 }
