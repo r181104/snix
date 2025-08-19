@@ -24,6 +24,10 @@
     nautilus
     nwg-look
   ];
-  programs.hyprland.enable = true;
+  programs.hyprland = {
+    enable = true;
+    nvidiaPatches = true;
+    xwayland.enable = true;
+  };
   programs.xwayland.enable = true;
 }
