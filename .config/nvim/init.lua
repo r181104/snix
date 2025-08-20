@@ -196,7 +196,7 @@ vim.lsp.enable({
 	"lua_ls",
 	"gopls",
 	"rust_analyzer",
-	"pyright",
+	"pylsp",
 	"clangd",
 	"html",
 	"cssls",

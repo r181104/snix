@@ -35,7 +35,7 @@
 
     # Servers
     lua-language-server
-    pyright
+    python313Packages.python-lsp-server
     gopls
     nixd
     vscode-langservers-extracted
