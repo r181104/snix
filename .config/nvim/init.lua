@@ -52,28 +52,40 @@ vim.g.maplocalleader = "\\"
 -- Plugins
 -- =============================
 vim.pack.add({
-	{ src = "https://github.com/christoomey/vim-tmux-navigator" },
-	{ src = "https://github.com/folke/which-key.nvim" },
-	{ src = "https://github.com/rcarriga/nvim-notify" },
-	{ src = "https://github.com/MunifTanjim/nui.nvim" },
-	{ src = "https://github.com/folke/noice.nvim" },
-	{ src = "https://github.com/lewis6991/gitsigns.nvim" },
-	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
-	{ src = "https://github.com/navarasu/onedark.nvim" },
-	{ src = "https://github.com/nvim-lualine/lualine.nvim" },
-	{ src = "https://github.com/kdheepak/lazygit.nvim" },
+	-- Lsp and Formatting
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
 	{ src = "https://github.com/stevearc/conform.nvim" },
+	-- Snippets and Completion
+	{ src = "https://github.com/L3MON4D3/LuaSnip" },
+	-- For better navigation when in tmux
+	{ src = "https://github.com/christoomey/vim-tmux-navigator" },
+	-- Just when you don't remember your own keybinds
+	{ src = "https://github.com/folke/which-key.nvim" },
+	-- Fuzzy finding or searching
 	{ src = "https://github.com/echasnovski/mini.pick" },
+	-- To get a good looking command line
+	{ src = "https://github.com/folke/noice.nvim" },
+	-- For colors
+	{ src = "https://github.com/navarasu/onedark.nvim" },
+	-- To blame
+	{ src = "https://github.com/lewis6991/gitsigns.nvim" },
+	-- For syntax highlighting
+	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
+	-- For customisation of status bar
+	{ src = "https://github.com/nvim-lualine/lualine.nvim" },
+	-- To open lazygit in neovim
+	{ src = "https://github.com/kdheepak/lazygit.nvim" },
+	-- File tree
 	{ src = "https://github.com/stevearc/oil.nvim" },
 	{ src = "https://github.com/nvim-tree/nvim-web-devicons" },
+	-- Autopairs
 	{ src = "https://github.com/windwp/nvim-autopairs", event = "InsertEnter" },
-	{ src = "https://github.com/hrsh7th/cmp-nvim-lsp" },
-	{ src = "https://github.com/L3MON4D3/LuaSnip" },
-	{ src = "https://github.com/saadparwaiz1/cmp_luasnip" },
-	{ src = "https://github.com/rafamadriz/friendly-snippets" },
-	{ src = "https://github.com/hrsh7th/nvim-cmp" },
+	-- Just so you know what's going on
+	{ src = "https://github.com/rcarriga/nvim-notify" },
+	{ src = "https://github.com/MunifTanjim/nui.nvim" },
+	-- To view color as you type them
 	{ src = "https://github.com/norcalli/nvim-colorizer.lua" },
+	-- Just wanted to try it don't really know how it works at the moment
 	{ src = "https://github.com/folke/trouble.nvim" },
 })
 
@@ -89,6 +101,19 @@ require("nvim-autopairs").setup({})
 
 -- Trouble
 require("trouble").setup({ icons = true })
+
+-- Git signs
+require("gitsigns").setup({ signs = { add = { "+" }, change = { "~" }, delete = { "_" } } })
+vim.keymap.set("n", "<leader>gb", ":Gitsigns blame_line<CR>", { desc = "Git blame" })
+
+-- Notify
+require("notify").setup({ background_colour = "#000000" })
+
+-- Treesitter
+require("nvim-treesitter.configs").setup({
+	auto_install = true,
+	highlight = { enable = true, additional_vim_regex_highlighting = false },
+})
 
 -- Onedark color scheme
 require("onedark").setup({
@@ -142,19 +167,6 @@ require("noice").setup({
 	},
 })
 
--- Git signs
-require("gitsigns").setup({ signs = { add = { "+" }, change = { "~" }, delete = { "_" } } })
-vim.keymap.set("n", "<leader>gb", ":Gitsigns blame_line<CR>", { desc = "Git blame" })
-
--- Notify
-require("notify").setup({ background_colour = "#000000" })
-
--- Treesitter
-require("nvim-treesitter.configs").setup({
-	auto_install = true,
-	highlight = { enable = true, additional_vim_regex_highlighting = false },
-})
-
 -- Oil file explorer
 require("oil").setup({
 	default_file_explorer = true,
@@ -204,37 +216,6 @@ vim.lsp.enable({
 	"eslint",
 	"nixd",
 	"hyprls",
-})
-
--- =============================
--- Completion (CMP + LuaSnip)
--- =============================
-local cmp = require("cmp")
-require("luasnip.loaders.from_vscode").lazy_load()
-
-cmp.setup({
-	snippet = {
-		expand = function(args)
-			require("luasnip").lsp_expand(args.body)
-		end,
-	},
-	window = {
-		completion = cmp.config.window.bordered(),
-		documentation = cmp.config.window.bordered(),
-	},
-	mapping = cmp.mapping.preset.insert({
-		["<C-b>"] = cmp.mapping.scroll_docs(-4),
-		["<C-f>"] = cmp.mapping.scroll_docs(4),
-		["<C-Space>"] = cmp.mapping.complete(),
-		["<C-e>"] = cmp.mapping.abort(),
-		["<CR>"] = cmp.mapping.confirm({ select = true }),
-	}),
-	sources = cmp.config.sources({
-		{ name = "nvim_lsp" },
-		{ name = "luasnip" },
-	}, {
-		{ name = "buffer" },
-	}),
 })
 
 -- =============================
@@ -304,6 +285,18 @@ require("colorizer").setup({
 		mode = "background",
 		virtualtext = "■",
 		always_update = true,
+	},
+})
+
+vim.diagnostic.config({
+	-- update_in_insert = true,
+	float = {
+		focusable = false,
+		style = "minimal",
+		border = "rounded",
+		source = "always",
+		header = "",
+		prefix = "",
 	},
 })
 
@@ -379,7 +372,7 @@ map("n", "]d", function()
 	require("trouble").previous({ skip_groups = true, jump = true })
 end)
 
--- LuaSnip
+-- Completion and Snippets
 local ls = require("luasnip")
 ls.filetype_extend("javascript", { "jsdoc" })
 map({ "i" }, "<C-s>e", function()
