@@ -15,6 +15,7 @@
     itch # Indie game launcher
     gogdl # For GOG Galaxy downloads
     protonup-ng # Handy for installing Proton-GE (community builds)
+    mangohud
     gamemode
   ];
 }
