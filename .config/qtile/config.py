@@ -1,9 +1,10 @@
-from libqtile import bar, layout, qtile, widget, hook
+import os
+import subprocess
+
+from libqtile import bar, hook, layout, qtile, widget
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
-import subprocess
-import os
 
 # --- MODIFIERS AND TERMINAL ---
 mod = "mod4"  # Super key
@@ -11,13 +12,9 @@ mmod = "mod1"  # Alt key
 mmodd = "control"
 terminal = "alacritty"
 term = guess_terminal()
-code = "pycharm-professional"
-aicode = "void"
 filemanager = "thunar"
-music = os.path.expanduser("~/sqtile/scripts/sspotify")
-theme = os.path.expanduser("~/sqtile/scripts/wset")
-browser1 = "zen-browser --enable-accelerated-video-decode --enable-hardware-overlays --enable-gpu-rasterization --enable-webrender"
-browser2 = "brave --disable-gpu-vsync --enable-zero-copy --enable-gpu-rasterization --ignore-gpu-blocklist --use-vulkan"
+theme = os.path.expanduser("~/snix/scripts/wset-qtile")
+browser = "brave --gtk-version=3 --disable-extensions --disable-background-networking --disable-sync --disable-component-update --disable-default-apps --disable-translate --disable-notifications --no-first-run --enable-features=FastTabUnloading "
 
 # --- LOAD PYWAL COLORS ---
 colors = []
@@ -30,13 +27,9 @@ with open(cache, "r") as file:
 keys = [
     # Custom keybinds
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
-    Key([mod], "b", lazy.spawn(browser1), desc="Launch browser"),
-    Key([mod], "s", lazy.spawn(music), desc="Launch music"),
+    Key([mod], "b", lazy.spawn(browser), desc="Launch browser"),
     Key([mmodd], "space", lazy.spawn(theme), desc="Launch theme changer"),
     Key([mod], "e", lazy.spawn(filemanager), desc="Launch file manager"),
-    Key([mod], "p", lazy.spawn(code), desc="Launch code editor"),
-    Key([mod], "a", lazy.spawn(aicode), desc="Launch AI editor"),
-    Key([mod, "shift"], "b", lazy.spawn(browser2), desc="Launch secondary browser"),
     # Workspace navigation
     Key([mod], "j", lazy.screen.prev_group()),
     Key([mod], "k", lazy.screen.next_group()),
