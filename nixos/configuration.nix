@@ -24,6 +24,7 @@
       allowedTCPPorts = [80 443 2222];
     };
   };
+  hardware.bluetooth.enable = true;
 
   users.defaultUserShell = pkgs.fish;
   users.users.hack = {
