@@ -1,7 +1,20 @@
 return {
-	"rcarriga/nvim-notify",
-	event = "VeryLazy",
+	"vigoux/notifier.nvim",
 	config = function()
-		require("notify").setup({ background_colour = "#000000" })
+		require("notifier").setup({
+			{
+				status_width = something,
+				components = {
+					"nvim",
+					"lsp",
+				},
+				notify = {
+					clear_time = 5000,
+					min_level = vim.log.levels.INFO,
+				},
+				component_name_recall = false,
+				zindex = 50,
+			},
+		})
 	end,
 }
