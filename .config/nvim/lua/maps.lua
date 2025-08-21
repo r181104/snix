@@ -51,18 +51,6 @@ map("n", "<C-u>", "<C-u>zz")
 map("n", "n", "nzzzv")
 map("n", "N", "Nzzzv")
 
--- LSP
-map("n", "gd", vim.lsp.buf.definition)
-map("n", "K", vim.lsp.buf.hover)
-map("n", "<leader>ws", vim.lsp.buf.workspace_symbol)
-map("n", "<leader>fd", vim.diagnostic.open_float)
-map("n", "<leader>ca", vim.lsp.buf.code_action)
-map("n", "<leader>gr", vim.lsp.buf.references)
-map("n", "<leader>rn", vim.lsp.buf.rename)
-map("n", "<leader>for", vim.lsp.buf.format)
-map("n", "<leader>fe", vim.diagnostic.open_float, { desc = "Show diagnostics" })
-map("n", "<leader>ce", vim.diagnostic.setqflist, { desc = "Diagnostics to quickfix" })
-
 -- Conform
 map({ "n", "v" }, "<leader>fm", function()
 	require("conform").format({
