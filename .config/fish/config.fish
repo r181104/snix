@@ -1,6 +1,9 @@
 if status is-interactive
 end
 
+set -x MYNVIM $HOME/.config/nvim
+set -x NIXDOTS $HOME/snix/nixos
+
 set -gx _ZO_ECHO 1       # Print directory after jumping (like `cd`)
 set -gx _ZO_EXCLUDE_DIRS "$HOME/private/*"  # Exclude dirs from history
 # functions --erase cd  # Restores Fish’s original `cd`
@@ -147,6 +150,16 @@ alias random-lock 'betterlockscreen -u ~/Wallpapers/Pictures --fx blur -l'
 alias anime '~/stecore/scripts/./ani-cli'
 
 alias mirror-rating 'rate-mirrors --entry-country=IN --protocol=https arch | sudo tee /etc/pacman.d/mirrorlist'
+
+# [ PATHS ] 
+fish_add_path --prepend $HOME/.nix-profile/bin
+fish_add_path --prepend /etc/profiles/per-user/$USER/bin
+fish_add_path --prepend /run/current-system/sw/bin
+fish_add_path --prepend /nix/var/nix/profiles/default/bin
+fish_add_path --prepend $HOME/.cargo/bin
+fish_add_path --prepend $HOME/go/bin
+fish_add_path --prepend $HOME/anaconda3/bin
+fish_add_path --prepend $HOME/.npm-global/bin
 
 if command -q starship
   starship init fish | source

@@ -7,6 +7,8 @@ map("n", "<leader>si", ":update<CR> :source ~/.config/nvim/init.lua <CR>")
 map("n", "<leader>rr", ":restart<CR>")
 map("n", "<leader>w", ":write<CR>", { desc = "Save file" })
 map("n", "<leader>q", ":quit<CR>", { desc = "Quit" })
+map("n", "<Esc>", "<cmd>nohlsearch<CR>")
+map("n", "<C-c>", "<cmd>nohlsearch<CR>")
 map({ "n", "v" }, "<Leader>y", '"+y', { noremap = true, silent = true, desc = "Yank to system clipboard" })
 
 -- File explorer & LazyGit
