@@ -6,54 +6,17 @@
 }: {
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    # Development Tools
-    vim
-    shellcheck
+    # Terminal Utility Tools
     stow
     starship
-    zed-editor
-    tmux
-    fzf
     zoxide
     peco
     eza
-    ghq
     lazygit
     ripgrep
     bat
     tree
     which
-    rsync
-    gcc
-    rustup
-    go
-    python3Full
-    uv
-    nodePackages_latest.nodejs
-    ollama
-    pciutils
-
-    # Servers
-    lua-language-server
-    python313Packages.python-lsp-server
-    gopls
-    nixd
-    vscode-langservers-extracted
-    hyprls
-
-    # Formatters
-    stylua
-    prettier
-    prettierd
-    black
-    isort
-    gotools
-    shfmt
-    yamlfmt
-    clang-tools
-    google-java-format
-    python313Packages.sqlfmt
-    alejandra
 
     # Terminal Emulators
     alacritty

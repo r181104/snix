@@ -9,20 +9,23 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    neovim-nightly.url = "github:nix-community/neovim-nightly-overlay";
+    # neovim-nightly = {
+    #   url = "github:nix-community/neovim-nightly-overlay";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
   };
 
   outputs = {
     self,
     nixpkgs,
     zen-browser,
-    neovim-nightly,
+    # neovim-nightly,
     ...
   }: let
     system = "x86_64-linux";
     pkgs = import nixpkgs {
       inherit system;
-      overlays = [neovim-nightly.overlays.default];
+      # overlays = [neovim-nightly.overlays.default];
     };
   in {
     nixosConfigurations.nix-hak = nixpkgs.lib.nixosSystem {
@@ -31,7 +34,7 @@
         ./configuration.nix
         {
           environment.systemPackages = with pkgs; [
-            neovim
+            # neovim
             zen-browser.packages.${system}.default
           ];
         }
