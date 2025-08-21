@@ -8,11 +8,9 @@ set -gx _ZO_ECHO 1       # Print directory after jumping (like `cd`)
 set -gx _ZO_EXCLUDE_DIRS "$HOME/private/*"  # Exclude dirs from history
 # functions --erase cd  # Restores Fish’s original `cd`
 
-set -gx LANG en_IN.UTF-8
-set -gx LC_ALL en_IN.UTF-8
-set -gx EDITOR "nvim"
-set -gx TERM "kitty"
-set -gx BROWSER "zen-browser"
+set -gx BROWSER "brave"
+set -gx TERM "alacritty"
+set -gx EDITOR "zeditor"
 if set -q TMUX
   set -gx TERM "tmux-256color"  # Inside tmux
 else
@@ -137,7 +135,6 @@ alias bright 'brightnessctl set'
 alias ga 'git add .'
 alias gc 'git commit -m'
 alias gp 'git push'
-alias gacp 'git add .; git commit -m "s"; git push'
 alias git-clean 'git reflog expire --expire=now --all; git gc --prune=now --aggressive'
 
 #  =========================================
@@ -206,7 +203,7 @@ function gacp
 end
 
 function gac
-  git add .;git commit -m 's'
+  git add .;git commit -m
 end
 
 function gs
