@@ -52,7 +52,7 @@
   nix.settings.auto-optimise-store = true;
 
   environment.shells = with pkgs; [bash zsh fish];
-  environment.extraInit = ''
+  environment.loginShellInit = ''
     export PATH="/run/wrappers/bin:$PATH"
   '';
 
