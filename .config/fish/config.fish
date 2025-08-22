@@ -149,10 +149,6 @@ alias anime '~/stecore/scripts/./ani-cli'
 alias mirror-rating 'rate-mirrors --entry-country=IN --protocol=https arch | sudo tee /etc/pacman.d/mirrorlist'
 
 # [ PATHS ] 
-fish_add_path --prepend $HOME/.nix-profile/bin
-fish_add_path --prepend /etc/profiles/per-user/$USER/bin
-fish_add_path --prepend /run/current-system/sw/bin
-fish_add_path --prepend /nix/var/nix/profiles/default/bin
 fish_add_path --prepend $HOME/.cargo/bin
 fish_add_path --prepend $HOME/go/bin
 fish_add_path --prepend $HOME/anaconda3/bin

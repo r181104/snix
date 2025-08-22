@@ -9,7 +9,7 @@
     ./modules/basic-pkgs.nix
     ./modules/services.nix
     ./modules/security.nix
-#    ./modules/dev.nix
+    ./modules/dev.nix
     ./modules/graphics.nix
     ./modules/gaming.nix
     ./modules/bspwm.nix
@@ -52,6 +52,9 @@
   nix.settings.auto-optimise-store = true;
 
   environment.shells = with pkgs; [bash zsh fish];
+  environment.extraInit = ''
+    export PATH="/run/wrappers/bin:$PATH"
+  '';
 
   nixpkgs.config.allowUnfree = true;
   hardware.enableRedistributableFirmware = true;
