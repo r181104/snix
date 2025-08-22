@@ -55,6 +55,7 @@
   environment.loginShellInit = ''
     export PATH="/run/wrappers/bin:$PATH"
   '';
+  environment.variables.NIX_PATH = "nixpkgs=/nix/var/nix/profiles/per-user/root/channels nixos-config=/home/sten/snix/nixos/configuration.nix";
 
   nixpkgs.config.allowUnfree = true;
   hardware.enableRedistributableFirmware = true;
