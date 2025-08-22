@@ -1,5 +1,5 @@
 {
-  description = "My simple NixOS flake with Neovim Nightly + Zen Browser";
+  description = "My simple NixOS flake with Zen Browser";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -8,33 +8,27 @@
       url = "github:youwen5/zen-browser-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    # neovim-nightly = {
-    #   url = "github:nix-community/neovim-nightly-overlay";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
   };
 
   outputs = {
     self,
     nixpkgs,
     zen-browser,
-    # neovim-nightly,
     ...
   }: let
     system = "x86_64-linux";
-    pkgs = import nixpkgs {
-      inherit system;
-      # overlays = [neovim-nightly.overlays.default];
-    };
+    pkgs = import nixpkgs {inherit system;};
   in {
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
       inherit system;
       modules = [
         ./configuration.nix
+        ({lib, ...}: {
+          environment.variables.NIX_PATH = lib.mkForce "nixpkgs=/nix/var/nix/profiles/per-user/root/channels nixos-config=/home/sten/snix/nixos/configuration.nix";
+        })
         {
+          networking.hostName = "nixos";
           environment.systemPackages = with pkgs; [
-            # neovim
             zen-browser.packages.${system}.default
           ];
         }
