@@ -18,7 +18,7 @@
   ];
 
   networking = {
-    hostName = "nix-hak";
+    hostName = "nixos";
     networkmanager.enable = true;
     firewall = {
       enable = true;
@@ -28,10 +28,10 @@
   hardware.bluetooth.enable = true;
 
   users.defaultUserShell = pkgs.fish;
-  users.users.hack = {
+  users.users.sten = {
     isNormalUser = true;
     shell = pkgs.fish;
-    description = "hack";
+    description = "sten";
     extraGroups = ["networkmanager" "wheel" "input"];
     packages = with pkgs; [
       bash

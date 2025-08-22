@@ -28,7 +28,7 @@
       # overlays = [neovim-nightly.overlays.default];
     };
   in {
-    nixosConfigurations.nix-hak = nixpkgs.lib.nixosSystem {
+    nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
       inherit system;
       modules = [
         ./configuration.nix
