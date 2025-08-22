@@ -9,7 +9,7 @@
     ./modules/basic-pkgs.nix
     ./modules/services.nix
     ./modules/security.nix
-    ./modules/dev.nix
+#    ./modules/dev.nix
     ./modules/graphics.nix
     ./modules/gaming.nix
     ./modules/bspwm.nix
